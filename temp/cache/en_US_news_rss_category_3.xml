@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title><![CDATA[AmanCMS]]></title>
+    <link>http://localhost/tickethub/index.php/tickethub/index.php/news/category/view/3/</link>
+    <description><![CDATA[AmanCMS]]></description>
+    <pubDate>Tue, 17 Jan 2012 02:39:36 +0700</pubDate>
+    <lastBuildDate>Tue, 17 Jan 2012 02:39:36 +0700</lastBuildDate>
+    <copyright>AmanCMS</copyright>
+    <generator>AmanCMS</generator>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <item>
+      <title><![CDATA[Lantern Festival]]></title>
+      <link>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/31/</link>
+      <guid>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/31/</guid>
+      <description><![CDATA[<a href="http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/31/" title="Lantern Festival"><img src="http://localhost/amancms/upload/news/admin/2010/08/4c7cd59188688_thumbnail.jpg" alt="Lantern Festival" /></a><p style="text-align: justify;">The Lantern Festival or "T?t Th??ng Nguy&ecirc;n" or "T?t Nguy&ecirc;n Ti&ecirc;u"(Vietnamese: T?t Nguy&ecirc;n ti&ecirc;u) in Vietnam; is a festival celebrated on the fifteenth day of the first month in the lunar year in the Chinese calendar, the last day of the Lunar Chinese New Year celebration.</p>]]></description>
+      <pubDate>Tue, 31 Aug 2010 17:14:09 +0700</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Hoa Lu ancient capital festival]]></title>
+      <link>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/30/</link>
+      <guid>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/30/</guid>
+      <description><![CDATA[<a href="http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/30/" title="Hoa Lu ancient capital festival"><img src="http://localhost/amancms/upload/news/admin/2010/08/4c7cd2542ef64_thumbnail.jpg" alt="Hoa Lu ancient capital festival" /></a><p style="text-align: justify;">Hoa Lu ancient capital Festival opened in the spring.</p>]]></description>
+      <pubDate>Tue, 31 Aug 2010 17:00:29 +0700</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[Hùng Temple]]></title>
+      <link>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/27/</link>
+      <guid>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/27/</guid>
+      <description><![CDATA[<a href="http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/27/" title="Hùng Temple"><img src="http://localhost/amancms/upload/news/admin/2010/08/4c7ccb95d5d73_thumbnail.jpg" alt="Hùng Temple" /></a><p style="text-align: justify;">H&ugrave;ng temple, locating in Ngh?a L?nh mountain, C? T&iacute;ch village, Hy C??ng commune, Phong Ch&acirc;u district, Ph&uacute; Th? province, is the most sacred Vietnamese national historic and cultural complex site.</p>]]></description>
+      <pubDate>Tue, 31 Aug 2010 16:27:10 +0700</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[T?t Holiday]]></title>
+      <link>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/18/</link>
+      <guid>http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/18/</guid>
+      <description><![CDATA[<a href="http://localhost/tickethub/index.php/tickethub/index.php/news/article/view/3/18/" title="T?t Holiday"><img src="http://localhost/amancms/upload/news/admin/2010/08/4c7cbaa3b26b3_thumbnail.jpg" alt="T?t Holiday" /></a><p>T?t Nguy&ecirc;n ?&aacute;n, more commonly known by its shortened name T?t, is the most important and popular holiday and festival in Vietnam.</p>]]></description>
+      <pubDate>Tue, 31 Aug 2010 15:20:27 +0700</pubDate>
+    </item>
+  </channel>
+</rss>

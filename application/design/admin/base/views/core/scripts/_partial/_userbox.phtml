@@ -1,0 +1,12 @@
+<?php 
+$auth = Zend_Auth::getInstance()->getIdentity();
+?>
+<img src="images/interface/profile.jpg" width="55" alt="Profile Pic" />
+<h2>Administrator</h2>
+<h3>Welcom <a class="text_shadow" href="#"><?php echo $auth->name;?></a></h3>
+<ul>
+	
+	<li>
+	    <a href="<?php echo $this->url(array(), 'core_auth_logout'); ?>"><?php echo $this->translator('menu_logout', 'core'); ?></a>
+	</li>
+</ul>

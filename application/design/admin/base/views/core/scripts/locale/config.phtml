@@ -1,0 +1,101 @@
+<?php
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: config.phtml 4816 2010-08-24 06:35:48Z mehrab $
+ * @since		2.0.8
+ */
+?>
+<?php 
+$this->headTitle($this->translator('locale_config_page_title'));
+?>
+<div class="flate_area clearfix">
+	<h2><?php echo $this->translator('locale_config_breadcrumb'); ?></h2>
+</div>
+
+
+<div class="alert dismissible alert_green">
+	<img width="24" height="24" src="images/icons/small/white/alert.png">
+	<?php echo $this->flashMessenger(); ?>
+</div>
+<div class="box grid_16 corner_all clearfix">
+    <div class="block">
+		<form method="post" action="<?php echo $this->url(array(), 'core_locale_config'); ?>" >
+		    <fieldset class="label_side small no_border">
+		    	<label><?php echo $this->translator('locale_config_default_language'); ?>:</label>
+		    	<div class="clearfix">
+		    	    <select name="defaultLanguage">
+						<?php foreach ($this->locales as $code => $locale) : ?>
+						<option value="<?php echo $locale['code']; ?>"<?php if ($this->defaultLanguage == $locale['code']): ?> selected="selected"<?php endif; ?>><?php echo $locale['localName']; ?> (<?php echo $locale['englishName']; ?>)</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+		    </fieldset>
+		    
+		    <fieldset class="label_side small">		    	
+		    	<div class="clearfix">
+		    	    <input type="checkbox" name="localizeEnable" id="localizeEnable"<?php if ($this->enable) : ?> checked="checked"<?php endif; ?> /> <?php echo $this->translator('locale_config_enable_multilingual'); ?>
+		    	</div>	    	
+		    </fieldset>
+		    <fieldset id="localization" class="label_side small" style="display: <?php if ($this->enable) : ?>block<?php else : ?>none<?php endif; ?>">
+		        <label><?php echo $this->translator('locale_config_supported_languages'); ?>:</label>
+    		    <div class="clearfix" style="padding: 0px;">
+        		    <ul class="flat">
+        		    	<?php foreach (array_values($this->locales) as $index => $locale) : ?>
+        				<li>
+        					<input type="checkbox" name="supportedLanguages[]" value="<?php echo $locale['code']; ?>"<?php if (in_array($locale['code'], $this->availableLanguages)) : ?> checked="checked"<?php endif; ?> /> 
+        					<img src="<?php echo $this->APP_STATIC_SERVER; ?>/images/flags/<?php echo $locale['code']; ?>.png" /> 
+        					<?php echo $locale['localName']; ?> (<?php echo $locale['englishName']; ?>)
+        				</li>
+        				<?php endforeach; ?>
+        		    </ul>
+        		 </div>
+    		</fieldset>
+		    <!-- 
+		    <fieldset id="localization" class="label_side small" style="display: <?php if ($this->enable) : ?>block<?php else : ?>none<?php endif; ?>">	
+		        <label><?php echo $this->translator('locale_config_supported_languages'); ?>:</label>
+				<div class="clearfix">					
+					<div class="grid_6">
+						<?php foreach (array_values($this->locales) as $index => $locale) : ?>
+						<div class="grid_4">
+							<input type="checkbox" name="supportedLanguages[]" value="<?php echo $locale['code']; ?>"<?php if (in_array($locale['code'], $this->availableLanguages)) : ?> checked="checked"<?php endif; ?> /> 
+							<img src="<?php echo $this->APP_STATIC_SERVER; ?>/images/flags/<?php echo $locale['code']; ?>.png" /> 
+							<?php echo $locale['localName']; ?> (<?php echo $locale['englishName']; ?>)
+						</div>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			</fieldset>	    
+		     -->
+		    <div class="button_bar clearfix">
+		        <label>&nbsp;</label>
+				<button type="submit"><span><?php echo $this->translator('locale_config_save_button'); ?></span></button>
+		    </div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#localizeEnable').change(function() {
+		$('#localization').toggle();
+	});
+
+	$('#autoTranslate').change(function() {
+		$('#translatorService').toggle();
+	});
+});
+</script>
+

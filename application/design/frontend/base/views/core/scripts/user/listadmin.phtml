@@ -1,0 +1,141 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('user_list_page_title'));
+
+$this->headScript()
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.tablesorter/tablesorter.js')
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.tablesorter/tablesorter-pager.js');
+?>
+
+<!-- List of users -->
+<div class="box grid_16 round_all clearfix">
+	
+	<?php if (count($this->users) == 0) : ?>
+	<div class="section">
+		<?php echo $this->translator('user_list_not_found'); ?>
+	</div>
+	<?php else : ?>
+	<h2 class="box_head grad_colour round_top"><?php echo $this->translator('user_list_adminguide');?></h2>
+	<a href="#" class="toggle">&nbsp;</a>
+	<div class="block">
+		<table class="static">
+			<thead>
+				<tr>
+					<th><?php echo $this->translator('user_list_name'); ?></th>
+					<th><?php echo $this->translator('user_list_email'); ?></th>
+					<th><?php echo $this->translator('user_list_status');?></th>
+					<th style="width: 200px">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($this->users as $user):?>
+				<tr>
+					<td>
+						<div><?php echo $user->name; ?></div>
+					</td>					
+					<td>
+						<?php echo $user->email; ?>
+					</td>
+					<td>
+						<?php if($user->is_active == 1): ?>
+						<button name="activate" class="light small div_icon has_text" value="<?php echo $user->user_id; ?>_<?php echo (int)$user->is_active; ?>_<?php echo $user->name; ?>">
+							<span class="ui-icon ui-icon-unlocked"></span>
+							<?php echo $this->translator('user_list_action_deactivate');?>
+						</button>
+						<?php else :?>
+						<button name="activate" class="light small div_icon has_text" value="<?php echo $user->user_id; ?>_<?php echo (int)$user->is_active; ?>_<?php echo $user->name; ?>">
+							<span class="ui-icon ui-icon-locked"></span>
+							<?php echo $this->translator('user_list_action_activate');?>
+						</button>
+						<?php endif;?>
+					</td>
+					<td>
+						<button name="edit" class="light small div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_user_editadmin'); ?>">
+							<span class="ui-icon ui-icon-pencil"></span>
+							<span><?php echo $this->translator('user_list_action_edit'); ?></span>								
+						</button>
+												 
+						<button name="permission" class="light small div_icon has_text" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_rule_set_user'); ?>">
+							<span class="ui-icon ui-icon-gear"></span>
+							<?php echo $this->translator('user_list_action_rule'); ?>
+						</button>
+					</td>
+				</tr>
+				<?php endforeach;?>
+			</tbody>
+		</table>
+	</div>
+	<?php endif;?>	
+</div>
+<!-- Side Bar -->
+
+<!-- End Side Bar -->
+<div class="clear"></div>
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+
+	//permission
+	$('button[name|="permission"]').click(function(){ window.location = $(this).val(); });
+	//edit
+	$('button[name|="edit"]').click(function(){ window.location = $(this).val(); });
+	//activate
+	<?php if ($this->allow('delete')) : ?>
+	$('button[name|="activate"]').click(function(){
+		var self = this;
+		var arr = $(self).val().split('_');
+		loadingOverlayFadeIn();
+		$.ajaxq('core_user', {
+			url: '<?php echo $this->url(array(), 'core_user_activate'); ?>',
+			type: 'POST',
+			data: { id: arr[0], status: arr[1] },
+			success: function(response) {
+				$(self).val(arr[0] + '_' + response + '_' + arr[2]);
+				if (response == 1) {
+					$(self).html("<span class='ui-icon ui-icon-unlocked'></span><?php echo $this->translator('user_list_action_deactivate'); ?>");
+				} else {
+					$(self).html("<span class='ui-icon ui-icon-locked'></span><?php echo $this->translator('user_list_action_activate'); ?>");
+				}			
+
+				$('#messageDialog').html((response == 1) ? sprintf('<?php echo addslashes($this->translator('user_list_activate_success')); ?>', arr[2]) : sprintf('<?php echo addslashes($this->translator('user_list_deactivate_success')); ?>', arr[2]))
+					.dialog({
+						title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+						dialogClass: 't_a_ui_dialog',
+						modal: true,
+				    	show: { effect: 'fade' },
+						open: function(event, ui) {
+							setTimeout(function() {
+								$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							}, 3000);
+						}
+					});
+			},
+			complete: function(){loadingOverlayFadeOut();}
+		});
+	});
+	<?php endif; ?>
+});
+
+//]]>
+</script>

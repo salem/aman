@@ -1,0 +1,294 @@
+<?php
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version		$Id: default.phtml 5117 2010-08-30 03:18:04Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php
+
+$image_folder = $this->APP_STATIC_SERVER . '/skins/admin/base/images';
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	<?php if ($this->APP_LANG_RTL) : ?> dir="rtl" <?php endif; ?>>
+<head>
+<meta http-equiv="Content-Type"
+	content="text/html; charset=<?php echo $this->CHARSET; ?>" />
+<meta name="robots" content="index, follow" />
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <link rel="shortcut icon" type="image/x-icon"
+	href="<?php echo $this->APP_STATIC_SERVER; ?>/skins/admin/<?php echo $this->APP_TEMPLATE; ?>/<?php echo $this->APP_SKIN; ?>/images/favicon.ico" />
+	
+    <?php
+    $this->headLink()
+        ->prependStylesheet(
+    $this->APP_STATIC_SERVER . '/skins/admin/' . $this->APP_SKIN . '/css/' .
+     ($this->APP_LANG_RTL ? 'default-rtl.css' : 'default.css'))
+        ->prependStylesheet(
+    $this->APP_STATIC_SERVER . '/skins/css/960/' .
+     ($this->APP_LANG_RTL ? 'all-rtl.min.css' : 'all.min.css'))
+        ->appendStylesheet(
+    $this->APP_STATIC_SERVER .
+     '/skins/js/jquery/ui/themes/base/jquery.ui.all.css');
+    $this->headScript()
+        ->prependFile($this->APP_STATIC_SERVER . '/skins/js/aman/namespace.js')
+        ->prependFile($this->APP_STATIC_SERVER . '/skins/js/jquery/jquery.js')
+        ->appendFile(
+    $this->APP_STATIC_SERVER . '/skins/js/aman/core/widget.loader.js')
+        ->appendFile(
+    $this->APP_STATIC_SERVER . '/skins/js/jquery/json/jquery.json.min.js')
+        ->appendFile(
+    $this->APP_STATIC_SERVER . '/skins/js/jquery/ajaxq/jquery.ajaxq.min.js')
+        ->appendFile(
+    $this->APP_STATIC_SERVER . '/skins/js/jquery/ui/jquery-ui-1.8.18.custom.js');
+    ?>
+    
+    <?php
+    /**
+     * Compress CSS and JS if it is enabled
+     * 
+     * @since 2.0.6
+     */
+    echo $this->compressor('css');
+    echo $this->compressor('js');
+    ?>
+	
+	<!--[if IE 6]>
+	<link href="<?php echo $this->APP_STATIC_SERVER; ?>/skins/<?php echo $this->APP_TEMPLATE; ?>/<?php echo $this->APP_SKIN; ?>/ie.css" media="screen" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+	img, div, a, input { behavior: url("<?php echo $this->APP_STATIC_SERVER; ?>/js/iepngfix/iepngfix.htc") }
+ 	</style>
+ 	<script type="text/javascript" src="<?php echo $this->APP_STATIC_SERVER; ?>/js/iepngfix/iepngfix_tilebg.js"></script>
+	<![endif]-->
+
+<!--[if lte IE 7]>
+	<link href="<?php echo $this->APP_STATIC_SERVER; ?>/skins/admin/base/i7e.css" media="screen" rel="stylesheet" type="text/css" />
+	<?php if ($this->APP_LANG_RTL) : ?>
+	<link href="<?php echo $this->APP_STATIC_SERVER; ?>/skins/<?php echo $this->APP_TEMPLATE; ?>/<?php echo $this->APP_SKIN; ?>/default-rtl-ie.css" media="screen" rel="stylesheet" type="text/css" />
+	<?php endif; ?>
+	<![endif]-->
+
+<script type="text/javascript">
+	//<![CDATA[
+	Aman.Core.Widget.Loader.baseUrl = '<?php echo $this->baseUrl(); ?>';    
+	//]]>
+	</script>
+</head>
+<body>
+	<div id="body_wraper" class="container_16">
+		<header>
+		<div id="meta-wrap">
+			<!-- User info -->
+			<ul id="user-meta">
+                <?php if (Zend_Auth::getInstance()->hasIdentity()) : ?>					
+                <li>
+                	<?php echo $this->translator('menu_welcome', 'core'); ?>, 
+                    <img src="<?php echo $image_folder;?>/icons/9/005_13.png" alt="" />
+                    <a href="#" title=""><?php Zend_Auth::getInstance()->getIdentity()->user_name; ?></a> 
+                    <a href="<?php echo $this->baseUrl(); ?>" class="user-msg-baloon" title="3 new messages">3</a>
+				</li>
+				<li>|</li>
+				<li>
+					<img src="<?php echo $image_folder;?>/changepass.png" alt="" />
+					<a href="#"><?php echo $this->translator('menu_account', 'core'); ?></a>
+				</li>
+				<li>|</li>
+				<li>
+					<img src="<?php echo $image_folder;?>/changepass.png" alt="" />
+					<ahref="<?php echo $this->url(array(), 'core_user_changepass'); ?>"><?php echo $this->translator('menu_changepass', 'core'); ?></a></li>
+				</li>
+				<li>|</li>
+				<li>
+					<img src="<?php echo $image_folder;?>/icons/9/005_12.png" alt="" />
+					<a href="<?php echo $this->url(array(), 'core_auth_logout'); ?>" title=""><?php echo $this->translator('menu_logout', 'core'); ?></a>
+				</li>
+                <?php endif; ?>
+                </ul>
+			<!-- end of user info -->
+		</div>
+		<!-- Top Menu Bar -->
+		<div id="menu-bar" class="corners shadow">
+			<div class="menu-bar-inner corners">
+				<a href="index.html" title="" id="logo">
+					<h1>Aman CMS</h1>
+				</a>
+				<ul id="menu">
+					<li class="sep"><a href="index.html" title="">Home</a> <!-- second level dropdown -->
+						<ul class="second">
+							<li><a href="dialogs.html" title="">Dialogs</a></li>
+							<li><a href="dialogs.html" title="">Dialogs</a></li>
+							<li><a href="dialogs.html" title="">Dialogs</a></li>
+							<li><a href="login.html" title="">Login</a></li>
+						</ul></li>
+					<li class="sep"><a href="#" title="">About</a></li>
+					<li class="sep"><a href="#" title="">Information</a></li>
+					<li><a href="#" title="">Help</a></li>
+				</ul>
+
+				<form action="" method="post" id="search">
+					<div>
+						<input type="text" name="s"
+							onFocus="if(this.value=='Search here...')this.value='';"
+							onBlur="if(this.value=='')this.value='Search here...';"
+							value="Search here..." id="input-s" /> <input type="submit"
+							value="" name="submit" id="search-submit" />
+					</div>
+					<a href="javascript:void(null);" title="" class="close"
+						id="toggle-menu"> <!-- -->
+					</a>
+				</form>
+			</div>
+		</div>
+
+		<!-- End of Top Menu bar  -->
+		<ul id="submenu" class="corners shadow">
+            	<?php if ($this->routeAccessor('core_role_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_role_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_role', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+                <?php if ($this->routeAccessor('core_user_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_user', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+				<?php if ($this->routeAccessor('core_privilege_list')) : ?>
+				<li><a
+				href="<?php echo $this->url(array(), 'core_privilege_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_privilege', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+                <?php if ($this->routeAccessor('core_module_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_module_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_module', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+                <?php if ($this->routeAccessor('core_plugin_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_plugin_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_plugin', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+                
+                <?php if ($this->routeAccessor('core_widget_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_widget_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_widget', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+                
+                <?php if ($this->routeAccessor('core_hook_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_hook_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_hook', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+                
+                <?php if ($this->routeAccessor('core_target_list')) : ?>
+				<li><a href="<?php echo $this->url(array(), 'core_target_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_target', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+				<?php if ($this->routeAccessor('core_template_list')) : ?>
+				<li><a
+				href="<?php echo $this->url(array(), 'core_template_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_template', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+				<?php if ($this->routeAccessor('core_permalink_index')) : ?>
+				<li><a
+				href="<?php echo $this->url(array(), 'core_permalink_index'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_permalink', 'core'); ?></span>
+			</a></li>
+				<?php endif; ?>
+				
+				<?php if ($this->routeAccessor('core_log_list')) : ?>
+            	<li><a
+				href="<?php echo $this->url(array(), 'core_log_list'); ?>"
+				class="icon-menu corners"> <img
+					src="<?php echo $image_folder;?>/icons/48/address-book-new.png"
+					alt="" title="" /> <span><?php echo $this->translator('menu_log', 'core'); ?></span>
+			</a></li>
+            	<?php endif; ?>            	
+            	
+        	</ul>
+        	<div id="breadcrumbs" class="corners shadow">
+                <p class="left"><img src="images/icons/9/005_08.png" alt="" /><a href="#" title="">Breadcrumb</a> / <a href="#" title="">Pagename</a></p>
+                <p class="right"><img src="images/icons/9/005_21.png" alt="" />Last modification on: 12 April, 2010 at 22.03</p>
+                <div id="mastertoggle">
+                    <a href="javascript:void(null);" title="Close all boxes" class="togglecloseall corners tip"></a> 
+                    <a href="javascript:void(null);" title="Open all boxes" class="toggleopenall corners tip"></a>
+                </div>
+            </div>
+		</header><!-- End Of Header -->
+		<!-- Content -->
+		<div id="content">
+			<?php echo $this->layout()->content; ?>
+			<div class="clearfix"></div>
+		</div>
+
+		<!-- // footer starts here // -->
+        
+        <footer>
+            <p class="left">Aman CMS v 1.0.1</p>
+            <p class="right">Copyright &copy; 2013 - 
+                <a href="http://www.softkhan.org" title="">www.softkhan.org</a> by 
+                <a href="#" title="">Khattak</a>
+            </p>
+        </footer><!-- END footer --> 
+	</div>
+
+	<script type="text/javascript"> 
+$(document).ready(function() {
+	/** 
+	 * Build menu 
+	 */
+	$('ul.t_a_ui_mega_menu li.sub').css({'opacity':'0'});
+	$('ul.t_a_ui_mega_menu li').hoverIntent({    
+		sensitivity: 2,
+		interval: 100,
+		over: megaHoverOver,    
+		timeout: 200,
+		out: megaHoverOut
+	});
+}); 
+</script>
+</body>
+</html>

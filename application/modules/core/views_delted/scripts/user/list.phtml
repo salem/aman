@@ -1,0 +1,214 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('user_list_page_title'));
+
+?>
+
+<!-- List of users -->
+<?php if (count($this->users) == 0) : ?>
+<div class="flat_area grid_16 clearfix">
+	<h2 class="float-left"><?php echo $this->translator('user_list_not_found'); ?></h2>
+	<a href="<?php echo $this->url(array(), 'core_user_add'); ?>" class="send_right btn ui-state-default ui-corner-all">
+			<span class="ui-icon ui-icon-plusthick" style="padding: 0px"></span>
+			<?php echo $this->translator('user_add_breadcrumb'); ?>
+		</a>
+</div>
+<?php else : ?>
+<div class="box grid_16 round_all clearfix">
+	<h2 class="box_head round_top"><?php echo $this->translator('user_list_guide'); ?></h2>
+	<a href="#" class="toggle">&nbsp; </a>
+	<div class="toggle_box">
+		<div class="button_bar clearfix">
+			
+			<button value="<?php echo $this->url(array(), 'core_user_add'); ?>" class="send_right div_icon has_text">
+				<span class="ui-icon ui-icon-plusthick" style="padding: 0px;"></span>
+				<span><?php echo $this->translator('user_add_breadcrumb'); ?></span>
+			</button>
+		</div>
+		<div class="block">
+			<table id="users" class="static">
+				<thead>
+					<tr>
+						<th class="head"><?php echo $this->translator('user_list_user_name'); ?></th>
+						<th class="head"><?php echo $this->translator('user_list_email'); ?></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->users as $user) : ?>
+					<tr>
+						<td>
+							<span><?php echo $user->name; ?></span>
+						</td>
+						<td>
+							<?php echo $user->email; ?>
+						</td>
+						<td>
+							<button name="edit" class="light small div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_user_edit'); ?>">
+								<span class="ui-icon ui-icon-pencil"></span>
+								<span><?php echo $this->translator('user_list_action_edit'); ?></span>
+							</button>
+							 
+							<button name="permission" class="light small div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_rule_set_user'); ?>">
+								<span class="ui-icon ui-icon-gear"></span>
+								<span><?php echo $this->translator('user_list_action_rule'); ?></span>
+							</button>
+							
+							<?php if ($user->email != $this->email) : ?>
+							<button name="activate" class="light small div_icon has_text" value="<?php echo $user->user_id; ?>_<?php echo (int)$user->is_active; ?>_<?php echo $user->name; ?>">
+								<span class="ui-icon ui-icon-<?php echo $user->is_active?'unlocked':'locked';?>"></span>
+								<span><?php if ($user->is_active) : ?><?php echo $this->translator('user_list_action_deactivate'); ?><?php else : ?><?php echo $this->translator('user_list_action_activate'); ?><?php endif; ?></span>
+							</button>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>						
+	</div>
+</div>
+
+<div class="grid_12 t_a_bottom">
+	<div class="t_a_bottom t_a_ui_paginator">
+		<?php echo $this->paginator()->slide($this->paginator, $this->paginatorOptions); ?>
+	</div>
+</div>
+<?php endif; ?>
+
+<!-- Side Bar -->
+<?php 
+$sidebar = '<ul class="side_accordion">
+	<li><a href="'.$this->url(array(), 'core_role_list').'">'.$this->translator('menu_role', 'core').'</a></li>
+	<li><a href="'.$this->url(array(), 'core_user_list').'">'.$this->translator('menu_user', 'core').'</a></li>
+	<li><a href="'.$this->url(array(), 'core_privilege_list').'">'.$this->translator('menu_privilege', 'core').'</a></li>
+</ul>';
+
+$this->layout()->sidebar = $sidebar;
+
+?>
+
+<!-- End Side Bar -->
+<div class="clear"></div>
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+
+	$('button.[name|="permission"]').click(function(){
+		window.location = $(this).val();
+	});
+	$('button.[name|="edit"]').click(function(){
+		window.location = $(this).val();
+	});
+
+	$('button.[name|="activate"]').click(function() {
+		activateUser(this);
+	});
+	
+	$('#filterButton').click(function() {
+		var query = {
+			username: $('#filerContainer').find('input[name="username"]:first').attr('value'),
+			email: $('#filerContainer').find('input[name="email"]:first').attr('value'),
+			role: $('#filerContainer').find('select[name="role"]:first').attr('value'),
+			status: $('#filerContainer').find('select[name="status"]:first').attr('value')
+		};
+		filterUsers(1, query);
+	});
+
+	<?php if ($this->allow('delete')) : ?>
+	
+	<?php endif; ?>
+});
+
+function filterUsers(page, query) {
+	query.pageIndex = page;
+	$('#users').html('').addClass('t_a_ui_helper_loading');
+	$.ajaxq('core_user', {
+		url: '<?php echo $this->url(array(), 'core_user_list'); ?>',
+		type: 'POST',
+		data: { query: $.toJSON(query) },
+		success: function(response) {
+			$('#users').html(response).removeClass('t_a_ui_helper_loading').fadeIn('normal');
+		}
+	});
+};
+
+<?php if ($this->allow('delete')) : ?>
+function activateUser(linkObj) {
+	var self = linkObj;
+	var arr = $(self).attr('value').split('_');
+	loadingOverlayFadeIn();
+	$.ajaxq('core_user', {
+		url: '<?php echo $this->url(array(), 'core_user_activate'); ?>',
+		type: 'POST',
+		data: { id: arr[0], status: arr[1] },
+		success: function(response) {
+			$(self).attr('value', arr[0] + '_' + response + '_' + arr[2]);
+			if (response == 1) {
+				$(self).children().first().removeClass('ui-icon-locked').addClass('ui-icon-unlocked');
+				$(self).children().last().html("<?php echo $this->translator('user_list_action_deactivate'); ?>");
+			} else {
+				$(self).children().first().removeClass('ui-icon-unlocaked').addClass('ui-icon-locked');
+				$(self).children().last.html("<?php echo $this->translator('user_list_action_activate'); ?>");
+			}
+			loadingOverlayFadeOut();
+
+			$('#messageDialog').html((response == 1) ? sprintf('<?php echo addslashes($this->translator('user_list_activate_success')); ?>', arr[2]) : sprintf('<?php echo addslashes($this->translator('user_list_deactivate_success')); ?>', arr[2]))
+				.dialog({
+					title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+					dialogClass: 't_a_ui_dialog',
+					modal: true,
+			    	show: { effect: 'fade' },
+					open: function(event, ui) {
+						setTimeout(function() {
+							$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+						}, 3000);
+					}
+				});
+		}
+	});
+};
+
+/* Table Sorter */
+	$("#users")
+	.tablesorter({
+		widgets: ['zebra'],
+		headers: { 
+		            // assign the secound column (we start counting zero) 
+		            1: { 
+		                // disable it by setting the property sorter to false 
+		                sorter: false 
+		            }, 
+		            // assign the third column (we start counting zero) 
+		            2: { sorter: false }
+		        } 
+	})
+	
+	.tablesorterPager({container: $("#pager"), positionFixed: false}); 
+
+	$(".header").append('<span class="ui-icon ui-icon-carat-2-n-s"></span>');
+
+<?php endif; ?>
+//]]>
+</script>

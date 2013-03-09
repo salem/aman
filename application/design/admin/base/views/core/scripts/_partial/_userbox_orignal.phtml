@@ -1,0 +1,12 @@
+<?php 
+$auth = Zend_Auth::getInstance()->getIdentity();
+//echo var_dump($auth);
+?>
+<img width="55" alt="Profile Pic" src="<?php echo $this->APP_STATIC_SERVER . '/skins/admin/adminica/images/profile.jpg';?>"></img>
+			<h2><?php echo $auth->role_name;?></h2>
+			<h3><a href="#" class="text_shadow"><?php echo $auth->name;?></a></h3>
+			<ul>
+<!-- 				<li><a href="#">salemkhan</a><span class="divider">|</span></li> -->
+				<li><a href="#">settings</a><span class="divider">|</span></li>
+				<li><a href="<?php echo $this->url(array(), 'core_auth_logout'); ?>"><?php echo $this->translator('menu_logout', 'core'); ?></a></li>
+			</ul>

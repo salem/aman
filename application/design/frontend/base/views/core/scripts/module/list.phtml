@@ -1,0 +1,246 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('module_list_page_title'));
+
+$this->headLink()
+	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.core.css')
+	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.resizable.css')
+	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.dialog.css')
+	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.theme.css');
+
+$this->headScript()
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/ui.core.js')
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.draggable.js')
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.resizable.js')
+	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.dialog.js');
+?>
+
+
+ <!-- <div id="breadcrumb"><?php //echo $this->translator('module_list_breadcrumb'); ?></div>-->
+
+<!-- Upload new module -->
+<?php if ($this->allow('install')) : ?>
+<div class="box grid_8 round_all clearfix">
+	<h2 class="box_head grad_colour round_top"><?php echo $this->translator('module_list_upload_head'); ?></h2>
+	<a class="toggle" href="#">&nbsp;</a>
+	<div class="toggle_container">
+		<div class="block">
+			<?php if (extension_loaded('zip')) : ?>
+			<p><?php echo $this->translator('module_list_upload_guide'); ?></p>
+			<form method="post" action="<?php echo $this->url(array(), 'core_module_upload'); ?>" enctype="multipart/form-data">				
+		        <input type="file" name="file" class="large" />		        
+				<button type="submit" class="button_colour"><span><?php echo $this->translator('module_list_upload_button'); ?></span></button>				              
+			</form>
+			<?php else : ?>
+			<p><?php echo $this->translator('module_list_zip_extension_not_available'); ?></p>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<div class="clear"></div>
+<!-- List of modules -->
+<div class="box grid_16 round_all">
+	<h2 class="box_head grad_colour round_top">
+		<?php echo $this->translator('module_list_guide'); ?>
+	</h2>
+    <a class="toggle" href="#">&nbsp;</a>
+    <table class="display table">
+    	<thead>
+    		<tr>
+    			<th>Module Name</th>
+    			<th>Action</th>
+    			<th>Description</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<?php foreach ($this->modules as $index => $module) : ?>
+    		<tr <?php echo $index%2!=0?'class="odd"':'class="even"'; ?>>
+    			<td>
+    				<?php echo sprintf($this->translator('module_list_module_name'), $module['name']); ?> 
+    			</td>
+    			<td>
+    			<!-- Actions -->
+    				<?php if (isset($this->dbModules[$module['name']])) : ?>
+    				<?php if ($this->allow('uninstall')) : ?>
+    				<button class="skin_colour round_all installAction" value="<?php echo $module['name']; ?>_uninstall"><span class="am-"><?php echo $this->translator('module_list_uninstall'); ?></span></button>
+    				<?php endif; ?>
+    				<?php else : ?>
+    				<?php if ($this->allow('install')) : ?>
+    				<button class="skin_colour round_all installAction" value="<?php echo $module['name']; ?>_install"><span><?php echo $this->translator('module_list_install'); ?></span></button>
+    				<?php endif; ?>
+    				<?php endif; ?>
+    			</td>
+    			<td>
+    				<div>
+    					<p><?php echo $module['description']; ?><?php echo $this->translator('module_list_version'); ?> <?php echo $module['version']; ?>
+    						<?php echo $this->translator('module_list_author'); ?> : <a href="mailto:<?php echo $module['email']; ?>"><?php echo $module['author']; ?></a>
+    					</p>
+                    </div>
+                    <?php if (count($module['required']['modules']) > 0) : ?>
+                    	<div>
+                    		<?php echo $this->translator('module_list_required_modules'); ?>
+                    		<?php foreach ($module['required']['modules'] as $requiredModule) : ?>
+                    		<?php echo $requiredModule; ?> ,
+                    		<?php endforeach; ?>
+                    	</div>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>        
+    </table>   
+</div>
+
+	<!-- Side Bar -->
+	<div id="sidebar">
+		<div class="sidebar-content">
+			<a id="close_sidebar" class="btn ui-state-default full-link ui-corner-all" href="#drill">
+						<span class="ui-icon ui-icon-circle-arrow-e"></span>
+						Close Sidebar
+					</a>
+			<a id="open_sidebar" class="btn tooltip ui-state-default full-link icon-only ui-corner-all" title="Open Sidebar" href="#"><span class="ui-icon ui-icon-circle-arrow-w"></span></a>
+			<div class="hide_sidebar">
+				<ul class="side-menu">					                
+	                <?php if ($this->routeAccessor('core_module_list')) : ?>
+					<li><a href="<?php echo $this->url(array(), 'core_module_list'); ?>"><?php echo $this->translator('menu_module', 'core'); ?></a></li>
+					<?php endif; ?>
+					
+	                <?php if ($this->routeAccessor('core_plugin_list')) : ?>
+					<li><a href="<?php echo $this->url(array(), 'core_plugin_list'); ?>"><?php echo $this->translator('menu_plugin', 'core'); ?></a></li>
+					<?php endif; ?>
+	                
+	                <?php if ($this->routeAccessor('core_widget_list')) : ?>
+					<li><a href="<?php echo $this->url(array(), 'core_widget_list'); ?>"><?php echo $this->translator('menu_widget', 'core'); ?></a></li>
+					<?php endif; ?>
+	                
+	                <?php if ($this->routeAccessor('core_hook_list')) : ?>
+					<li><a href="<?php echo $this->url(array(), 'core_hook_list'); ?>"><?php echo $this->translator('menu_hook', 'core'); ?></a></li>
+					<?php endif; ?>
+	                
+	                <?php if ($this->routeAccessor('core_target_list')) : ?>
+					<li><a href="<?php echo $this->url(array(), 'core_target_list'); ?>"><?php echo $this->translator('menu_target', 'core'); ?></a></li>
+					<?php endif; ?>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+
+<div id="messageDialog"></div>
+
+<div id="confirmDialog"></div>
+
+<?php if ($this->allow('install') || $this->allow('uninstall')) : ?>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	$('button.installAction').click(function() {
+		var self 	   = this;
+		var arr 	   = $(self).attr('value').split('_');
+		var moduleName = arr[0];
+		var action 	   = arr[1];
+
+		switch (action) {
+			<?php if ($this->allow('install')) : ?>
+			case 'install':
+				$(self).html('').addClass('t_a_ui_helper_loading');
+				$.ajaxq('module_list', {
+					url: "<?php echo $this->url(array(), 'core_module_install'); ?>",
+					type: 'POST',
+					data: { name: moduleName },
+					success: function(response) {
+						$(self).attr('value', moduleName + '_uninstall')
+								.removeClass('t_a_ui_helper_loading')
+								.append($('<span/>').html("<?php echo $this->translator('module_list_uninstall'); ?>"));
+						$('li.module_' + moduleName).css('text-decoration', 'line-through');
+						$('#messageDialog').html(sprintf('<?php echo addslashes($this->translator('module_list_install_success')); ?>', moduleName))
+							.dialog({
+								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+								dialogClass: 't_a_ui_dialog',
+								modal: true,
+						    	show: { effect: 'fade' },
+								open: function(event, ui) {
+									setTimeout(function() {
+										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+									}, 3000);
+								}
+							});
+					}
+				});				
+				break;
+			<?php endif; ?>
+			
+			<?php if ($this->allow('uninstall')) : ?>
+			case 'uninstall':
+				$('#confirmDialog').html('<?php echo addslashes($this->translator('module_list_uninstall_confirm')); ?>')
+					.dialog({
+						title: '<?php echo addslashes($this->translator('common_dialog_confirm')); ?>',
+						dialogClass: 't_a_ui_dialog',
+						modal: true,
+						closeOnEscape: false,
+						resizable: false,
+						open: function(event, ui) {
+							$('.ui-dialog-titlebar-close').hide();
+							$(this).parent().find('.ui-dialog-buttonpane button').wrapInner('<span/>');
+						},
+						buttons: {
+							'<?php echo addslashes($this->translator('common_dialog_confirm_no')); ?>': function() {
+								$(this).dialog('destroy');
+							},
+							'<?php echo addslashes($this->translator('common_dialog_confirm_yes')); ?>': function() {
+								$(this).dialog('destroy');
+								$(self).html('').addClass('t_a_ui_helper_loading');
+								$.ajaxq('module_list', {
+									url: "<?php echo $this->url(array(), 'core_module_uninstall'); ?>",
+									type: 'POST',
+									data: { name: moduleName },
+									success: function(response) {
+										$(self).attr('value', moduleName + '_install')
+											.removeClass('t_a_ui_helper_loading')
+											.append($('<span/>').html("<?php echo $this->translator('module_list_install'); ?>"));
+										$('li.module_' + moduleName).css('text-decoration', 'none');
+										$('#messageDialog').html(sprintf('<?php echo addslashes($this->translator('module_list_uninstall_success')); ?>', moduleName))
+											.dialog({
+												title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+												dialogClass: 't_a_ui_dialog',
+												modal: true,
+										    	show: { effect: 'fade' },
+												open: function(event, ui) {
+													setTimeout(function() {
+														$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+													}, 3000);
+												}
+											});
+									}
+								});
+							}
+						}
+					});
+				break;
+			<?php endif; ?>
+		}
+	});
+});
+//]]>
+</script>
+<?php endif; ?>

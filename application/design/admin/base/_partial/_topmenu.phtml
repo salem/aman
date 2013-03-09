@@ -1,0 +1,108 @@
+<!-- Menu -->
+
+<ul class="clearfix">
+  <li> <a href="<?php echo $this->url(array(), 'core_dashboard_index'); ?>"><?php echo $this->translator('menu_admin', 'core'); ?></a> </li>
+  <li> <a href="#"> <span><?php echo $this->translator('menu_system', 'core'); ?></span> </a>
+    <ul class="open_multiple">     
+       <li>
+          <a href="#"> <span><?php echo $this->translator('menu_system_config', 'core'); ?> </span> </a>
+          <ul class="drawer">
+              <?php if ($this->routeAccessor('core_language_list')) : ?>
+              <li> <a href="<?php echo $this->url(array(), 'core_language_list'); ?>"> <span><?php echo $this->translator('menu_language', 'core'); ?></span> </a> </li>
+              <?php endif; ?>
+              <?php if ($this->routeAccessor('core_locale_config')) : ?>
+              <li><a href="<?php echo $this->url(array(), 'core_locale_config'); ?>"><span><?php echo $this->translator('menu_locale', 'core'); ?></span></a></li>
+              <?php endif; ?>
+              <?php if ($this->routeAccessor('core_config_app')) : ?>
+              <li><a href="<?php echo $this->url(array(), 'core_config_app'); ?>"><span><?php echo $this->translator('menu_config_app', 'core'); ?></span></a></li>
+              <?php endif; ?>
+              <?php if ($this->routeAccessor('core_config_list')) : ?>
+              <li><a href="<?php echo $this->url(array(), 'core_config_list'); ?>"><span><?php echo $this->translator('menu_config', 'core'); ?></span></a></li>
+              <?php endif; ?>
+              <?php if ($this->routeAccessor('core_cache_list')) : ?>
+              <li><a href="<?php echo $this->url(array(), 'core_cache_list'); ?>"><span><?php echo $this->translator('menu_cache', 'core'); ?></span></a></li>
+              <?php endif; ?>
+              <?php if ($this->routeAccessor('core_cache_config')) : ?>
+              <li><a href="<?php echo $this->url(array(), 'core_cache_config'); ?>"><span><?php echo $this->translator('menu_cache_config', 'core'); ?></span></a></li>
+              <?php endif; ?>
+          </ul>
+      </li>
+      <li> <a href="#"><span><?php echo $this->translator('menu_custome', 'core'); ?></span></a>
+        <ul class="drawer">
+          <?php if ($this->routeAccessor('core_template_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_template_list'); ?>"><span><?php echo $this->translator('menu_template', 'core'); ?></span></a></li>
+          <?php endif; ?>
+          <?php if ($this->routeAccessor('core_permalink_index')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_permalink_index'); ?>"><span><?php echo $this->translator('menu_permalink', 'core'); ?></span></a></li>
+          <?php endif; ?>
+        </ul>
+      </li>
+      
+      <li><a href="#"><span><?php echo $this->translator('menu_extend', 'core'); ?></span></a>
+        <ul class="drawer">
+          <?php if ($this->routeAccessor('core_module_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_module_list'); ?>"><span><?php echo $this->translator('menu_module', 'core'); ?></span></a></li>
+          <?php endif; ?>
+          <?php if ($this->routeAccessor('core_plugin_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_plugin_list'); ?>"><span><?php echo $this->translator('menu_plugin', 'core'); ?></span></a></li>
+          <?php endif; ?>
+          <?php if ($this->routeAccessor('core_widget_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_widget_list'); ?>"><span><?php echo $this->translator('menu_widget', 'core'); ?></span></a></li>
+          <?php endif; ?>
+          <?php if ($this->routeAccessor('core_hook_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_hook_list'); ?>"><span><?php echo $this->translator('menu_hook', 'core'); ?></span></a></li>
+          <?php endif; ?>
+          <?php if ($this->routeAccessor('core_target_list')) : ?>
+          <li><a href="<?php echo $this->url(array(), 'core_target_list'); ?>"><span><?php echo $this->translator('menu_target', 'core'); ?></span></a></li>
+          <?php endif; ?>
+        </ul>
+      </li>
+      
+       <li>
+          <a href="#"><span><?php echo $this->translator('menu_report', 'core'); ?></span></a>
+      </li>
+      <?php if ($this->routeAccessor('core_log_list')) : ?>
+      <li><a href="<?php echo $this->url(array(), 'core_log_list'); ?>"><span><?php echo $this->translator('menu_log', 'core'); ?></span></a></li>
+      <?php endif; ?>
+    </ul>
+  </li>
+  
+  <li> <a href="#"><span><?php echo $this->translator('menu_system_user', 'core'); ?></span></a>
+    <ul class="dropdown">
+      <?php if ($this->routeAccessor('core_role_list')) : ?>
+      <li> <a href="<?php echo $this->url(array(), 'core_role_list'); ?>"><span><?php echo $this->translator('menu_role', 'core'); ?></span></a> </li>
+      <?php endif; ?>
+      <?php if ($this->routeAccessor('core_user_list')) : ?>
+      <li><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"><span><?php echo $this->translator('menu_user', 'core'); ?></span></a> </li>
+      <?php endif; ?>
+      <?php if ($this->routeAccessor('core_privilege_list')) : ?>
+      <li> <a href="<?php echo $this->url(array(), 'core_privilege_list'); ?>"> <span><?php echo $this->translator('menu_privilege', 'core'); ?></span> </a></li>
+      <?php endif; ?>
+    </ul>
+    </li>
+  <!--<li> <a href="#"><?php echo $this->translator('menu_modules', 'core'); ?></a>
+    <div class="sub">
+      <div class="row">
+        <?php foreach (($modules = $this->moduleTask()) as $index => $module) : ?>
+        <?php if ($index % 4 == 0 & $index > 0) : ?>
+        <div class="clearfix">
+          <hr />
+        </div>
+        <?php endif; ?>
+        <ul>
+          <li><span><?php echo $module['description']; ?></span></li>
+          <?php foreach ($module['tasks'] as $task) : ?>
+          <li><a href="<?php echo $task['link']; ?>"><span><?php echo $task['label']; ?></a></span></li>
+          <?php endforeach; ?>
+        </ul>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </li>  -->
+  <li> <a href="#"><span><?php echo $this->translator('menu_account', 'core'); ?></span></a>
+    <ul class="dropdown">
+      <li><a href="<?php echo $this->url(array(), 'core_user_changepass'); ?>"><span><?php echo $this->translator('menu_changepass', 'core'); ?></span></a></li>
+    </ul>
+
+  </li>
+</ul>

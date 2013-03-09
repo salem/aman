@@ -1,0 +1,241 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@Amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2009-2010 TIG Corporation (http://www.tig.vn)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version		$Id: admin.phtml 5189 2010-08-30 12:12:06Z huuphuoc $
+ * @since		2.0.0
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type"	content="text/html; charset=<?php echo $this->CHARSET; ?>" />
+<meta name="robots" content="noindex, nofollow" />
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headMeta(); ?>
+ 
+		
+
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->APP_STATIC_SERVER; ?>/skins/<?php echo $this->APP_TEMPLATE; ?>/<?php echo $this->APP_SKIN; ?>/images/favicon.ico" />
+    
+    <?php
+    $this->headLink()
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/reset.css')
+    	->appendStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:400,700')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/colorpicker/colorpicker.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/datatables/datatables.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/elfinder/elfinder.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/fancybox/fancybox.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/fullcalendar/fullcalendar.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/isotope/isotope.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/multiselect/multiselect.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/select2/select2.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/selectbox/selectbox.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/slidernav/slidernav.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/slidernav/smallipop.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/syntaxhighlighter/syntaxhighlighter.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/syntaxhighlighter/shThemeDefault.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/tagit/tagit.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/themeroller/themeroller.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/tinyeditor/tinyeditor.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/tiptip/tiptip.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/uistars/uistars.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/uitotop/uitotop.css')
+    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/uniform/uniform.css');
+    	
+    $this->headLink()
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/text.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/grid.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/main.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/mobile.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/base.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/ie.css')
+        ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/themes/switcher.css');
+  
+    
+    $this->headScript()
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/js/phpjs/php.full.min.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/jquery/jquery.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/js/json/json2.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/jquery/jqueryui.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/modernizr/modernizr.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/prefixfree/prefixfree.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/pjax/pjax.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/isotope/isotope.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/autogrow/autogrow.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/colorpicker/colorpicker.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/cookie/cookie.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/datatables/datatables.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/elfinder/elfinder.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/dragscroll/dragScroll.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/tinyeditor/tinyeditor.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/fancybox/fancybox.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/flot/flot_excanvas.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/flot/flot.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/flot/flot_resize.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/flot/flot_pie.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/flot/flot_pie_update.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/fullcalendar/fullcalendar.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/fullcalendar/fullcalendar_gcal.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/hoverintent/hoverIntent.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/iscroll/iscroll.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/knob/knob.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/multiselect/multiselect.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/select2/select2.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/selectbox/selectbox.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/slidernav/slidernav.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/smallipop/smallipop.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/sparkline/sparkline.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/syntaxhighlighter/shCore.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/syntaxhighlighter/shBrushJScript.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/syntaxhighlighter/shBrushXml.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/tagit/tagit.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/timepicker/timepicker.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/tinyeditor/tinyeditor.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/tiptip/tiptip.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/touchpunch/touchpunch.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/uistars/uistars.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/uitotop/uitotop.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/uniform/uniform.js')
+    ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/validation/validation.js');
+    
+    $this->headScript()
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_ui.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_mobile.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_datatables.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_calendar.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_charts.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_gallery.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_various.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_wizard.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_forms.js')
+        ->appendFile($this->APP_STATIC_SERVER . '/skins/admin/adminica/scripts/adminica/adminica_load.js');
+    ?>
+	<?php echo $this->compressor('css'); ?>
+    <?php echo $this->compressor('js'); ?>
+    
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/themes/layout_switcher.php?default=layout_fixed.css" />
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/themes/nav_switcher.php?default=nav_top.css" />
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/themes/skin_switcher.php?default=switcher.css" />
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/themes/theme_switcher.php?default=theme_blue.css" />
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/themes/bg_switcher.php?default=bg_honeycomb.css" />
+    
+    <link rel="stylesheet" href="http://localhost/othaimjobs/skins/admin/adminica/styles/adminica/colours.css" />
+</head>
+<body>
+	<div id="pjax">
+		<div id="wrapper" data-adminica-nav-top="1" data-adminica-side-top="1">
+			<!-- Top bar -->
+			<div id="topbar" class="clearfix">
+				<a class="logo" href=""><span>Startex Marketing Services</span></a>
+				<div class="user_box dark_box clearfix">
+        			<?php echo $this->partial('_partial/_userbox.phtml', 'core', $this ); ?>
+        		</div>
+				<!-- #user_box -->
+			</div>
+
+			<!-- Header -->
+			<div id="main_container" class="main_container container_16 clearfix">
+				<div id="nav_top" class="dropdown_menu clearfix round_top">
+					<!-- Top Navigation -->
+					<?php echo $this->partial('_partial/_topmenu.phtml', $this);?>
+					<!-- End Top Navigation -->
+				</div>
+
+				<!-- End Header -->
+
+
+				<!-- Page Layout -->
+<!-- 				<div id="box grid_16"> -->
+    	    	<?php echo $this->layout()->content; ?>
+<!--     	    </div> -->
+			</div>
+		</div>
+	</div>
+
+	<div id="loading_overlay">
+		<div class="loading_message round_bottom">
+			<img src="<?php echo $this->APP_STATIC_SERVER.'/skins/'.$this->APP_TEMPLATE.'/'.$this->APP_SKIN;?>/images/interface/loading.gif" alt="loading" />
+		</div>
+	</div>
+
+	<div id="template_options" class="clearfix">
+		<h3>
+			<img src="images/interface/adminica.png" alt="Adminica">
+		
+		</h3>
+		<div class="layout_size">
+			<label>Layout:</label> <a
+				href="styles/themes/layout_switcher.php?style=switcher.css">Fluid</a><span>|</span>
+			<a href="styles/themes/layout_switcher.php?style=layout_fixed.css">Fixed</a>
+		</div>
+		<div class="layout_position">
+			<label class="display_none">Header: </label> <a
+				href="styles/themes/nav_switcher.php?style=switcher.css">Side</a><span>|</span>
+			<a href="styles/themes/nav_switcher.php?style=nav_stacks.css">Stacks</a><span>|</span>
+			<a href="styles/themes/nav_switcher.php?style=nav_top.css">Top</a><span>|</span>
+			<a href="styles/themes/nav_switcher.php?style=nav_slideout.css">Slide</a>
+		</div>
+		<div class="layout_position">
+			<label>Theme: </label> <a
+				href="styles/themes/skin_switcher.php?style=multiple&skin_switcher.php=switcher.css&bg_switcher.php=switcher.css">Dark</a><span>|</span>
+			<a
+				href="styles/themes/skin_switcher.php?style=multiple&skin_switcher.php=skin_light.css&bg_switcher.php=switcher.css">Light</a>
+		</div>
+		<div class="theme_colour">
+			<label class="display_none">Colour:</label> <a class="black"
+				href="styles/themes/theme_switcher.php?style=switcher.css"><span>Black</span></a>
+			<a class="blue"
+				href="styles/themes/theme_switcher.php?style=theme_blue.css"><span>Blue</span></a>
+			<a class="navy"
+				href="styles/themes/theme_switcher.php?style=theme_navy.css"><span>Navy</span></a>
+			<a class="red"
+				href="styles/themes/theme_switcher.php?style=theme_red.css"><span>Red</span></a>
+			<a class="green"
+				href="styles/themes/theme_switcher.php?style=theme_green.css"><span>Green</span></a>
+			<a class="magenta"
+				href="styles/themes/theme_switcher.php?style=theme_magenta.css"><span>Magenta</span></a>
+			<a class="orange"
+				href="styles/themes/theme_switcher.php?style=theme_brown.css"><span>Brown</span></a>
+		</div>
+		<div class="theme_background" id="bg_dark">
+			<label>BGs:</label> <a
+				href="styles/themes/bg_switcher.php?style=bg_wunder.css">NEW</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=switcher.css">Boxes</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_punched.css">Punched</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_honeycomb.css">Honeycomb</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_wood.css">Wood</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_dark_wood.css">Timber</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_noise.css">Noise</a>
+		</div>
+		<div class="theme_background" id="bg_light">
+			<label>BGs:</label> <a
+				href="styles/themes/bg_switcher.php?style=switcher.css">Silver</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_white_wood.css">Wood</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_squares.css">Squares</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_noise_zero.css">Noise</a><span>|</span>
+			<a href="styles/themes/bg_switcher.php?style=bg_stripes.css">Stripes</a>
+		</div>
+	</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(document).ajaxStart(function(){showLoadingOverlay();});
+    $(document).ajaxStop(function(){hideLoadingOverlay();});
+});
+
+</script>
+</body>
+</html>

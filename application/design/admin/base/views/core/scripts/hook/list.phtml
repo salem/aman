@@ -1,0 +1,257 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+
+
+
+<!-- Upload new hook -->
+<?php if ($this->allow('upload')) : ?>
+<div class="box grid_16 round_all clearfix">
+    <h2 class="box_head"><?php echo $this->translator('hook_list_upload_head'); ?></h2>
+    <div class="controls">
+        <a href="javascript:void(0)" class="toggle"></a>    
+    </div>
+    <div class="block">
+    	<div class="section">
+    	    <?php if (extension_loaded('zip')) : ?>
+    	    <form method="post" action="<?php echo $this->url(array(), 'core_hook_upload'); ?>" enctype="multipart/form-data">
+    			<p><?php echo $this->translator('hook_list_upload_desc'); ?></p>
+        	    <input type="file" name="file" style="width: 180px" />
+    			<button type="submit" class="dark small div_icon has_text">
+    			    <div class="ui-icon ui-icon-check"></div>
+    			    <span><?php echo $this->translator('hook_list_upload_button'); ?></span>
+    			</button>
+    		</form>
+    		<?php else : ?>
+        	<div class="alert dismissible alert_blue">
+        	    <img src="<?php echo $this->APP_STATIC_SERVER; ?>/skins/<?php echo $this->APP_TEMPLATE; ?>/<?php echo $this->APP_SKIN; ?>/images/icons/small/white/alert_2.png" alt="" />
+        		<strong><?php echo $this->translator('hook_list_zip_extension_not_available'); ?></strong>
+        	</div>
+        	<?php endif; ?>
+		
+    	</div>
+    </div>
+	
+</div>
+
+<div class="clearfix" ></div>
+<?php endif; ?>			
+
+
+	
+<?php if ($this->hooks) : ?>
+<div class="flate_area grid_16"><h2><?php echo $this->translator('hook_list_top_desc'); ?></h2></div>
+<div class="box grid_16 side_tabs tabs clearfix">
+    <div class="side_holder">
+    	<ul class="tab_sider clearfix" id="moduleFilter">
+    	<?php $index=0;?>
+    	    <?php foreach ($this->hooks as $module => $hooks) : ?>
+			<li><a href="#tabs-<?php echo $index++; ?>"><?php echo $module; ?></a></li>
+			<?php endforeach; ?>
+    	</ul>
+    </div>
+    
+    <?php $tabIndex=0;?>		
+	<?php foreach ($this->hooks as $module => $hooks) : ?>
+	<div id="tabs-<?php echo $tabIndex++;?>" class="block">
+		<?php foreach ($hooks as $index => $hook) : ?>
+		<div class="section border_bottom clearfix">
+			<h2><?php echo $hook->name; ?></h2>
+			<p>
+			    <?php echo $this->translator('hook_list_version'); ?>: <?php echo $hook->version; ?>
+				<?php echo $this->translator('hook_list_author'); ?>: <a href="mailto:<?php echo $hook->email; ?>"><?php echo $hook->author; ?></a>
+				<?php echo $hook->description; ?>
+				
+				
+				<?php if (isset($this->dbHooks[strtolower($module . ':' . $hook->name)])) : ?>
+    				<?php if($this->allow('uninstall')) :?>
+    				<button name="installAction" class="light small div_icon has_text send_right" value="uninstall:<?php echo $this->dbHooks[strtolower($module . ':' . $hook->name)]; ?>" >
+    					<div class="ui-icon ui-icon-circle-close"></div>
+    					<span><?php echo $this->translator('hook_list_uninstall'); ?></span>
+    				</button>
+    				<?php endif;?>
+				<?php else : ?>
+    				<?php if($this->allow('install')):?>
+    				<button name="installAction" class="light small div_icon has_text send_right" value="install:<?php echo strtolower($module . ':' . $hook->name); ?>">
+    					<div class="ui-icon ui-icon-circle-plus"></div>
+    					<span><?php echo $this->translator('hook_list_install'); ?></span>
+    				</button>
+    				<?php endif;?>
+    			<?php endif; ?>
+			
+			</p>
+			
+			<!-- Configurations -->
+			<?php if ($hook->params) : ?>
+			<?php if($this->allow('config')):?>
+			<button class="light small has_text" name="configAction">
+        	    <div class="ui-icon ui-icon-geer"></div>
+        	    <span><?php echo $this->translator('plugin_list_action_config'); ?></span>
+            </button>
+            <div class="clearfix"></div>
+			<div id="configOption" style="display: none;">
+    		    <p><strong><?php echo $this->translator('hook_list_params'); ?></strong></p>
+    		    <?php foreach ($hook->params as $param) : ?>
+				<fieldset class="no_border">											
+					<label><span><?php echo $param['description']; ?></span></label>
+					<div class="clearfix">
+						<input type="text" class="text" name="<?php echo $this->escape($param['name']); ?>" value="<?php echo $this->escape($param['value']); ?>" />
+					</div>
+				</fieldset>
+                <?php endforeach; ?>
+                <?php if ($this->allow('config')) : ?>
+                <button class="dark small div_icon has_text" name="saveAction" value="<?php echo $module . ':'. $hook->name; ?>">
+                    <div class="ui-icon ui-icon-save"></div>
+			 	    <span><?php echo $this->translator('hook_list_action_save_config'); ?></span>
+                </button><br />
+        	    <?php endif; ?>
+        	</div>
+			<?php endif; ?>
+			<?php endif;?>
+		
+		</div>
+		<?php endforeach;?>	
+	</div>
+	<?php endforeach;?>
+        
+</div>
+<?php endif;?>
+<div class="clear"></div>
+
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('button[name="configAction"]').click(function() {
+		$(this).parent().find('#configOption').toggle('slow');		
+	});
+	
+	<?php if ($this->allow('config')) : ?>
+	$('button[name="saveAction"]').click(function() {
+		var params = {};
+		var self = this;
+		$(self).parent().find('input[type="text"]').each(function() {
+			params[$(this).attr('name')] = $(this).attr('value');
+		});
+		
+		// Get module and hook name
+		var arr = $(self).val().split(':');
+		
+		$.ajax({
+			global: true,
+			url: "<?php echo $this->url(array(), 'core_hook_config'); ?>",
+			type: 'POST',
+			data: { mod : arr[0], name: arr[1], params: JSON.stringify(params) },
+			dataType: 'json',
+			success: function(response) {
+				if(response.success){
+					
+    				$('#messageDialog').html(response.message)
+    					.dialog({
+    						title: '<?php echo $this->translator('common_dialog_message'); ?>',
+    						dialogClass: 't_a_ui_dialog',
+    						modal: true,
+    				    	show: { effect: 'fade' },
+    						open: function(event, ui) {
+    							setTimeout(function() {
+    								$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    							}, 3000);
+    						}
+    					});
+				}
+			}
+		});
+	});
+	<?php endif; ?>
+
+	<?php if ($this->allow('install') || $this->allow('uninstall')) : ?>
+	$('button[name="installAction"]').click(function() {
+		var self = this;
+		var arr  = $(self).attr('value').split(':');
+		switch (arr[0]) {
+			case 'install':
+				<?php if ($this->allow('install')) : ?>
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_hook_install'); ?>',
+					type: 'POST',
+					data: { mod: arr[1], name: arr[2] },
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response.success){
+							
+    						$(self).val('uninstall:'+response.hook);
+    						$(self).find('div').removeClass('ui-icon-circle-plus').addClass('ui-icon-circle-close');
+    						$(self).find('span').html("<?php echo $this->translator('hook_list_uninstall');?>");
+    						
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+						}
+					}
+				});	
+				<?php endif; ?>			
+				break;
+			case 'uninstall':
+				<?php if ($this->allow('uninstall')) : ?>
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_hook_uninstall'); ?>',
+					type: 'POST',
+					data: { mod: arr[1], name: arr[2], id: arr[3] },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success){
+    						$(self).val('install:'+response.hook);
+    						$(self).find('div').removeClass('ui-icon-circle-close').addClass('ui-icon-circle-plus');
+    						$(self).find('span').html("<?php echo $this->translator('hook_list_install');?>");
+    						
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo $this->translator('common_dialog_message'); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+						}
+					}
+				});
+				<?php endif; ?>
+				break;
+		}
+	});
+	<?php endif; ?>
+});
+</script>

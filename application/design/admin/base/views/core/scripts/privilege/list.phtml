@@ -1,0 +1,260 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('privilege_list_page_title'));
+
+?>
+
+<div class="box grid_16 corners_all shadow">
+    <h2 class="box_head"><?php echo $this->translator('privilege_list_breadcrumb'); ?></h2>
+    <div class="controls">
+        <select name="" id="moduleList" class="uniform">
+            <?php foreach ($this->modules as $module):?>
+            <option value="<?php echo $module;?>"><?php echo $module;?></option>
+            <?php endforeach;?>
+        
+        </select>
+    </div>	
+    <div class="block">
+        <div class="section">
+            <?php foreach ($this->modules as $index => $module) : ?>
+            <div id="<?php echo $module; ?>Resource" class="moduleResource" style="display: <?php echo (($index == 0) ? 'block' : 'none'); ?>">
+           
+    		    <?php if ($result = $this->privilegeLoader()->getPrivileges($module)) : ?>
+    		    <?php foreach ($result as $i => $item) : ?>
+        		<div class="box grid_5">
+        			<h2 class="box_head"><?php echo $item['resource']->description; ?></h2>
+        			<div class="controls">
+        			    <?php if (isset($this->dbResources[$module . ':' . ((string)$item['resource']->controller_name)])) : ?>
+        				<?php if ($this->allow('delete', 'resource')) : ?>
+        				<button name="resourceAction" class="light tiny div_icon has_text" value="<?php echo $this->dbResources[$module . ':' . ((string)$item['resource']->controller_name)]; ?>" title="<?php echo $this->escape($item['resource']->description); ?>">
+        					<div class="ui-icon ui-icon-close" title="-"></div>
+        					<span><?php echo $this->translator('privilege_list_delete_resource'); ?></span>
+        				</button>
+        				<?php endif;?>
+        				<?php else: ?>
+        				<?php if ($this->allow('add', 'resource')) : ?>
+        				<button name="resourceAction" class="light tiny div_icon has_text" value="<?php echo $module . ':' . ((string)$item['resource']->controller_name); ?>" title="<?php echo $this->escape($item['resource']->description); ?>">
+        					<div class="ui-icon ui-icon-plus" title="+" ></div>
+        					<span><?php echo $this->translator('privilege_list_add_resource'); ?></span>
+        				</button>
+        				<?php endif; ?>
+        			    <?php endif; ?>
+        		    </div>
+            		<!-- Resource privileges -->
+            							
+            		<div class="block">
+            		    <ul class="flat">
+            		        <?php foreach ($item['privileges'] as $priv) : ?>
+            		        <li>
+            		            <?php echo $priv->description; ?>             		    					
+                    			<div class="send_right clearfix">
+                    			    <?php if (isset($this->dbPrivileges[((string)$priv->module_name) . ':' . ((string)$priv->controller_name) . ':' . ((string)$priv->name)])) : ?>
+                    				<?php if ($this->allow('delete')) : ?>
+                    				<a href="javascript: void(0);" class="privilegeAction" rel="<?php echo $this->dbPrivileges[((string)$priv->module_name) . ':' . ((string)$priv->controller_name) . ':' . ((string)$priv->name)]; ?>">[ - ]</a>
+                    				<?php endif;?>
+                    				<?php else: ?>
+                    				<?php if($this->allow('add')) : ?>
+                    				<a href="javascript: void(0);" class="privilegeAction" title="<?php echo $this->escape($priv->description); ?>" rel="<?php echo ((string)$priv->module_name) . ':' . ((string)$priv->controller_name) . ':' . ((string)$priv->name); ?>">[ + ]</a>
+                    				<?php endif; ?>
+                    			    <?php endif; ?>
+                    			</div>
+                			</li>
+                		    <?php endforeach; ?>
+            		    </ul>
+            		</div>
+        		    
+        		</div>
+    		    <?php endforeach; ?>			
+    		    <?php else : ?>
+    		    <?php echo $this->translator('privilege_list_module_has_not_resource'); ?>
+    		    <?php endif; ?>   
+        	</div>
+        	<?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	/**
+	 * Load resource based on selected module
+	 */
+	 
+	$('#moduleList').change(function() {
+		$('.moduleResource').hide();
+		$('#' + $(this).val()+ 'Resource').show();
+	});
+	
+	<?php if ($this->allow('add', 'resource') || $this->allow('delete', 'resource')) : ?>
+	$('button[name="resourceAction"]').click(function() {
+		var label = $(this).children().first().attr('title');
+		var self = this;
+		switch (label) {
+			<?php if ($this->allow('add', 'resource')) : ?>
+			case '+':
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_resource_add'); ?>',
+					type: 'POST',
+					data: { mc: $(self).attr('value'), description: $(self).attr('title') },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success) 
+						{
+    						$(self).children().last().html("<?php echo $this->translator('privilege_list_delete_resource'); ?>");
+    						$(self).children().first().removeClass('ui-icon-plus')
+    							.addClass('ui-icon-close')
+    							.attr('title', '-');
+    						$(self).attr('value', response.id);
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+    					}
+					}
+				});
+				break;
+			<?php endif; ?>
+			
+			<?php if ($this->allow('delete', 'resource')) : ?>
+			case '-':
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_resource_delete'); ?>',
+					type: 'POST',
+					data: { id: $(self).val() },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success)
+						{							
+    						$(self).children().last().html("<?php echo $this->translator('privilege_list_add_resource'); ?>");
+    						$(self).children().first().removeClass('ui-icon-close')
+    							.addClass('ui-icon-plus')
+    							.attr('title', '+');
+    						$(self).attr('value', response.mc).attr('title', response.description);
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo $this->translator('common_dialog_message'); ?>',
+    								dialogClass: 'dialog_content narrow',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+						}
+					}
+				});
+				break;
+			<?php endif; ?>
+		}
+	});
+	<?php endif; ?>
+
+	<?php if ($this->allow('add') || $this->allow('delete')) : ?>
+	$('a.privilegeAction').click(function() {
+		var label = $(this).html();
+		var self = this;
+		$(this).html('').addClass('t_a_ui_helper_loading');
+		
+		switch (label) {
+			<?php if ($this->allow('add')) : ?>
+			case '[ + ]':
+				/**
+				 * Add privilege
+				 */
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_privilege_add'); ?>',
+					type: 'POST',
+					data: { mca: $(this).attr('rel'), description: $(this).attr('title') },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success)
+						{
+    						$(self).html('[ - ]').attr('rel', response.id);
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+						}
+					}
+				});
+				break;
+			<?php endif; ?>
+			
+			<?php if ($this->allow('delete')) : ?>
+			case '[ - ]':
+				/**
+				 * Delete privilege
+				 */
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_privilege_delete'); ?>',
+					type: 'POST',
+					data: { id: $(this).attr('rel') },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success)
+						{
+    						$(self).html('[ + ]').attr('rel', response.mca).attr('title', response.description);
+    						$('#messageDialog').html(sprintf('<?php echo addslashes($this->translator('privilege_list_delete_success')); ?>', response.description))
+    							.dialog({
+    								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});					
+    					}
+					}
+				});
+				break;
+			<?php endif; ?>
+		}
+	});
+	<?php endif; ?>
+});
+</script>

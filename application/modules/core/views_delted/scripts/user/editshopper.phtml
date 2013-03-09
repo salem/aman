@@ -1,0 +1,153 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: add.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('user_editshopper_page_title'));
+$this->headScript()->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js');
+?>
+
+<div class="box grid_10 no_titlebar">
+	<div class="block">
+		<h2 class="section"><?php echo $this->translator('user_edit_breadcrumb'); ?></h2>
+<!--  		<a class="btn ui-state-default ui-corner-all clearfix" href="<?php echo $this->url(array(), 'core_user_list'); ?>">
+			<span class="ui-icon ui-icon-person" style="padding: 0px"></span>
+			<?php echo $this->translator('user_list_breadcrumb'); ?>
+		</a> -->
+		<div class="section"><p><?php echo $this->translator('user_editshopper_guide'); ?></p></div>
+		
+		<form class="forms" method="post" action="<?php echo $this->url(array('user_id' => $this->user->user_id), 'core_user_editshopper'); ?>" id="form1">
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_name'); ?></span></label>
+				<div>					
+					<input type="text" id="name" name="name" value="<?php echo $this->user->name;?>"  />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_address'); ?></span></label>
+				<div>					
+					<textarea id="address" name="address"  ><?php echo $this->user->address;?></textarea>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_office_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="offic" name="office" style="width: 200px !important" value="<?php echo $this->user->office;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_home_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="home" name="home" style="width: 200px !important" value="<?php echo $this->user->home;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_mobile_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="mobile" name="mobile" style="width: 200px !important" value="<?php echo $this->user->mobile;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php $this->translator('user_status')?></span></label>
+				<div>
+					<input type="checkbox" name="status" id="status" class="uniform checkbox" <?php if($this->user->is_active==1): echo 'checked="checked"'; endif;?> />					
+				</div>
+			</fieldset>
+			<div class="button_bar clearfix">					
+				<?php echo $this->tokenElement; ?>				
+				<button type="submit">
+					<img alt="" src="<?php echo $this->APP_STATIC_SERVER."/skins/".$this->APP_TEMPLATE."/".$this->APP_SKIN."/images/icons/small/white/bended_arrow_right.png";?>" width="24" height="24" />
+					<span><?php echo $this->translator('user_add_save_button'); ?></span>				
+				</button>
+			</div>
+			
+		</form>		
+	</div>
+</div>
+
+
+<!-- Side Bar -->
+<div id="sidebar">
+	<div class="sidebar-content">
+		<a id="close_sidebar" class="btn ui-state-default full-link ui-corner-all" href="#drill">
+					<span class="ui-icon ui-icon-circle-arrow-e"></span>
+					Close Sidebar
+				</a>
+		<a id="open_sidebar" class="btn tooltip ui-state-default full-link icon-only ui-corner-all" title="Open Sidebar" href="#"><span class="ui-icon ui-icon-circle-arrow-w"></span></a>
+		<div class="hide_sidebar">
+			<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+				<div class="portlet-header ui-widget-header">
+					<?php echo $this->translator('menu_system_user', 'core'); ?>
+				</div>
+				<div class="portlet-content">
+					<ul class="side-menu">					                
+		                <?php if ($this->routeAccessor('core_role_list')) : ?>
+						<li><a href="<?php echo $this->url(array(), 'core_role_list'); ?>"><?php echo $this->translator('menu_role', 'core'); ?></a></li>
+						<?php endif; ?>
+						
+		                <?php if ($this->routeAccessor('core_user_list')) : ?>
+						<li><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"><?php echo $this->translator('menu_user', 'core'); ?></a></li>
+						<?php endif; ?>
+						
+						<?php if ($this->routeAccessor('core_privilege_list')) : ?>
+						<li><a href="<?php echo $this->url(array(), 'core_privilege_list'); ?>"><?php echo $this->translator('menu_privilege', 'core'); ?></a></li>
+						<?php endif; ?>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<!-- End Side Bar -->
+<div class="clear"></div>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	/**
+	 * Validate form
+	 */
+	$('#form1').validate({
+		rules: {
+			name: {
+				required: true
+			},			
+			customer:{
+				required: true
+			},
+			office:{ number: true},
+			home:{ number: true},
+			mobile:{ number: true}
+	    },
+	    messages: {
+	    	name: {
+	        	required: "<?php echo $this->translator('user_name_required'); ?>"
+	    	},   	
+			customer: {
+				required: "<?php echo $this->translator('user_customer_required');?>"
+			},
+			office:{ number: '<?php echo $this->translator('user_office_number') ?>'},
+			home:{ number: '<?php echo $this->translator('user_home_number') ?>'},
+			mobile:{ number: '<?php echo $this->translator('user_mobile_number') ?>'}
+		}
+	});
+});
+//]]>
+</script>

@@ -1,0 +1,41 @@
+// =============================================================================
+// AmanCMS Install Guide
+// $Id: install_guide.txt 3345 2010-06-22 03:58:37Z leha $
+// =============================================================================
+
+--- AmanCMS requires:
+* Apache modules:
+	+ mod_rewrite
+* PHP 5.2.0 or newer
+* PHP Modules:
+	+ gd
+	+ json
+	+ mbstring
+	+ simplexml
+	+ xml
+	+ xmlreader
+* Following files/folders have to be writable:
+	+ application/config/application.ini
+	+ application/config/layout.ini
+	+ application/templates	
+	+ temp
+	+ upload
+
+--- Install Guide ---
+- You can use install wizard at address:
+http://{YourDomain}/{AmancmsInstalledFolder}/install.php
+or 
+http://{YourDomain}/install.php, if you put AmanCMS in web root directory
+
+***** IMPORTANT NOTE *****
+After installing, you have to import the sample data from amancms_sample_db.sql file 
+located in the install folder
+
+--- More info ---
+Official website: 	http://www.amancms.com
+Online demo:		http://demo.amancms.com
+Documentation:		http://docs.amancms.com
+Blog: 				http://blog.amancms.com
+Forum:				http://forum.amancms.com
+Email:				core@amancms.com
+Twitter:			http://twitter.com/amancms/

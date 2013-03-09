@@ -1,0 +1,74 @@
+<!DOCTYPE html> 
+<html lang="en" class="no-js">
+<head>
+    <title>EZICMS | Login</title>
+    
+    <!-- // Meta //  -->
+    <meta charset="utf-8">   
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    
+    <!-- // Stylesheets // -->
+    <link rel="stylesheet" href="css/login.css" />
+
+    <!-- http://allinthehead.com/retro/319/how-to-set-an-apple-touch-icon-for-any-site -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="images/favicon.ico">
+        
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="js/modernizr-1.7.min.js"></script>
+    
+</head>
+<body>
+    <div id="container">
+        <form action="index.html" method="post"> 
+            <div id="login-box" class="corners shadow">
+                <div class="login-box-header corners">
+                    <h2>EZICMS | LOGIN</h2>
+                </div>
+                <div class="login-box-error-small corners">
+                    <p>Error, wrong username or password!</p>
+                </div>
+                <div class="login-box-row-wrap corners">
+                    <label for="username">Username:</label><input type="text" id="username" value="" name="" class="input-1"/>
+                </div>
+                <div class="login-box-row-wrap corners">
+                    <div>
+                        <label for="password">Password:</label><input type="password" id="password" value="" name="" class="input-1 password"/>
+                    </div>    
+                    <a href="#" class="rmb">Forgot password</a>
+                </div>
+                <div class="login-box-row corners">
+                    <input type="checkbox" name="" id="field-remember"/> <label for="field-remember">Remember me on this computer?</label>
+                    <input type="submit" name="" value="Login" id="submit"/>
+                </div>
+                <div class="loader corners"></div>
+            </div>
+        </form>
+    </div><!-- END "#container" -->
+        
+    <!-- // Javascript/jQuery // -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="js/jquery-1.6.min.js"><\/script>')</script>
+    <script src="js/showpassword.js"></script>
+    <script src="js/login.js"></script>
+    
+    <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
+         change the UA-XXXXX-X to be your site's ID -->
+    <script>
+     var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+     (function(d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.async = true;
+      g.src = '//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g, s);
+     })(document, 'script');
+    </script>
+        
+</body>
+</html>

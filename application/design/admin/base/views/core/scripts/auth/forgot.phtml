@@ -1,0 +1,101 @@
+<?php
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: forgot.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		2.0.6
+ */
+?>
+<?php 
+$this->headTitle($this->translator('auth_forgot_page_title'));
+
+?>
+
+<div class="isolate" style="height: 335px">
+	<div id="login_box" class="center">
+		<div class="main_container clearfix ui-sortable">
+			<div class="box no_titlebar" style="opacity: 1;">				
+				<div class="block" style="opacity: 1;">
+					<?php if( $this->flashMessenger()):?>
+					<div class="section">
+						<div class="alert dismissible alert_red">
+							<img width="24" height="24" src="<?php echo $this->APP_STATIC_SERVER . '/skins/'. $this->APP_TEMPLATE . '/' . $this->APP_SKIN;?>/images/icons/small/grey/locked.png" />
+							<span><?php echo $this->flashMessenger(); ?></span>
+						</div>
+					</div>
+					<?php endif;?>
+
+					<form action="<?php echo $this->url(array(), 'core_auth_forgot'); ?>" method="post" id="forgotForm" class="validate_form" >				
+						<fieldset class="label_side">
+							<label><?php echo $this->translator('auth_forgot_user_name'); ?>:</label>
+							<div>
+								<input type="text" name="username" id="username" />
+							</div>
+						</fieldset>
+						<fieldset class="label_side">
+							<label><?php echo $this->translator('auth_forgot_email'); ?>:</label>
+							<div>
+								<input type="text" name="email" id="email" />
+							</div>
+						</fieldset>					
+						
+						<div class="button_bar clearfix">
+							<a href="<?php echo $this->url(array(), 'core_auth_login'); ?>" style="color: blue;"><span><?php echo $this->translator('auth_login_title'); ?></span></a>
+							<button class="blue send_right" type="submit">
+								<span><?php echo $this->translator('auth_forgot_submit_button'); ?></span>
+							</button>	
+							<!--<button id="btnLogin" class="blue send_right" value="<?php echo $this->url(array(), 'core_auth_login'); ?>" >
+								<span><?php echo $this->translator('auth_login_title'); ?></span>
+							</button>  -->						
+						</div>
+					</form>				
+				</div>				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#btnLogin').click(function(){
+		window.location = $(this).val();
+	});
+	/**
+	 * Validate form
+	 */
+	$('#forgotForm').validate({
+		rules: {
+			username: {
+		  		required: true
+			},
+			email: {
+				required: true
+			}
+	    },
+	    messages: {
+	    	username: {
+	        	required: "<?php echo $this->translator('auth_forgot_user_name_required'); ?>"
+			},
+			email: {
+	        	required: "<?php echo $this->translator('auth_forgot_email_required'); ?>"
+			}
+		}
+	});
+});
+</script>
+	

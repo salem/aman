@@ -1,0 +1,173 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 5370 2010-09-09 16:20:43Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<!-- Upload new widget -->
+<?php if ($this->allow('upload')) : ?>
+<div class="box grid_8 round_all clearfix">
+	<h2 class="box_head"><?php echo $this->translator('widget_list_upload_head'); ?></h2>
+	<div class="controls">
+	    <a class="toggle" href="#">&nbsp;</a>
+	</div>
+	<div class="block">
+		<div class="section">
+			<?php if (extension_loaded('zip')) : ?>
+			<form method="post" action="<?php echo $this->url(array(), 'core_widget_upload'); ?>" enctype="multipart/form-data">
+				<p><?php echo $this->translator('widget_list_upload_desc'); ?></p>
+				<input type="file" name="file" />
+				
+				<button type="submit" class="button_colour round_all"><span><?php echo $this->translator('widget_list_upload_button'); ?></span></button>
+			</form>
+			<?php else : ?>
+			<div class="t_a_ui_helper_message"><?php echo $this->translator('widget_list_zip_extension_not_available'); ?></div>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+
+<div class="clearfix" ></div>
+<br />
+<!-- List of widgets group by module -->
+<?php if ($this->widgets) : ?>
+<div class="flat_area grid_16"><h2><?php echo $this->translator('widget_list_top_desc'); ?></h2></div>
+<div class="box grid_16 side_tabs tabs clearfix">
+	<div class="side_holder">
+		<ul class="tab_sider clearfix" id="moduleFilter">
+		    <?php foreach ($this->modules as $index => $module) : ?>
+			<li><a href="#tabs-<?php echo $index; ?>"><?php echo $module; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>   	
+    		
+	<?php $tabIndex=0;?>		
+	<?php foreach ($this->widgets as $module => $widgets) : ?>
+	<div id="tabs-<?php echo $tabIndex++;?>" class="block">
+		<?php foreach ($widgets as $index => $widget) : ?>
+		<div class="section border_bottom clearfix">
+			<h2><?php echo $widget->name; ?></h2>
+			<p>
+			    <?php echo $this->translator('widget_list_version'); ?>: <?php echo $widget->version; ?>
+				<?php echo $this->translator('widget_list_author'); ?>: <a href="mailto:<?php echo $widget->email; ?>"><?php echo $widget->author; ?></a>
+				<?php echo $widget->description; ?>
+				
+				
+				<?php if (isset($this->dbWidgets[strtolower($widget->module . ':' . $widget->name)])) : ?>
+				<button name="installAction" class="light small div_icon has_text send_right" value="uninstall:<?php echo $this->dbWidgets[strtolower($widget->module . ':' . $widget->name)]; ?>" >
+					<div class="ui-icon ui-icon-circle-close"></div>
+					<span><?php echo $this->translator('widget_list_uninstall'); ?></span>
+				</button>
+				<?php else : ?>
+				<button name="installAction" class="light small div_icon has_text send_right" value="install:<?php echo strtolower($widget->module . ':' . $widget->name); ?>">
+					<div class="ui-icon ui-icon-circle-plus"></div>
+					<span><?php echo $this->translator('widget_list_install'); ?></span>
+				</button>
+    			<?php endif; ?>
+			
+			</p>
+		
+		</div>
+		<?php endforeach;?>	
+	</div>
+	<?php endforeach;?>
+</div>
+<?php endif;?>
+<div class="clear"></div>
+	
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	
+	/**
+	 * Install/Uninstall handler
+	 */
+	$('button[name="installAction"]').click(function() {
+		var self = this;
+		var arr  = $(self).attr('value').split(':');
+		<?php if ($this->allow('install')) : ?>	
+		switch(arr[0]){
+		    case 'install':
+		    	$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_widget_install'); ?>',
+					type: 'POST',
+					data: { mod: arr[1], name: arr[2] },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success){
+		    				$(self).val('uninstall:' + response.widget);
+		    				$(self).find('div').removeClass('ui-icon-circle-plus').addClass('ui-icon-circle-close');
+		    				$(self).find('span').html("<?php echo $this->translator('widget_list_uninstall'); ?>");
+		    				$('#messageDialog').html(response.message)
+		    					.dialog({
+		    						title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+		    						dialogClass: 't_a_ui_dialog',
+		    						modal: true,
+		    				    	show: { effect: 'fade' },
+		    						open: function(event, ui) {
+		    							setTimeout(function() {
+		    								$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+		    							}, 3000);
+		    						}
+		    					});
+						}
+					}
+				});
+		    	<?php endif; ?>
+			    break;
+		    case 'uninstall':
+		    	<?php if ($this->allow('uninstall')) : ?>
+		    	$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_widget_uninstall'); ?>',
+					type: 'POST',
+					data: { mod: arr[1], name: arr[2], id: arr[3] },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success){
+    						$(self).val('install:'+response.widget);
+    						$(self).find('div').removeClass('ui-icon-circle-close').addClass('ui-icon-circle-plus');
+    						$(self).find('span').html('<?php echo $this->translator("widget_list_install"); ?>');
+    						
+    						$('#messageDialog').html(response.message)
+    							.dialog({
+    								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+    								dialogClass: 't_a_ui_dialog',
+    								modal: true,
+    						    	show: { effect: 'fade' },
+    								open: function(event, ui) {
+    									setTimeout(function() {
+    										$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+    									}, 3000);
+    								}
+    							});
+						}
+					}
+				});
+				<?php endif; ?>
+			    break;
+		}
+		
+	});
+	
+});
+//]]>
+</script>

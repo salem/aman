@@ -1,0 +1,178 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: add.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('user_addclient_page_title'));
+$this->headScript()->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js');
+?>
+
+<div class="box grid_10 no_titlebar">
+	<div class="block">
+		<h2 class="section"><?php echo $this->translator('user_add_breadcrumb'); ?></h2>
+<!--  		<a class="btn ui-state-default ui-corner-all clearfix" href="<?php echo $this->url(array(), 'core_user_list'); ?>">
+			<span class="ui-icon ui-icon-person" style="padding: 0px"></span>
+			<?php echo $this->translator('user_list_breadcrumb'); ?>
+		</a> -->
+		<div class="section"><p><?php echo $this->translator('user_addclient_guide'); ?></p></div>
+		
+		<?php if($this->flashMessenger()!= ""):?>   		
+    	<div class="section">
+		   	<div class="alert dismissible alert_green">
+				<img width="24" height="24" src="<?php echo $this->APP_STATIC_SERVER."/skins/".$this->APP_TEMPLATE."/".$this->APP_SKIN;?>/images/icons/small/white/alert.png">
+				<?php echo $this->flashMessenger();?>
+			</div>
+		</div>
+		<?php endif;?>	
+		<form class="forms" method="post" action="<?php echo $this->url(array(), 'core_user_addclient'); ?>" id="form1">
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_name'); ?></span></label>
+				<div>					
+					<input type="text" id="name" name="name"  />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>	
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_email'); ?></span></label>
+				<div>					
+					<input type="text" id="email" name="email" />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_password'); ?></span></label>
+				<div>					
+					<input type="password" id="password" name="password"  />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_confirm_password'); ?></span></label>
+				<div>					
+					<input type="password" id="confirmPassword" name="confirmPassword" />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_select_client'); ?></span></label>
+				<div>
+					<select name="client" id="client" class="">
+						<option value=""> ---- </option>
+						<?php foreach ($this->clients as $client):?>
+						<option value="<?php echo $client->ID;?>"><?php echo $client->name;?></option>
+						<?php endforeach;?>
+					</select>
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_address'); ?></span></label>
+				<div>					
+					<textarea id="address" name="address" ><?php echo $this->auth;?></textarea>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_office_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="offic" name="office" style="width: 200px !important" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_home_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="home" name="home" style="width: 200px !important" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_mobile_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="mobile" name="mobile" style="width: 200px !important" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php $this->translator('user_status')?></span></label>
+				<div>
+					<input type="checkbox" name="status" id="status" class="uniform checkbox" checked="checked" />					
+				</div>
+			</fieldset>			
+			<div class="button_bar clearfix">					
+				<?php echo $this->tokenElement; ?>				
+				<button type="submit">
+					<img alt="" src="<?php echo $this->APP_STATIC_SERVER."/skins/".$this->APP_TEMPLATE."/".$this->APP_SKIN."/images/icons/small/white/bended_arrow_right.png";?>" width="24" height="24" />
+					<span><?php echo $this->translator('user_add_save_button'); ?></span>				
+				</button>
+			</div>
+			
+		</form>		
+	</div>
+</div>
+
+<?php
+$this->layout()->sidebar = "";
+?>
+<!-- End Side Bar -->
+<div class="clear"></div>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	$('li:contains("<?php echo $this->translator('menu_user')?>")').addClass('current');
+	/**
+	 * Validate form
+	 */
+	$('#form1').validate({
+		rules: {
+			name: {
+				required: true
+			},
+			email: {
+				required: true,
+				email: true,
+				remote: '<?php echo $this->url(array('check_type' => 'email'), 'core_user_check'); ?>'
+			},
+			password: {
+		  		required: true,
+		  		minlength: 5
+			},
+			confirmPassword: {
+				equalTo: '#password'
+			},
+			client: { required: true}
+	    },
+	    messages: {
+	    	name: {
+	        	required: "<?php echo $this->translator('user_name_required'); ?>"
+	    	},
+			email: { 
+	        	required: "<?php echo $this->translator('user_email_required'); ?>",
+	        	email: "<?php echo $this->translator('user_email_invalid'); ?>",
+		        remote: "<?php echo $this->translator('user_email_exist'); ?>"
+	    	},
+	    	password: {
+				required: "<?php echo $this->translator('user_password_required'); ?>",
+				minlength: "<?php echo $this->translator('user_password_minlength'); ?>"				
+			},
+			confirmPassword: {
+				equalTo: "<?php echo $this->translator('user_confirm_password_error'); ?>"
+			},
+			client: { required: '<?php echo $this->translator('user_select_client_error'); ?>'}
+		}
+	});
+});
+//]]>
+</script>

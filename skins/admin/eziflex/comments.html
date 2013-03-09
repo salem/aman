@@ -1,0 +1,699 @@
+<!DOCTYPE html> 
+<html lang="en" class="no-js">
+<head>
+    <title>EZICMS | Comments</title>
+    
+    <!-- // Meta //  -->
+    <meta charset="utf-8">   
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    
+    <!-- // Stylesheets // -->
+    <link rel="stylesheet" href="css/style1.css" />
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style1/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style2/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style3/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style4/style.css">-->
+    <link rel="stylesheet" type="text/css" href="lightbox/style5/style.css">
+
+    <!-- http://allinthehead.com/retro/319/how-to-set-an-apple-touch-icon-for-any-site -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="images/favicon.ico">
+        
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="js/modernizr-1.7.min.js"></script>
+    
+</head>
+<body>
+    <div id="container">
+    
+        <!-- Dialog window -->
+        <div id="add-comments-dialog" title="Add a comment" style="display:none;">
+            <div class="add-dialog-inner">
+                <form action="" method="post">
+                    <label for="field-2">Article</label>
+                    <select name="" id="field-2" class="select-1">
+                        <option value="">Select an article</option>
+                        <option value="">Nullam euismod eros vitae quam suscipit porta.</option>
+                        <option value="">Vestibulum sed ornare lectus.</option>
+                        <option value="">Nunc volutpat sem sed massa venenatis commodo.</option>
+                    </select>
+                    <label for="field-3" class="mup10">Status</label>
+                    <select name="" id="field-3" class="select-1">
+                        <option value="">Approven</option>
+                        <option value="">Unapproven</option>
+                    </select>
+                    <label for="field-4" class="mup10">Comment</label>
+                    <textarea name="" id="field-4" class="textarea-1"></textarea>
+                    <button class="close-dialog gradient-btn">Cancel</button>
+                    <input type="submit" name="" value="Save" id="save-tickets" class="gradient-btn"/>
+                </form>
+            </div>
+        </div> 
+            
+        <header>
+        	<div id="meta-wrap">
+                <ul id="user-meta">
+                    <li>Welcome, <img src="images/icons/9/005_13.png" alt="" /><a href="#" title=""><b>Administrator</b></a><a href="#" class="user-msg-baloon" title="3 new messages">3</a></li>
+                    <li>|</li>
+                    <li><img src="images/icons/9/005_12.png" alt="" /><a href="#" title="">Logout</a></li>
+                </ul>
+            </div>        
+            <div id="menu-bar" class="corners shadow">
+                <div class="menu-bar-inner corners">
+                    <a href="index.html" title="" id="logo">
+                        <h1>eziFlex</h1>
+                    </a>
+                    <ul id="menu">
+                        <li class="sep"><a href="index.html" title="">Home</a>
+                            <!-- second level dropdown -->
+                            <ul class="second">
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="login.html" title="">Login</a></li>
+                            </ul>                    
+                        </li>
+                        <li class="sep"><a href="#" title="">About</a></li>
+                        <li class="sep"><a href="#" title="">Information</a></li>
+                        <li><a href="#" title="">Help</a></li>
+                    </ul>
+                    
+                    <form action="" method="post" id="search">
+                        <div>
+                        <input type="text" name="s" onFocus="if(this.value=='Search here...')this.value='';" onBlur="if(this.value=='')this.value='Search here...';" value="Search here..." id="input-s" />
+                        <input type="submit" value="" name="submit" id="search-submit" />
+                        </div>
+                        <a href="javascript:void(null);" title="" class="close" id="toggle-menu"><!-- --></a>
+                    </form>
+                </div>
+            </div><!-- END "#menu-bar" -->
+            
+            <ul id="submenu" class="corners shadow">
+                <li>
+                    <a href="contacts.html" class="icon-menu corners">
+                        <img src="images/icons/48/address-book-new.png" alt="" title="" />
+                        <span>Contacts</span>
+                    </a>
+                </li>    
+                <li>    
+                    <a href="tickets.html" class="icon-menu corners">
+                        <img src="images/icons/48/edit-paste.png" alt="" title="" />
+                        <span>Tickets</span>
+                        <p class="menu-indi">3</p>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="pages.html" class="icon-menu corners">
+                        <img src="images/icons/48/edit-select-all.png" alt="" title="" />
+                        <span>Pages</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="files.html" class="icon-menu corners">
+                        <img src="images/icons/48/document-open.png" alt="" title="" />
+                        <span>Files</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="appearence.html" class="icon-menu corners">
+                        <img src="images/icons/48/preferences-desktop-theme.png" alt="" title="" />
+                        <span>Appearance</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="settings.html" class="icon-menu corners">
+                        <img src="images/icons/48/preferences-system.png" alt="" title="" />
+                        <span>Settings</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="articles.html" class="icon-menu corners">
+                        <img src="images/icons/48/text-x-generic.png" alt="" title="" />
+                        <span>Articles</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="statistics.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-presentation.png" alt="" title="" />
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="media.html" class="icon-menu corners">
+                        <img src="images/icons/48/image-x-generic.png" alt="" title="" />
+                        <span>Media</span>
+                    </a>
+                </li>    
+                <li>    
+                    <a href="backup.html" class="icon-menu corners">
+                        <img src="images/icons/48/drive-harddisk.png" alt="" title="" />
+                        <span>Backup</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="editor.html" class="icon-menu corners">
+                        <img src="images/icons/48/accessories-text-editor.png" alt="" title="" />
+                        <span>Editor</span>
+                    </a>
+                </li>
+              <!-- next row -->      
+                <li>                      
+                    <a href="social.html" class="icon-menu corners">
+                        <img src="images/icons/48/bookmark-new.png" alt="" title="" />
+                        <span>Social</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="email.html" class="icon-menu corners">
+                        <img src="images/icons/48/mail-mark-unread.png" alt="" title="" />
+                        <span>Email</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="information.html" class="icon-menu corners">
+                        <img src="images/icons/48/system-help.png" alt="" title="" />
+                        <span>Information</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="calendar.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-calendar.png" alt="" title="" />
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li>                      
+                    <a href="orders.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-spreadsheet.png" alt="" title="" />
+                        <span>Orders</span>
+                    </a>
+                </li>              
+                <li>                      
+                    <a href="security.html" class="icon-menu corners">
+                        <img src="images/icons/48/security-medium.png" alt="" title="" />
+                        <span>Security</span>
+                    </a>
+                </li>             
+                <li>                      
+                    <a href="users.html" class="icon-menu corners">
+                        <img src="images/icons/48/user-info.png" alt="" title="" />
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li>                      
+                    <a href="logger.html" class="icon-menu corners">
+                        <img src="images/icons/48/utilities-system-monitor.png" alt="" title="" />
+                        <span>Logger</span>
+                    </a>
+                </li> 
+                <li>                      
+                    <a href="slider.html" class="icon-menu corners">
+                        <img src="images/icons/48/document-revert.png" alt="" title="" />
+                        <span>Slider</span>
+                    </a>
+                </li>                                          
+                <li>                      
+                    <a href="comments.html" class="icon-menu corners">
+                        <img src="images/icons/48/help-faq.png" alt="" title="" />
+                        <span>Comments</span>
+                    </a>
+                </li>                 
+                <li>                      
+                    <a href="newsletter.html" class="icon-menu corners">
+                        <img src="images/icons/48/mail-import.png" alt="" title="" />
+                        <span>Newsletter</span>
+                    </a>
+                </li>                                     
+            </ul><!-- END "#submenu" -->
+             
+            <div id="breadcrumbs" class="corners shadow">
+                <p class="left"><img src="images/icons/9/005_08.png" alt="" /><a href="#" title="">Breadcrumb</a> / <a href="#" title="">Pagename</a></p>
+                <p class="right"><img src="images/icons/9/005_21.png" alt="" />Last modification on: 12 April, 2010 at 22.03</p>
+                <div id="mastertoggle">
+                    <a href="javascript:void(null);" title="Close all boxes" class="togglecloseall corners tip"></a> 
+                    <a href="javascript:void(null);" title="Open all boxes" class="toggleopenall corners tip"></a>
+                </div>
+            </div><!-- END "#breadcrumbs" -->                                 
+        </header><!-- END header -->
+     
+    <!-- // content starts here // -->
+        
+        <div id="content">
+        <form action="" method="post">
+         
+        <!-- new box --> 
+
+        	<div class="box corners shadow">
+                <div class="box-header">
+                    <h2>Comments 1</h2>
+                    <div class="box-header-ctrls">	
+                    	<a href="javascript:void(null);" title="" class="close"><!-- --></a>
+                    </div>
+                </div>
+                
+                <div class="box-content" id="comments-1">
+                   <div class="inbox-sf">
+                       <input type="text" name="" onFocus="if(this.value=='Search for a comment(s)')this.value='';" onBlur="if(this.value=='')this.value='Search for a comment(s)';" value="Search for a comment(s)" class="input-1"/>
+                        <select name="" class="select-1">
+                            <option value="">Satus (All)</option>
+                            <option value="">Approved</option>
+                            <option value="">Unapproved</option>
+                            <option value="">Spam</option>
+                        </select>                         
+                        <select name="" class="select-1">
+                            <option value="">Type (All)</option>
+                            <option value="">Comments</option>
+                            <option value="">Trackbacks</option>
+                        </select>                                      
+                        <input type="submit" name="" value="Search" class="inbox-sf-search-btn" />
+                        <input type="submit" name="" value="Add" id="open-comments-dialog-btn" class="inbox-sf-add-btn tip" title="Open an dialog to add a new comment"/>  
+                    </div>
+                    <div class="tabs-wrapper-hori">
+                        <!-- the tabs/links -->
+                        <ul class="tabs-ctrls-hori">
+                            <li><a href="#tabs-1" class="tip" title="All (129)">All (129)</a></li>
+                            <li><a href="#tabs-2" class="tip" title="Pending (21)">Pending (21)</a></li>
+                            <li><a href="#tabs-3" class="tip" title="Approved (108)">Approved (108)</a></li>
+                            <li><a href="#tabs-4" class="tip" title="Spam (341)">Spam (341)</a></li>
+                        </ul>
+                      <!-- tab 1 -->
+                        <div id="tabs-1" class="tab-1">
+                        	<ul class="comments-list-1">
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>11/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nullam euismod eros vitae quam suscipit porta.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply</a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>
+                             <!-- new comment --> 
+                                <li class="hl-row">
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>10/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Vestibulum sed ornare lectus.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>
+                              <!-- new comment -->   
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>09/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nunc volutpat sem sed massa venenatis commodo.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+    Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                            	</li>
+                            </ul>                                
+                        </div>
+                      <!-- tab 2 -->
+                        <div id="tabs-2" class="tab-1">
+                        	<ul class="comments-list-1">
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>11/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nullam euismod eros vitae quam suscipit porta.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#">Approve</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>
+                              <!-- new comment --> 
+                                <li class="hl-row">
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>10/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Vestibulum sed ornare lectus.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#">Approve</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>                               
+                            </ul>
+                        </div> 
+                      <!-- tab 3 -->
+                        <div id="tabs-3" class="tab-1">
+                        	<ul class="comments-list-1">
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>11/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nullam euismod eros vitae quam suscipit porta.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>                              
+                            </ul>
+                        </div>
+                      <!-- tab 4 -->
+                        <div id="tabs-4" class="tab-1">
+                        	<ul class="comments-list-1">
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>11/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nullam euismod eros vitae quam suscipit porta.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>
+                              <!-- new comment -->  
+                                <li class="hl-row">
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>10/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Vestibulum sed ornare lectus.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae malesuada lorem. Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                                </li>
+                              <!-- new comment -->  
+                                <li>
+                                    <a href="http://www.creativemilk.net" class="avatar">
+                                		<img src="images/me_normal.jpg" alt=""/>
+                                    </a>
+                                    <div class="comments-meta-1">
+                                    	<p>09/10/2010 - Comment by: <a href="http://www.creativemilk.net" class="tip" title="http://www.creativemilk.net">MarkDijkstra</a></p>
+                                        <p>On article: <a href="http://www.creativemilk.net">Nunc volutpat sem sed massa venenatis commodo.</a>
+                                        	<input type="checkbox" class="check"/>
+                                        </p>
+                                    </div>
+                                    <div class="comments-msg-1">
+                                        <p>
+    Aliquam eu quam mattis nulla porta mattis. Nam ipsum metus, rhoncus nec elementum nec, vestibulum sit amet orci. Nullam aliquam sapien id justo hendrerit sit amet hendrerit sapien viverra. Nunc posuere, lacus et pellentesque gravida, elit nisi viverra eros, at ullamcorper eros erat vel purus. Vestibulum sed ornare lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi diam lectus, fermentum in feugiat hendrerit, malesuada vel neque. Nulla facilisi. Sed ornare libero ut odio commodo eu vehicula dolor sagittis. Nullam nec ante dolor, luctus aliquam magna. Pellentesque fermentum mauris dignissim libero volutpat egestas. Sed pharetra dui ac tellus rutrum eleifend. Nunc volutpat sem sed massa venenatis commodo. Proin ac elit erat, pellentesque pharetra ante. In at augue in sapien pulvinar varius nec mollis nisl.
+                                        </p>
+                                        <ul class="comments-ctrls-1">
+                                            <li>
+                                                <a href="#" class="gradient-btn">Unapprove</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Spam</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(null);" title="" class="delete-comments gradient-btn">Delete</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Quick Edit</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="gradient-btn">Reply </a>
+                                            </li>                                        
+                                        </ul>
+                                    </div>
+                            	</li>                                
+                       		</ul>
+                        </div>                                                 
+                    </div><!-- END ".tabs-wrapper-hori" -->
+                    <div class="box-bt-bar">            
+                        <ul class="box-nav">
+                            <li><a href="#" title="" class="prev">Prev</a></li>
+                            <li><a href="#" title="" class="active">1</a></li>
+                            <li><a href="#" title="" class="num">2</a></li>
+                            <li><a href="#" title="" class="num">3</a></li>
+                            <li><a href="#" title="" class="num">4</a></li>
+                            <li><a href="#" title="" class="num">..</a></li>
+                            <li><a href="#" title="" class="next">Next</a></li>
+                        </ul>
+                        <div class="bulk-actions">
+                           <select name="field-13" class="select-1">
+                                <option value="">Bulk Actions</option>
+                                <option value="">Edit</option>
+                                <option value="">Delete</option>
+                            </select>
+                            <input type="reset" value="Reset" />
+                            <input type="submit" value="Apply" />
+                        </div> 
+                    </div>                  
+                </div><!-- END ".box-content" --> 
+            </div><!-- END ".box" -->
+           
+        </form><!-- END form-->                                              
+        </div><!-- END "#content" -->
+         
+        <!-- // footer starts here // -->
+        
+        <footer>
+            <p class="left">EZICMS v1.7</p>
+            <p class="right">Copyright &copy; 2010 - 
+                <a href="http://www.creativemilk.net" title="">www.CreativeMilk.net</a> by 
+                <a href="http://www.creativemilk.net" title="">CreativeMilk</a>
+            </p>
+        </footer><!-- END footer --> 
+         
+    </div><!-- END "#container" -->
+        
+    <!-- // Javascript/jQuery // -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="js/jquery-1.6.min.js"><\/script>')</script>
+    <script src="js/jquery-ui-1.8.6.min.js"></script>
+    <script src="js/pirobox-min.js"></script>
+    <script src="js/jquery.select_skin.js"></script>
+    <script src="js/tinyeditor.js"></script>
+    <script src="js/jquery.tipsy.js"></script>
+    <script src="js/jquery.tweet.js"></script>
+    <script src="js/jquery.tablesorter.js"></script>
+    <script src="js/treeview.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
+         change the UA-XXXXX-X to be your site's ID -->
+    <script>
+     var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+     (function(d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.async = true;
+      g.src = '//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g, s);
+     })(document, 'script');
+    </script>
+        
+</body>
+</html>

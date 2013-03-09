@@ -1,0 +1,259 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: add.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+<?php 
+$this->headTitle($this->translator('user_editaccountmanager_page_title'));
+$this->headScript()->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js');
+?>
+<form class="forms" method="post" action="<?php echo $this->url(array('user_id' => $this->user->user_id), 'core_user_editaccountmanager'); ?>" id="form1">
+<div class="box grid_10 no_titlebar">
+	<div class="block">
+		<h2 class="section"><?php echo $this->translator('user_edit_breadcrumb'); ?></h2>
+<!--  		<a class="btn ui-state-default ui-corner-all clearfix" href="<?php echo $this->url(array(), 'core_user_list'); ?>">
+			<span class="ui-icon ui-icon-person" style="padding: 0px"></span>
+			<?php echo $this->translator('user_list_breadcrumb'); ?>
+		</a> -->
+		<div class="section"><p><?php echo $this->translator('user_editaccountmanager_guide'); ?></p></div>
+		
+		
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_name'); ?></span></label>
+				<div>					
+					<input type="text" id="name" name="name" value="<?php echo $this->user->name;?>"  />
+					<div class="required_tag tooltip hover left"></div>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_address'); ?></span></label>
+				<div>					
+					<textarea id="address" name="address"  ><?php echo $this->user->address;?></textarea>
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_office_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="offic" name="office" style="width: 200px !important" value="<?php echo $this->user->office;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_home_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="home" name="home" style="width: 200px !important" value="<?php echo $this->user->home;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php echo $this->translator('user_mobile_phone'); ?></span></label>
+				<div>					
+					<input type="text" id="mobile" name="mobile" style="width: 200px !important" value="<?php echo $this->user->mobile;?>" />
+				</div>
+			</fieldset>
+			<fieldset class="label_side">
+				<label><span><?php $this->translator('user_status')?></span></label>
+				<div>
+					<input type="checkbox" name="status" id="status" class="uniform checkbox" <?php if($this->user->is_active==1): echo 'checked="checked"'; endif;?> />					
+				</div>
+			</fieldset>
+			<div class="button_bar clearfix">					
+				<?php echo $this->tokenElement; ?>
+				<button type="button" id="submitForm">
+					<img alt="" src="<?php echo $this->APP_STATIC_SERVER."/skins/".$this->APP_TEMPLATE."/".$this->APP_SKIN."/images/icons/small/white/bended_arrow_right.png";?>" width="24" height="24" />
+					<span><?php echo $this->translator('user_add_save_button'); ?></span>				
+				</button>
+			</div>	
+	</div>
+</div>
+<div class="box grid_6 no_titlebar">	
+	<div class="block">
+		<div class="section">
+			<select name="client[]" id="client" class="grid_16" multiple="multiple" style="height: 300px">
+			<?php foreach ($this->selectedClients as $client):?>
+			<option value="<?php echo $client->ID;?>"><?php echo $client->name;?></option>
+			<?php endforeach;?>
+			</select>			
+		</div>
+	</div>
+	<div class="button_bar clearfix">
+		<button id="btnAddClient" type="button" class="icon_only small">
+			<span class="ui-icon ui-icon-plus"></span>
+		</button>
+		<button id="btnRemoveClient" type="button" class="icon_only small">
+			<span class="ui-icon ui-icon-minus"></span>
+		</button>
+	</div>
+</div>
+</form>
+
+<div class="display_none">
+	<div id="messageDialog" class="dialog_content" title="<?php echo $this->translator('common_dialog_message');?>">
+		<div class="block" style="opacity:1">
+			<div class="section">
+				<?php echo $this->translator('user_acountmanager_client_allready_assigned');?>
+			</div>
+			
+			<div>&nbsp; </div>
+			<div class="button_bar clearfix">
+				<button name="yes" type="button" class="dark green div_icon has_text">
+					<span class="ui-icon ui-icon-check"></span>
+					<span><?php echo $this->translator('common_button_yes');?></span>	
+				</button>
+				<button name="no" type="button" class="dark red div_icon has_text">
+					<span class="ui-icon ui-icon-check"></span>
+					<span><?php echo $this->translator('common_button_no');?></span>	
+				</button>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="clientDialog" class="dialog_content" title="<?php echo $this->translator('user_accountmanger_client_list');?>">
+		<div class="block" style="opacity:1">
+			<div class="section" style="height: 237px; overflow: auto;">
+				<?php foreach ($this->clients as $client):?>
+				<div><input type="checkbox" name="chkClient" value="<?php echo $client->ID;?>" /><label><?php echo $client->name;?></label></div>
+				<?php endforeach;?>
+			</div>
+			<div class="button_bar clearfix">
+				<button name="ok" type="button" class="dark green div_icon has_text">
+					<span class="ui-icon ui-icon-check"></span>
+					<span><?php echo $this->translator('user_button_ok');?></span>	
+				</button>
+				<button name="cancel" type="button" class="dark red div_icon has_text">
+					<span class="ui-icon ui-icon-close"></span>
+					<span><?php echo $this->translator('user_button_cancel');?></span>	
+				</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="clear"></div>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	<?php
+			$aobject = "";
+			foreach ($this->assignedClients as $assigne):
+				$aobject .= "{ID: $assigne->ID, name: '$assigne->name', assign: $assigne->assign},";
+			endforeach;
+			$aobject = trim($aobject, ',');
+		?>
+		var assigne = [<?php echo $aobject;?>];
+		var message = $('#messageDialog').dialog({autoOpen: false, modal: true, width: 350});
+		message.on('click', 'button', function(){
+			var buttonName = $(this).attr('name');
+			switch(buttonName){
+				case 'yes':
+					clientDialog.find('input[type="checkbox"]:checked').each(function(index, chk){
+						$('#client').append('<option value="'+$(chk).val()+'">'+$(chk).parent().find('label').html()+'</option>');
+						$(chk).parent().remove();					
+					});
+
+					message.dialog('close');
+					break;
+				case 'no':
+					message.dialog('close');
+					break;
+			}
+		});
+		var clientDialog = $('#clientDialog').dialog({autoOpen: false, width: 400, height: 350, modal:true});
+
+		$('#btnAddClient').click(function(){
+			clientDialog.dialog('open');
+		});
+
+		$('#btnRemoveClient').click(function(){
+			$('#client').find('option:selected').each(function(index, op){
+				clientDialog.find('.section').append('<div><input type="checkbox" name="chkClient" value="'+ $(op).val()+ '">'+ $(op).text() +'</label></div>');
+				$(op).remove();
+			});
+		});
+		clientDialog.on('click', 'button', function(){
+			var buttonName = $(this).attr('name');
+			switch(buttonName){
+				case 'ok':
+					var flage = false;				
+					clientDialog.find('input[type="checkbox"]:checked').each(function(index, chk){
+						$.each(assigne, function(index, obj){
+							if(obj.ID==$(chk).val()){
+								if(obj.assign){
+									flage = true;
+								}
+							}
+						});
+					});
+
+					if(flage){
+						message.dialog('open');					
+					}
+					else{
+						clientDialog.find('input[type="checkbox"]:checked').each(function(index, chk){
+							$('#client').append('<option value="'+$(chk).val()+'">'+$(chk).parent().find('label').html()+'</option>');
+							$(chk).parent().remove();
+						});
+					}
+
+					clientDialog.dialog('close');
+					break;
+				case 'cancel':
+					clientDialog.dialog('close');
+					break;
+			}
+		});
+	/**
+	 * Validate form
+	 */
+	$('#form1').validate({
+		rules: {
+			name: {
+				required: true
+			},			
+			customer:{
+				required: true
+			},
+			office:{ number: true},
+			home:{ number: true},
+			mobile:{ number: true}
+	    },
+	    messages: {
+	    	name: {
+	        	required: "<?php echo $this->translator('user_name_required'); ?>"
+	    	},   	
+			customer: {
+				required: "<?php echo $this->translator('user_customer_required');?>"
+			},
+			office:{ number: '<?php echo $this->translator('user_office_number') ?>'},
+			home:{ number: '<?php echo $this->translator('user_home_number') ?>'},
+			mobile:{ number: '<?php echo $this->translator('user_mobile_number') ?>'}
+		}
+	});
+	$('#submitForm').click(function(){
+		var temp = [];
+		$('#client').find('option').each(function(index, obj){
+			temp.push($(obj).val());
+		});
+		$('#client').val(temp);
+		if($('#form1').valid()){
+			$('#form1')[0].submit();
+		}
+	});
+});
+//]]>
+</script>

@@ -1,0 +1,120 @@
+<!DOCTYPE html> 
+<html lang="en" class="no-js">
+<head>
+    <title>EZICMS | Login 2</title>
+    
+    <!-- // Meta //  -->
+    <meta charset="utf-8">   
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    
+    <!-- // Stylesheets // -->
+    <link rel="stylesheet" href="css/login2.css" />
+
+    <!-- http://allinthehead.com/retro/319/how-to-set-an-apple-touch-icon-for-any-site -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="images/favicon.ico">
+        
+    <!--  Modernizr which enables HTML5 elements & feature detects -->
+    <script src="js/modernizr-1.7.min.js"></script>
+    
+    <!-- // Javascript/jQuery // -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="js/jquery-1.6.min.js"><\/script>')</script>
+    <script src="js/showpassword.js"></script>
+    <script src="js/jquery-ui-1.8.6.min.js"></script>
+    <script src="js/login.js"></script>  
+     
+</head>
+<body>
+    <div id="container">
+        <form action="index.html" method="post">
+            <div id="login-box" class="corners shadow tabs-ui">
+                <!-- tab ctrls -->
+                <div class="login-box-header corners">
+                    <h2>LOGIN</h2>
+                        <ul class="tabs">
+                            <li><a href="#tabs-1">Login</a></li>
+                            <li><a href="#tabs-2">Register</a></li>
+                            <li><a href="#tabs-3">Forgot password</a></li>
+                        </ul>
+                </div>
+                <!-- tab 1 -->
+                <div id="tabs-1" class="tabbox">
+                    <div class="login-box-error-small corners">
+                        <p>Error, wrong username or password!</p>
+                    </div>
+                    <div class="login-box-row-wrap corners">
+                        <label for="username">Username:</label><input type="text" id="username" value="" name="" class="input-1"/>
+                    </div>
+                    <div class="login-box-row-wrap corners">
+                        <label for="password">Password:</label> <input type="password" id="password" value="" name="" class="input-1 password"/>    
+                    </div>
+                    <div class="login-box-row corners">
+                        <input type="checkbox" name="" id="field-remember"/> <label for="field-remember">Remember me?</label>
+                        <input type="submit" name="" value="Login" id="submit"/>
+                    </div>
+                </div>
+                <!-- tab 2 -->
+                <div id="tabs-2" class="tabbox">
+                    <div class="login-box-succes-small corners">
+                        <p>Your account has been created!</p>
+                    </div>
+                    <div class="infobox">
+                    <h3>Register</h3>
+                        <p>
+In sodales egestas purus, in tempus massa volutpat quis. Morbi pretium dictum ante nec pellentesque. Sed cursus nulla ut elit laoreet nec rutrum ligula pharetra. 
+Nulla dictum eleifend turpis, vel fringilla dui sodales vel. Nulla facilisi. Proin ipsum ligula, eleifend eu gravida ac, pharetra eu urna. Donec ac risus sed metus cursus sagittis et nec ante. 
+Praesent fringilla ante non neque volutpat viverra. Donec sodales turpis at lacus interdum ullamcorper
+                        </p>
+                    </div>
+                    <div class="login-box-row-wrap corners">
+                        <label for="field1">Your name:</label><input type="text" id="field1" value="" name="" class="input-1"/>
+                    </div>
+                    <div class="login-box-row-wrap corners">
+                        <label for="field2">Your email:</label> <input type="text" id="field2" value="" name="" class="input-1"/>    
+                    </div>
+                     <div class="login-box-row-wrap corners">
+                        <label for="field3">Your password:</label><input type="text" id="field3" value="" name="" class="input-1"/>
+                    </div>             
+                    <div class="login-box-row corners">
+                    	<input type="checkbox" name="" id="field01"/> <label for="field01">I Agree to be bound by these Terms & Conditions</label>
+                        <input type="submit" name="" value="Send" id="submit"/>
+                    </div>                    
+                </div>
+                <!-- tab 3 -->
+                <div id="tabs-3" class="tabbox">
+                    <div class="login-box-warning-small corners">
+                        <p>Your new login details has been send!</p>
+                    </div>
+                     <div class="login-box-row-wrap corners">
+                        <label for="field10">Your Email:</label><input type="text" id="field10" value="" name="" class="input-1"/>
+                    </div>             
+                    <div class="login-box-row corners">
+                        <input type="submit" name="" value="Send" id="submit"/>
+                    </div>                                     
+                </div>
+                
+            </div>
+        </form>
+    </div><!-- END "#container" -->
+           
+    <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
+         change the UA-XXXXX-X to be your site's ID -->
+    <script>
+     var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+     (function(d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.async = true;
+      g.src = '//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g, s);
+     })(document, 'script');
+    </script>
+        
+</body>
+</html>

@@ -1,0 +1,294 @@
+<?php 
+/**
+ * AmanCMS
+ * 
+ * LICENSE
+ *
+ * This source file is subject to the GNU GENERAL PUBLIC LICENSE Version 2 
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.gnu.org/licenses/gpl-2.0.txt
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@amancms.com so we can send you a copy immediately.
+ * 
+ * @copyright	Copyright (c) 2010-2012 KhanSoft Limited (http://www.khansoft.com)
+ * @license		http://www.gnu.org/licenses/gpl-2.0.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @version 	$Id: list.phtml 4185 2010-08-01 16:31:02Z mehrab $
+ * @since		1.0.0
+ */
+?>
+
+<?php if ($this->allow('upload')) : ?>
+<div class="box grid_12 round_all clearfix">
+	<h2 class="box_head"><?php echo $this->translator('plugin_list_upload_head'); ?></h2>
+	<div class="controls">
+	    <a class="toggle" href="#">&nbsp;</a>
+	</div>
+	
+	<div class="block">   
+        <div class="section">
+        	<?php if (extension_loaded('zip')) : ?>
+        	<form class="am-form" method="post" action="<?php echo $this->url(array(), 'core_plugin_upload'); ?>" enctype="multipart/form-data">
+            	<p><?php echo $this->translator('plugin_list_upload_desc'); ?></p>
+            	<input type="file" name="file" class="large" />
+            	<button type="submit" class="dark small div_icon has_text">
+            	    <div class="ui-icon ui-icon-check"></div>
+            	    <?php echo $this->translator('plugin_list_upload_button'); ?>
+            	</button>
+            </form>
+            <?php else : ?>
+            <div class="alert alert_orange">
+            	<img alt="alert" src="<?php $this->APP_STATIC_SERVER.'/skin/images/icons/small/white/Alert.png'?>">
+                    <?php echo $this->translator('plugin_list_zip_extension_not_available'); ?>
+            </div>
+            <?php endif; ?>
+		</div>
+	</div>
+</div>
+<?php endif;?>
+
+<div class="clearfix" ></div>
+
+<?php if ($this->plugins) : ?>
+<div class="box grid_16 round_all">
+	<h2 class="box_head">
+		<?php echo $this->translator('plugin_list_top_desc'); ?>
+	</h2>
+	<div class="controls">
+	    <a class="toggle" href="#">&nbsp;</a>
+	</div>
+    
+    <div class="block">
+        <div class="columns shade clearfix">
+            <div class="col_20">
+                <div class="section">
+                    <strong>Plugin Name</strong>
+                </div>
+            </div>
+            
+            <div class="col_60">
+                <div class="section">
+                    <strong>Description</strong>
+                </div>
+            </div>
+            <div class="col_20">
+                <div class="section">
+                    <strong>Action</strong>                
+                </div>            
+            </div>
+        </div>
+        <?php 
+        $index=0;
+        foreach ($this->plugins as $plugin) : ?>
+    	<div class="columns clearfix <?php echo ++$index%2!=0?'':'shade';?>">
+        	<div class="col_20">
+        	    <div class="section"><?php echo $plugin->name; ?></div>
+        	</div>
+            
+            <div class="col_60">
+            	<div class="section">
+                	<p>
+                	    <?php echo $plugin->description; ?><br />
+                		<?php echo $this->translator('plugin_list_version'); ?>: <?php echo $plugin->version; ?> | 
+                	    <?php echo $this->translator('plugin_list_author'); ?>: <a href="mailto:<?php echo $plugin->email; ?>"><?php echo $plugin->author; ?></a><br />
+                	</p>
+                	<?php if ($plugin->params) : ?>
+                	<?php if ($this->allow('config')) : ?>
+                    <button class="light small has_text" name="configAction">
+                	    <div class="ui-icon ui-icon-geer"></div>
+                	    <span><?php echo $this->translator('plugin_list_action_config'); ?></span>
+                    </button>
+                    <div class="clearfix"></div>
+            		<div id="configOption" style="display: none;">
+            		    <p><strong><?php echo $this->translator('plugin_list_params'); ?></strong></p>
+            		    <?php foreach ($plugin->params as $param) : ?>
+    					<fieldset class="no_border">											
+    						<label><span><?php echo $param['description']; ?></span></label>
+    						<div class="clearfix">
+    							<input type="text" class="text" name="<?php echo $this->escape($param['name']); ?>" value="<?php echo $this->escape($param['value']); ?>" />
+    						</div>
+    					</fieldset>
+                        <?php endforeach; ?>
+                        <?php if ($this->allow('config')) : ?>
+                        <button class="dark small div_icon has_text" name="saveAction" value="<?php echo $plugin->name; ?>">
+                            <div class="ui-icon ui-icon-save"></div>
+    				 	    <span><?php echo $this->translator('plugin_list_action_save_config'); ?></span>
+                        </button><br />
+                	    <?php endif; ?>
+                	</div>
+                	<?php endif; ?>	                    		
+            		<?php endif;?>
+            	</div>
+            </div>
+                        
+            <div class="col_20">
+                <div class="section">
+                	<?php if (isset($this->dbPlugins[$plugin->name])) : ?>
+    				<?php if ($this->allow('uninstall')) : ?>	
+    				<button type="button" name="installAction" class="light small div_icon has_text" value="uninstall:<?php echo $this->dbPlugins[$plugin->name];?>">
+    				    <div class="ui-icon ui-icon-circle-close"></div>
+    					<span><?php echo $this->translator('plugin_list_uninstall')?></span>
+    				</button>
+    				 <?php endif; ?>
+                    <?php else: ?>
+                    <?php if ($this->allow('install')) : ?>
+                    <button type="button" class="light small div_icon has_text" name="installAction" value="install:<?php echo $plugin->name; ?>">
+                        <div class="ui-icon ui-icon-circle-plus"></div>
+                    	<span><?php echo $this->translator('plugin_list_install')?></span>
+                    </button>                   
+                    <?php endif; ?>
+                   <?php endif;?>
+                </div>
+            </div>
+            
+         </div>
+        <?php  endforeach;?>
+	</div>
+</div>
+<?php endif;?>
+
+<div class="clear"></div>
+<div id="messageDialog"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+	$('button[name="configAction"]').click(function() {
+		$(this).parent().find('#configOption').toggle('slow');		
+	});
+
+	<?php if ($this->allow('config')) : ?>
+	$('button[name="saveAction"]').click(function() {
+		var params = {};
+		var self = this;
+		$(self).parent().find('input[type="text"]').each(function() {
+			params[$(this).attr('name')] = $(this).attr('value');
+		});
+		
+		$.ajax({
+			global: true,
+			url: '<?php echo $this->url(array(), 'core_plugin_config'); ?>',
+			type: 'POST',
+			data: { plugin : $(self).val(), params: JSON.stringify(params) },
+			dataType: 'json',
+			success: function(response) {
+				if(response.success){
+				$('#messageDialog').html(response.message)
+					.dialog({
+						title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+						dialogClass: 't_a_ui_dialog',
+						modal: true,
+				    	show: { effect: 'fade' },
+						open: function(event, ui) {
+							setTimeout(function() {
+								$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							}, 3000);
+						}
+					});
+				}
+			}
+		});
+	});
+	<?php endif; ?>
+	
+	<?php if ($this->allow('install') || $this->allow('uninstall')) : ?>
+	$('button[name="installAction"]').click(function() {
+		var self = this;
+		var arr = $(self).val().split(':');
+		switch (arr[0]) {
+			<?php if ($this->allow('install')) : ?>
+			case 'install':
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_plugin_install'); ?>',
+					type: 'POST',
+					data: { name: arr[1] },
+					dataType: 'json',
+					success: function(response) {
+						if(response.success){
+						    $(self).find('span').html('<?php echo $this->translator('plugin_list_uninstall'); ?>');
+						    $(self).find('div').removeClass('ui-icon-circle-pluss').addClass('ui-icon-circle-close');
+						    $(self).val('uninstall:' + response.name+':'+response.id);
+						    $('#messageDialog').html(response.message)
+							    .dialog({
+							        title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+							        dialogClass: 't_a_ui_dialog',
+							        modal: true,
+							        show: { effect: 'fade' },
+							        open: function(event, ui) {
+							            setTimeout(function() {
+							                $('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							            }, 3000);
+							        }
+							});
+						}
+						else{
+							 $('#messageDialog').html(response.message)
+							    .dialog({
+							        title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+							        dialogClass: 't_a_ui_dialog',
+							        modal: true,
+							        show: { effect: 'fade' },
+							        open: function(event, ui) {
+							            setTimeout(function() {
+							                $('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							            }, 3000);
+							        }
+							});
+						}
+					}
+				});
+				break;
+			<?php endif; ?>
+			
+			<?php if ($this->allow('uninstall')) : ?>
+			case 'uninstall':
+				$.ajax({
+					global: true,
+					url: '<?php echo $this->url(array(), 'core_plugin_uninstall'); ?>',
+					type: 'POST',
+					data: { name: arr[1], id: arr[2] },
+					dataType:'json',
+					success: function(response) {
+						if(response.success){
+						    $(self).find('span').html('<?php echo $this->translator('plugin_list_install'); ?>');
+						    $(self).find('div').removeClass('ui-icon-circle-close').addClass('ui-icon-circle-plus');
+						    $(self).val(response.name+':'+'install');
+						    $('#messageDialog').html(response.message)
+							    .dialog({
+							        title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+							        dialogClass: 't_a_ui_dialog',
+							        modal: true,
+							        show: { effect: 'fade' },
+							        open: function(event, ui) {
+							            setTimeout(function() {
+							                $('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							            }, 3000);
+							        }
+							});
+						}
+						else{
+							 $('#messageDialog').html(response.message)
+							    .dialog({
+							        title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+							        dialogClass: 't_a_ui_dialog',
+							        modal: true,
+							        show: { effect: 'fade' },
+							        open: function(event, ui) {
+							            setTimeout(function() {
+							                $('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							            }, 3000);
+							        }
+							});
+						}
+					}
+				});
+				break;
+			<?php endif; ?>
+		}
+	});
+	<?php endif; ?>
+});
+//]]>
+</script>

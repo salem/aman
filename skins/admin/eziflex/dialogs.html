@@ -1,0 +1,383 @@
+<!DOCTYPE html> 
+<html lang="en" class="no-js">
+<head>
+    <title>EZICMS | Dialogs</title>
+    
+    <!-- // Meta //  -->
+    <meta charset="utf-8">   
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <![endif]-->
+    
+    <!-- // Stylesheets // -->
+    <link rel="stylesheet" href="css/style1.css" />
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style1/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style2/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style3/style.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="lightbox/style4/style.css">-->
+    <link rel="stylesheet" type="text/css" href="lightbox/style5/style.css">
+
+    <!-- http://allinthehead.com/retro/319/how-to-set-an-apple-touch-icon-for-any-site -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="images/favicon.ico">
+        
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="js/modernizr-1.7.min.js"></script>
+    
+</head>
+<body>
+    <div id="container">
+
+        <!-- Dialog window -->
+        <div id="dialog-message" title="Welcome to EZICMS" style=" display:none;">
+            <p>Welcome to EZICMS. EZICMS is a massive admin theme and comes with lot's of working stuff so lets go and have a testdrive!</p>
+        </div>
+        
+        <div id="dialog-confirm" title="Empty the recycle bin?" style=" display:none;">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+        </div>
+
+       
+        <header>
+        	<div id="meta-wrap">
+                <ul id="user-meta">
+                    <li>Welcome, <img src="images/icons/9/005_13.png" alt="" /><a href="#" title=""><b>Administrator</b></a><a href="#" class="user-msg-baloon" title="3 new messages">3</a></li>
+                    <li>|</li>
+                    <li><img src="images/icons/9/005_12.png" alt="" /><a href="#" title="">Logout</a></li>
+                </ul>
+            </div>        
+            <div id="menu-bar" class="corners shadow">
+                <div class="menu-bar-inner corners">
+                    <a href="index.html" title="" id="logo">
+                        <h1>eziFlex</h1>
+                    </a>
+                    <ul id="menu">
+                        <li class="sep"><a href="index.html" title="">Home</a>
+                            <!-- second level dropdown -->
+                            <ul class="second">
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="dialogs.html" title="">Dialogs</a></li>
+                                <li><a href="login.html" title="">Login</a></li>
+                            </ul>                    
+                        </li>
+                        <li class="sep"><a href="#" title="">About</a></li>
+                        <li class="sep"><a href="#" title="">Information</a></li>
+                        <li><a href="#" title="">Help</a></li>
+                    </ul>
+                    
+                    <form action="" method="post" id="search">
+                        <div>
+                        <input type="text" name="s" onFocus="if(this.value=='Search here...')this.value='';" onBlur="if(this.value=='')this.value='Search here...';" value="Search here..." id="input-s" />
+                        <input type="submit" value="" name="submit" id="search-submit" />
+                        </div>
+                        <a href="javascript:void(null);" title="" class="close" id="toggle-menu"><!-- --></a>
+                    </form>
+                </div>
+            </div><!-- END "#menu-bar" -->
+            
+            <ul id="submenu" class="corners shadow">
+                <li>
+                    <a href="contacts.html" class="icon-menu corners">
+                        <img src="images/icons/48/address-book-new.png" alt="" title="" />
+                        <span>Contacts</span>
+                    </a>
+                </li>    
+                <li>    
+                    <a href="tickets.html" class="icon-menu corners">
+                        <img src="images/icons/48/edit-paste.png" alt="" title="" />
+                        <span>Tickets</span>
+                        <p class="menu-indi">3</p>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="pages.html" class="icon-menu corners">
+                        <img src="images/icons/48/edit-select-all.png" alt="" title="" />
+                        <span>Pages</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="files.html" class="icon-menu corners">
+                        <img src="images/icons/48/document-open.png" alt="" title="" />
+                        <span>Files</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="appearence.html" class="icon-menu corners">
+                        <img src="images/icons/48/preferences-desktop-theme.png" alt="" title="" />
+                        <span>Appearance</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="settings.html" class="icon-menu corners">
+                        <img src="images/icons/48/preferences-system.png" alt="" title="" />
+                        <span>Settings</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="articles.html" class="icon-menu corners">
+                        <img src="images/icons/48/text-x-generic.png" alt="" title="" />
+                        <span>Articles</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="statistics.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-presentation.png" alt="" title="" />
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="media.html" class="icon-menu corners">
+                        <img src="images/icons/48/image-x-generic.png" alt="" title="" />
+                        <span>Media</span>
+                    </a>
+                </li>    
+                <li>    
+                    <a href="backup.html" class="icon-menu corners">
+                        <img src="images/icons/48/drive-harddisk.png" alt="" title="" />
+                        <span>Backup</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="editor.html" class="icon-menu corners">
+                        <img src="images/icons/48/accessories-text-editor.png" alt="" title="" />
+                        <span>Editor</span>
+                    </a>
+                </li>
+              <!-- next row -->      
+                <li>                      
+                    <a href="social.html" class="icon-menu corners">
+                        <img src="images/icons/48/bookmark-new.png" alt="" title="" />
+                        <span>Social</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="email.html" class="icon-menu corners">
+                        <img src="images/icons/48/mail-mark-unread.png" alt="" title="" />
+                        <span>Email</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="information.html" class="icon-menu corners">
+                        <img src="images/icons/48/system-help.png" alt="" title="" />
+                        <span>Information</span>
+                    </a>
+                </li>    
+                <li>                      
+                    <a href="calendar.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-calendar.png" alt="" title="" />
+                        <span>Calendar</span>
+                    </a>
+                </li>
+                <li>                      
+                    <a href="orders.html" class="icon-menu corners">
+                        <img src="images/icons/48/x-office-spreadsheet.png" alt="" title="" />
+                        <span>Orders</span>
+                    </a>
+                </li>              
+                <li>                      
+                    <a href="security.html" class="icon-menu corners">
+                        <img src="images/icons/48/security-medium.png" alt="" title="" />
+                        <span>Security</span>
+                    </a>
+                </li>             
+                <li>                      
+                    <a href="users.html" class="icon-menu corners">
+                        <img src="images/icons/48/user-info.png" alt="" title="" />
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li>                      
+                    <a href="logger.html" class="icon-menu corners">
+                        <img src="images/icons/48/utilities-system-monitor.png" alt="" title="" />
+                        <span>Logger</span>
+                    </a>
+                </li> 
+                <li>                      
+                    <a href="slider.html" class="icon-menu corners">
+                        <img src="images/icons/48/document-revert.png" alt="" title="" />
+                        <span>Slider</span>
+                    </a>
+                </li>                                          
+                <li>                      
+                    <a href="comments.html" class="icon-menu corners">
+                        <img src="images/icons/48/help-faq.png" alt="" title="" />
+                        <span>Comments</span>
+                    </a>
+                </li>                 
+                <li>                      
+                    <a href="newsletter.html" class="icon-menu corners">
+                        <img src="images/icons/48/mail-import.png" alt="" title="" />
+                        <span>Newsletter</span>
+                    </a>
+                </li>                                     
+            </ul><!-- END "#submenu" -->
+             
+            <div id="breadcrumbs" class="corners shadow">
+                <p class="left"><img src="images/icons/9/005_08.png" alt="" /><a href="#" title="">Breadcrumb</a> / <a href="#" title="">Pagename</a></p>
+                <p class="right"><img src="images/icons/9/005_21.png" alt="" />Last modification on: 12 April, 2010 at 22.03</p>
+                <div id="mastertoggle">
+                    <a href="javascript:void(null);" title="Close all boxes" class="togglecloseall corners tip"></a> 
+                    <a href="javascript:void(null);" title="Open all boxes" class="toggleopenall corners tip"></a>
+                </div>
+            </div><!-- END "#breadcrumbs" -->                                 
+        </header><!-- END header -->
+     
+    <!-- // content starts here // -->
+        
+        <div id="content">
+        <form action="" method="post">
+         
+        <!-- new box --> 
+
+        	<div class="box corners shadow">
+                <div class="box-header">
+                    <h2>Dialogs 1</h2>
+                    <div class="box-header-ctrls">	
+                    	<a href="javascript:void(null);" title="" class="close"><!-- --></a>
+                    </div>
+                </div>
+                <div class="box-content" id="dialogs">
+                
+                    <!-- dialogs inside a box -->
+                    <div class="dialog-box-succes-small-box corners">
+                        <p><b>Action successfully!</b> You can click me to get rid of me!</p>
+                        <div class="delx-box"></div>
+                    </div>
+                    <div class="dialog-box-info-small-box corners">
+                        <p><b>Information!</b> Some simple information message.</p>
+                        <div class="delx-box"></div>
+                    </div>
+        
+                    <div class="dialog-box-error-small-box corners">
+                        <p><b>Error!</b> You did something wrong!</p>
+                        <div class="delx-box"></div>
+                    </div>
+        
+                    <div class="dialog-box-warning-small-box corners">
+                        <p><b>Warning!</b> Please dont do that again!</p>
+                        <div class="delx-box"></div>
+                    </div>
+        
+                    <div class="dialog-box-msg-small-box corners">
+                        <p><b>Message!</b> Some extra message.</p>
+                        <div class="delx-box"></div>
+                    </div>  
+                            
+                	<p>Welcome to dialogs, here's an overview of the dialogs that are available at this moment. <a href="http://jqueryui.com/demos/dialog/" title="Visit the demo page of the jqueryUI dialogs demo's">Go and see more UI modal demo's</a></p>
+                    <p class="spacer"></p>
+                    <p>
+                        <a href="#" class="open-dialog-message dialog-demo" title="">Modal message</a> 
+                        <a href="#" class="open-dialog-confirm dialog-demo" title="">Modal confirmation</a>
+                    </p>
+                </div><!-- END "#media-content" --> 
+            </div><!-- END ".box" -->
+            
+            <!-- big dialogs with basic click on dialog to close -->
+            
+            <div class="dialog-box-succes-big corners">
+                <h2>Action successfully!</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna. Cras sem quam, tristique sed scelerisque eu, fringilla ut neque. Maecenas lectus nisl sit amet. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna.
+                </p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-info-big corners">
+                <h2>Information</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna. Cras sem quam, tristique sed scelerisque eu, fringilla ut neque. Maecenas lectus nisl sit amet. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna.
+                </p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-error-big corners">
+                <h2>Error message</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna. Cras sem quam, tristique sed scelerisque eu, fringilla ut neque. Maecenas lectus nisl sit amet. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna.
+                </p>
+                <div class="delx">click to delete</div>
+            </div>
+            
+            <div class="dialog-box-warning-big corners">
+                <h2>Warning message</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna. Cras sem quam, tristique sed scelerisque eu, fringilla ut neque. Maecenas lectus nisl sit amet. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna.
+                </p>
+                <div class="delx">click to delete</div>
+            </div>
+            
+            <div class="dialog-box-msg-big corners">
+                <h2>Basic information</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna. Cras sem quam, tristique sed scelerisque eu, fringilla ut neque. Maecenas lectus nisl sit amet. Maecenas lectus nisl, pellentesque eu facilisis at, molestie id urna.
+                </p>
+                <div class="delx">click to delete</div>
+            </div> 
+            
+            <!-- small dialogs with basic click on dialog to close -->
+            
+            <div class="dialog-box-succes-small corners">
+                <p><b>Action successfully!</b> You can click me to get rid of me!</p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-info-small corners">
+                <p><b>Information!</b> Some simple information message.</p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-error-small corners">
+                <p><b>Error!</b> You did something wrong!</p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-warning-small corners">
+                <p><b>Warning!</b> Please dont do that again!</p>
+                <div class="delx">click to delete</div>
+            </div>
+
+            <div class="dialog-box-msg-small corners">
+                <p><b>Message!</b> Some extra message.</p>
+                <div class="delx">click to delete</div>
+            </div>            
+                            
+        </form><!-- END form-->                                              
+        </div><!-- END "#content" -->
+         
+        <!-- // footer starts here // -->
+        
+        <footer class="corners">
+            <p class="left">EZICMS v1.7</p>
+            <p class="right">Copyright &copy; 2010 - <a href="http://www.creativemilk.net" title="">www.creativemilk.net</a> by <a href="http://www.creativemilk.net" title="">CreativeMilk</a></p>
+        </footer><!-- END footer --> 
+                  
+    </div><!-- END "#container" -->
+        
+    <!-- // Javascript/jQuery // -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="js/jquery-1.6.min.js"><\/script>')</script>
+    <script src="js/jquery-ui-1.8.6.min.js"></script>
+    <script src="js/pirobox-min.js"></script>
+    <script src="js/jquery.select_skin.js"></script>
+    <script src="js/tinyeditor.js"></script>
+    <script src="js/jquery.tipsy.js"></script>
+    <script src="js/jquery.tweet.js"></script>
+    <script src="js/jquery.tablesorter.js"></script>
+    <script src="js/treeview.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/main.js"></script>
+         
+    <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
+         change the UA-XXXXX-X to be your site's ID -->
+    <script>
+     var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+     (function(d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.async = true;
+      g.src = '//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g, s);
+     })(document, 'script');
+    </script>
+        
+</body>
+</html>

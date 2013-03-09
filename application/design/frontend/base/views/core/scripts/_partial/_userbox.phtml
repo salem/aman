@@ -1,0 +1,10 @@
+<?php 
+$auth = Zend_Auth::getInstance()->getIdentity();
+//echo var_dump($auth);
+?>
+
+
+<ul>
+	<li><h3>Welcome <a href="#" class="text_shadow"><?php echo $auth->name;?></a></h3><span class="divider"> | </span></li>
+	<li><a href="<?php echo $this->url(array(), 'core_auth_logout'); ?>"><?php echo $this->translator('menu_logout', 'core'); ?></a></li>
+</ul>
