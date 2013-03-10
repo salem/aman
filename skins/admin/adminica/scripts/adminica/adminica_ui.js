@@ -318,7 +318,7 @@ function adminicaUi(){
 
 	columnHeight();
   	centerContent();
-	refreshIsotope();
+	
 
 	$(window).resize(function() {
 		columnHeight();
@@ -345,9 +345,6 @@ function adminicaInit(){
 	hideLoadingOverlay();
 }
 
-function refreshIsotope(){
-	$(".isotope_holder ul").isotope('reLayout');
-}
 
 function hideLoadingOverlay(){
 	$("#loading_overlay .loading_message").delay(200).fadeOut(function(){});
