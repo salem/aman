@@ -263,7 +263,8 @@ class Core_AuthController extends Zend_Controller_Action
 	public function logoutAction() 
 	{
 		$this->_helper->getHelper('viewRenderer')->setNoRender();
-		$this->_helper->getHelper('layout')->disableLayout();
+		//FIXME: Need to fix layout not found exception
+		//$this->_helper->getHelper('layout')->disableLayout();
 		
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity()) {

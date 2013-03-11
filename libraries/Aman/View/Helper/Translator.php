@@ -55,7 +55,15 @@ class Aman_View_Helper_Translator extends Zend_View_Helper_Abstract
 		
 		$file = AMAN_APP_DIR . DS . 'modules' . DS . $module . DS . 'languages' . DS . 'lang.' . $lang . '.ini';
 		if (file_exists($file) && file_get_contents($file) != '') {
-			$translate = new Zend_Translate('Ini', $file, $lang);
+			$translate = new Zend_Translate(
+					array(
+							'adapter' => 'Ini',
+							'content' => $file, 
+							'local'   => $lang,
+							'tag'	  => 'Translat_'.$module						
+					)
+			);
+			
 			return $translate->_($key);
 		} 
 		return $key;

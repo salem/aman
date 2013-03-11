@@ -25,31 +25,36 @@
 </div>
 
 <?php if ($this->role->locked) : ?>
-<div class="grid_12 t_a_bottom">
+<div class="flat_area grid_16 clearfix">
 	<?php echo $this->translator('rule_role_role_desc'); ?>: <b><?php echo $this->role->name; ?> - <?php echo $this->role->description; ?></b><br />
 	<?php echo $this->translator('rule_role_role_locked'); ?>
 </div>
 <?php else : ?>
+<form id="form1" class="forms" method="post" action="<?php echo $this->url(array('role_id' => $this->role->role_id), 'core_rule_set_role'); ?>">
 <div class="box grid_16 round_all clearfix">
-	<h2 class="box_head round_top">
+	<h2 class="box_head">
 		<?php echo $this->translator('rule_role_role_desc'); ?>: <b><?php echo $this->role->name; ?> - <?php echo $this->role->description; ?></b>			
 	</h2>
-	<a href="#" class="toggle">&nbsp; </a>
-	<div class="block">
-		<div class="button_bar clearfix">
-			<span><?php echo $this->translator('rule_role_guide'); ?></span>
-			<button class="send_right" type="submit" id="saveRoles"><span><?php echo $this->translator('rule_role_submit_button'); ?></span></button>
-		</div>
-		<div class="block">		
-			<form id="form1" class="forms" method="post" action="<?php echo $this->url(array('role_id' => $this->role->role_id), 'core_rule_set_role'); ?>">				
+	<div class="controls">
+		<select name="" id="moduleFilter" class="uniform">
+            <?php foreach ($this->modules as $module):?>
+            <option value="<?php echo $module;?>"><?php echo $module;?></option>
+            <?php endforeach;?>
+        
+        </select>
+	</div>
+	
+	<div class="block">		
+		<div class="section">
+			<div><h3><?php echo $this->translator('rule_role_guide'); ?></h3></div>							
 			<!-- List of resources -->
-				<?php foreach ($this->modules as $index => $module) : ?>
-				<div id="<?php echo $module; ?>Resource" class="section moduleResource" style="display: <?php echo (($index == 0) ? 'block' : 'none'); ?>">
-					<?php if (($resources = $this->ruleLoader()->getResources($module))== true) : ?>
-					<?php foreach ($resources as $i => $resource) : ?>
-					<div class="grid_5 box <?php if ($i % 3 == 0) :  ?> alpha<?php elseif($i % 3==2) : ?> omega<?php endif; ?>">
+			<?php foreach ($this->modules as $index => $module) : ?>
+			<div id="<?php echo $module; ?>Resource" class="moduleResource" style="display: <?php echo (($index == 0) ? 'block' : 'none'); ?>">
+				<?php if (($resources = $this->ruleLoader()->getResources($module))== true) : ?>
+				<?php foreach ($resources as $i => $resource) : ?>
+				<div class="grid_5 box">
 						<!-- Resource description -->
-						<h2 class="box_head grade_colour round_top"><?php echo $resource->description; ?></h2>
+						<h2 class="box_head "><?php echo $resource->description; ?></h2>
 						<div class="block">
 							<div class="button_bar clearfix">
 							<!-- Resource privileges -->
@@ -57,7 +62,7 @@
 								<a class="btn ui-state-default deselectAllAction" href="javascript: void(0);"><?php echo $this->translator('rule_role_deselect_all'); ?></a>
 								
 							</div>						
-							<ul>
+							<ul class="flat">
 							<?php foreach ($privileges = $this->ruleLoader()->getByRole($resource, $this->role->role_id) as $index => $priv) : ?>
 								<li><input type="checkbox" name="privileges[]" value="<?php echo $priv->privilege_id; ?>_<?php echo $resource->module_name; ?>:<?php echo $resource->controller_name; ?>"<?php if ($priv->allow == null || $priv->allow == 0) : ?> <?php else : ?> checked="checked"<?php endif; ?> /> <?php echo $priv->description; ?></li>
 								<?php endforeach; ?>
@@ -69,23 +74,15 @@
 					<div class="clearfix"></div>
 				</div>
 				<?php endforeach; ?>
-			</form>
+			
+		</div>
+		<div class="button_bar clearfix">			
+			<button class="send_right" type="submit" id="saveRoles"><span><?php echo $this->translator('rule_role_submit_button'); ?></span></button>
 		</div>
 	</div>
 </div>
+</form>
 
-
-<!-- Side Bar -->
-<?php 
-	$sidebar = '<ul class="side_accordion" id="moduleFilter">
-		<li><a href="#">'.$this->translator("widget_list_filter_module").'</a></li>';
-	foreach ($this->modules as $index => $module) :
-		$sidebar .= '<li><a href="javascript: void(0);">'.$module.'</a></li>';
-	endforeach;
-	$sidebar .= '</ul>';
-	$this->layout()->sidebar = $sidebar;
-?>
-<!-- End Side Bar -->
 <div class="clear"></div>
 <script type="text/javascript">
 //<![CDATA[
@@ -96,12 +93,9 @@ $(document).ready(function() {
 	/**
 	 * Load resource based on selected module
 	 */
-	$('#moduleFilter').find('a').click(function() {
+	$('#moduleFilter').change(function() {
 		$('.moduleResource').hide();
-		$('#' + $(this).html() + 'Resource').show();
-
-		$('#moduleFilter').find('li').removeClass('t_a_ui_active');
-		$(this).parent().addClass('t_a_ui_active');
+		$('#' + $(this).val() + 'Resource').show();
 	});
 
 	/**

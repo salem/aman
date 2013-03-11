@@ -34,12 +34,14 @@ $this->headTitle($this->translator('user_list_page_title'));
 </div>
 <?php else : ?>
 <div class="box grid_16 round_all clearfix">
-	<h2 class="box_head round_top"><?php echo $this->translator('user_list_guide'); ?></h2>
-	<a href="#" class="toggle">&nbsp; </a>
+	<h2 class="box_head"><?php echo $this->translator('user_list_guide'); ?></h2>
+	<div class="controls">
+		<a href="#" class="toggle">&nbsp; </a>
+	</div>
 	<div class="toggle_box">
 		<div class="button_bar clearfix">
 			
-			<button value="<?php echo $this->url(array(), 'core_user_add'); ?>" class="send_right div_icon has_text">
+			<button value="<?php echo $this->url(array(), 'core_user_add'); ?>" class="dark small send_right div_icon has_text">
 				<span class="ui-icon ui-icon-plusthick" style="padding: 0px;"></span>
 				<span><?php echo $this->translator('user_add_breadcrumb'); ?></span>
 			</button>
@@ -63,19 +65,19 @@ $this->headTitle($this->translator('user_list_page_title'));
 							<?php echo $user->email; ?>
 						</td>
 						<td>
-							<button name="edit" class="light small div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_user_edit'); ?>">
-								<span class="ui-icon ui-icon-pencil"></span>
+							<button name="edit" class="light tiny div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_user_edit'); ?>">
+								<div class="ui-icon ui-icon-pencil"></div>
 								<span><?php echo $this->translator('user_list_action_edit'); ?></span>
 							</button>
 							 
-							<button name="permission" class="light small div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_rule_set_user'); ?>">
-								<span class="ui-icon ui-icon-gear"></span>
+							<button name="permission" class="light tiny div_icon has_text" style="margin-right: 5px;" value="<?php echo $this->url(array('user_id' => $user->user_id), 'core_rule_set_user'); ?>">
+								<div class="ui-icon ui-icon-gear"></div>
 								<span><?php echo $this->translator('user_list_action_rule'); ?></span>
 							</button>
 							
 							<?php if ($user->email != $this->email) : ?>
-							<button name="activate" class="light small div_icon has_text" value="<?php echo $user->user_id; ?>_<?php echo (int)$user->is_active; ?>_<?php echo $user->name; ?>">
-								<span class="ui-icon ui-icon-<?php echo $user->is_active?'unlocked':'locked';?>"></span>
+							<button name="activate" class="light tiny div_icon has_text" value="<?php echo $user->user_id; ?>_<?php echo (int)$user->is_active; ?>_<?php echo $user->name; ?>">
+								<div class="ui-icon ui-icon-<?php echo $user->is_active?'unlocked':'locked';?>"></div>
 								<span><?php if ($user->is_active) : ?><?php echo $this->translator('user_list_action_deactivate'); ?><?php else : ?><?php echo $this->translator('user_list_action_activate'); ?><?php endif; ?></span>
 							</button>
 							<?php endif; ?>
@@ -95,18 +97,6 @@ $this->headTitle($this->translator('user_list_page_title'));
 </div>
 <?php endif; ?>
 
-<!-- Side Bar -->
-<?php 
-$sidebar = '<ul class="side_accordion">
-	<li><a href="'.$this->url(array(), 'core_role_list').'">'.$this->translator('menu_role', 'core').'</a></li>
-	<li><a href="'.$this->url(array(), 'core_user_list').'">'.$this->translator('menu_user', 'core').'</a></li>
-	<li><a href="'.$this->url(array(), 'core_privilege_list').'">'.$this->translator('menu_privilege', 'core').'</a></li>
-</ul>';
-
-$this->layout()->sidebar = $sidebar;
-
-?>
-
 <!-- End Side Bar -->
 <div class="clear"></div>
 <div id="messageDialog"></div>
@@ -115,14 +105,14 @@ $this->layout()->sidebar = $sidebar;
 //<![CDATA[
 $(document).ready(function() {
 
-	$('button.[name|="permission"]').click(function(){
+	$('button.[name="permission"]').click(function(){
 		window.location = $(this).val();
 	});
-	$('button.[name|="edit"]').click(function(){
+	$('button.[name="edit"]').click(function(){
 		window.location = $(this).val();
 	});
 
-	$('button.[name|="activate"]').click(function() {
+	$('button.[name="activate"]').click(function() {
 		activateUser(this);
 	});
 	
@@ -159,33 +149,38 @@ function activateUser(linkObj) {
 	var self = linkObj;
 	var arr = $(self).attr('value').split('_');
 	loadingOverlayFadeIn();
-	$.ajaxq('core_user', {
+	$.ajax({
+		global: true,
 		url: '<?php echo $this->url(array(), 'core_user_activate'); ?>',
 		type: 'POST',
 		data: { id: arr[0], status: arr[1] },
+		dataType: 'json',
 		success: function(response) {
-			$(self).attr('value', arr[0] + '_' + response + '_' + arr[2]);
-			if (response == 1) {
-				$(self).children().first().removeClass('ui-icon-locked').addClass('ui-icon-unlocked');
-				$(self).children().last().html("<?php echo $this->translator('user_list_action_deactivate'); ?>");
-			} else {
-				$(self).children().first().removeClass('ui-icon-unlocaked').addClass('ui-icon-locked');
-				$(self).children().last.html("<?php echo $this->translator('user_list_action_activate'); ?>");
-			}
-			loadingOverlayFadeOut();
 
-			$('#messageDialog').html((response == 1) ? sprintf('<?php echo addslashes($this->translator('user_list_activate_success')); ?>', arr[2]) : sprintf('<?php echo addslashes($this->translator('user_list_deactivate_success')); ?>', arr[2]))
-				.dialog({
-					title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
-					dialogClass: 't_a_ui_dialog',
-					modal: true,
-			    	show: { effect: 'fade' },
-					open: function(event, ui) {
-						setTimeout(function() {
-							$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
-						}, 3000);
-					}
-				});
+			if(response.success) {
+				$(self).attr('value', arr[0] + '_' + response + '_' + arr[2]);
+				if (response == 1) {
+					$(self).children().first().removeClass('ui-icon-locked').addClass('ui-icon-unlocked');
+					$(self).children().last().html("<?php echo $this->translator('user_list_action_deactivate'); ?>");
+				} else {
+					$(self).children().first().removeClass('ui-icon-unlocaked').addClass('ui-icon-locked');
+					$(self).children().last.html("<?php echo $this->translator('user_list_action_activate'); ?>");
+				}
+				loadingOverlayFadeOut();
+	
+				$('#messageDialog').html((response == 1) ? sprintf('<?php echo addslashes($this->translator('user_list_activate_success')); ?>', arr[2]) : sprintf('<?php echo addslashes($this->translator('user_list_deactivate_success')); ?>', arr[2]))
+					.dialog({
+						title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
+						dialogClass: 't_a_ui_dialog',
+						modal: true,
+				    	show: { effect: 'fade' },
+						open: function(event, ui) {
+							setTimeout(function() {
+								$('#' + event.target.id).dialog('option', 'hide', 'fade').dialog('destroy');
+							}, 3000);
+						}
+					});
+			}
 		}
 	});
 };
