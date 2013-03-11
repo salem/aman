@@ -32,10 +32,13 @@
     
     <?php
     $this->headLink()
+    ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/reset.css')
     ->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/all.css')
+    
+    ->appendStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:400,700')
    /*  
-    	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/adminica/reset.css')
-    	->appendStylesheet('http://fonts.googleapis.com/css?family=Open+Sans:400,700')
+    	
+    	
     	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/datatables/datatables.css')
    */
     	->appendStylesheet($this->APP_STATIC_SERVER . '/skins/admin/adminica/styles/plugins/themeroller/themeroller.css')

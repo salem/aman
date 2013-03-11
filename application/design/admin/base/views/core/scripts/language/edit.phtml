@@ -21,137 +21,126 @@
 <?php 
 $this->headTitle($this->translator('language_edit_page_title'));
 
-$this->headLink()
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.core.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.resizable.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.dialog.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.theme.css');
-
 $this->headScript()
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/ui.core.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.draggable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.resizable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.dialog.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js')
 	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.editinplace/jquery.editinplace.packed.js');
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><a href="<?php echo $this->url(array(), 'core_language_list'); ?>"><?php echo $this->translator('language_list_breadcrumb'); ?></a></span>
-	<span><?php echo $this->translator('language_edit_breadcrumb'); ?></span>	
+
+<div class="flat_area clearfix">
+	<strong><?php echo sprintf($this->translator('language_edit_top_guide'), $this->language, $this->moduleName); ?></strong>
+	<hr />
 </div>
 
-<div class="grid_12"><?php echo sprintf($this->translator('language_edit_top_guide'), $this->language, $this->moduleName); ?></div>
-
-<div class="grid_12">
+<div class="box grid_3 no_title alpha">
 	<!-- Left column -->
-	<div class="grid_3 alpha">
+	<div class="block">
 	<?php if ($this->data) : ?>
-		<div class="t_a_bottom">
-			<div class="t_a_bottom"><?php echo $this->translator('language_edit_section'); ?>:</div>
-			
-			<ul class="t_a_ui_list" id="sectionFilter">
-				<?php foreach ($this->sections as $index => $section) : ?>
-				<li<?php if (0 == $index) : ?> class="t_a_ui_active"<?php endif; ?>><a href="javascript: void(0);"><?php echo $section; ?></a></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>		
+		<div class="section">
+			<strong><?php echo $this->translator('language_edit_section'); ?>:</strong>
+		</div>
+		<ul class="flat" id="sectionFilter">
+			<?php foreach ($this->sections as $index => $section) : ?>
+			<li<?php if (0 == $index) : ?> class="shade"<?php endif; ?>><a href="javascript: void(0);"><?php echo $section; ?></a></li>
+			<?php endforeach; ?>
+		</ul>		
 	<?php endif; ?>
 	</div>
+</div>
 	
 	<!-- Right column -->
-	<div class="grid_9 omega">
+<div class="box grid_13 no_title omega">
+	<div class="block lines">
 		<?php if ($this->data) : ?>
 		<div class="t_a_bottom">&nbsp;</div>
 		
 		<?php foreach ($this->data as $section => $langs) : ?>
-		<div id="<?php echo $module; ?>Section" class="section t_a_bottom" style="display: none">
-			<div class="t_a_ui_data_list_header">
-				<div class="grid_3 alpha">
-					<div><?php echo $this->translator('language_edit_key'); ?></div>
+		<div id="<?php echo $section; ?>Section" class="section" style="display: none">
+			<div class="block">
+				<div class="columns shade clearfix">
+					<div class="col_33">
+						<div class="section"><?php echo $this->translator('language_edit_key'); ?></div>
+					</div>				
+					<div class="col_66"><div class="section"><?php echo $this->translator('language_edit_value'); ?></div></div>
 				</div>
+						
+				<?php foreach ($langs as $key => $value) : ?>
+				<div class="columns clearfix" id="keyRow_<?php echo $key; ?>">
+					<div class="col_33">
+						<div class="section"><?php echo $key; ?></div>
+					</div>
 				
-				<div class="grid_5"><?php echo $this->translator('language_edit_value'); ?></div>
-				
-				<div class="grid_1 omega">&nbsp;</div>
-			</div>
-		
-			<?php foreach ($langs as $key => $value) : ?>
-			<div class="clearfix t_a_ui_data_list_content" id="keyRow_<?php echo $key; ?>">
-				<div class="grid_3 alpha">
-					<div><?php echo $key; ?></div>
-				</div>
-			
-				<div class="grid_5">
-					<div class="t_a_ui_helper_editable" style="background: #E8E8E8" id="_valueFor_<?php echo $section.'___'.$key; ?>"><?php echo $this->escape($value); ?></div>
-				</div>
-				
-				<div class="grid_1 omega">
-					<div class="t_a_ui_helper_action" style="display: none">
-						<?php if ($this->allow('delete')) : ?>
-							<a class="deleteAction" href="javascript: void(0);" rel="<?php echo $this->escape($section.'___'.$key); ?>"><?php echo $this->translator('language_edit_delete_key'); ?></a>
-						<?php endif; ?>
+					<div class="col_66">
+						<div class="section t_a_ui_helper_editable" id="_valueFor_<?php echo $section.'___'.$key; ?>"><?php echo $this->escape($value); ?></div>
+					</div>
+					
+					<div class="grid_1 omega">
+						<div class="t_a_ui_helper_action" style="display: none">
+							<?php if ($this->allow('delete')) : ?>
+								<a class="deleteAction" href="javascript: void(0);" rel="<?php echo $this->escape($section.'___'.$key); ?>"><?php echo $this->translator('language_edit_delete_key'); ?></a>
+							<?php endif; ?>
+						</div>
 					</div>
 				</div>
-			</div>
 			<?php endforeach; ?>
+			</div>
 		</div>
 		<?php endforeach; ?>
-		
-		<?php endif; ?>
-		
-		<!-- Add new language item -->
-		<?php if ($this->allow('add')) : ?>
-		<div class="t_a_bottom">
-			<h3><?php echo $this->translator('language_edit_add_new_key'); ?></h3> 
-			<hr />
-		
-			<form method="post" id="addLanguageForm" action="<?php echo $this->url(array(), 'core_language_add'); ?>">
-				<div class="prefix_1 suffix_1">
-					<div class="clearfix t_a_bottom">
-						<label><?php echo $this->translator('language_edit_select_section'); ?></label>
-						<select name="section" style="width: 140px">
-							<option value="">---</option>
-							<?php foreach ($this->sections as $index => $section) : ?>
-							<option value="<?php echo $section; ?>"><?php echo $section; ?></option>
-							<?php endforeach; ?>
-						</select>
-					</div>
-					
-					<div class="clearfix t_a_bottom">
-						<label><?php echo $this->translator('language_edit_or_create_new_section'); ?></label>
-						<input type="text" style="width: 140px" name="new_section" />
-					</div>
-					
-					<hr />
-					
-					<div class="clearfix t_a_bottom">
-						<label><?php echo $this->translator('language_edit_key'); ?>:</label>
-						<input type="text" style="width: 220px" name="key" id="key" />
-					</div>
-					
-					<hr />
-					
-					<div class="clearfix t_a_bottom">
-						<label><?php echo $this->translator('language_edit_value'); ?>:</label>
-						<input type="text" style="width: 220px" name="value" id="value" />
-					</div>
-					
-					<hr />
-					
-					<div class="clearfix t_a_bottom">
-						<label>&nbsp;</label>
-						<button type="submit"><span><?php echo $this->translator('language_edit_add_new_key_button'); ?></span></button>
-					</div>
-				</div>
-				
-				<input type="hidden" name="module_name" value="<?php echo $this->moduleName; ?>" />
-				<input type="hidden" name="language" value="<?php echo $this->language; ?>" />
-				<input type="hidden" name="widget" value="<?php echo $this->widget; ?>" />
-			</form>
-		</div>
+		<br />
 		<?php endif; ?>
 	</div>
+	
+	<!-- Add new language item -->
+	<?php if ($this->allow('add')) : ?>	
+		<div class="section">
+			<div class="block lines">
+				<div class="section">
+					<h3><?php echo $this->translator('language_edit_add_new_key'); ?></h3> 
+				</div>
+				
+				<form method="post" id="addLanguageForm" action="<?php echo $this->url(array(), 'core_language_add'); ?>">
+					<fieldset class="label_side">
+						<label for=""><?php echo $this->translator('language_edit_select_section'); ?></label>
+						<div>
+							<select name="section" style="width: 140px">
+								<option value="">---</option>
+								<?php foreach ($this->sections as $index => $section) : ?>
+								<option value="<?php echo $section; ?>"><?php echo $section; ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+					</fieldset>
+					
+					<fieldset class="label_side">
+						<label for=""><?php echo $this->translator('language_edit_or_create_new_section'); ?></label>
+						<div><input type="text" style="width: 140px" name="new_section" /></div>
+					</fieldset>
+					<fieldset class="label_side">
+						<label for=""><?php echo $this->translator('language_edit_key'); ?>:</label>
+						<div><input type="text" style="width: 220px" name="key" id="key" /></div>
+					</fieldset>
+					<fieldset class="label_side">
+						<label for=""><?php echo $this->translator('language_edit_value'); ?>:</label>
+						<div><input type="text" style="width: 220px" name="value" id="value" /></div>
+					</fieldset>
+					<input type="hidden" name="module_name" value="<?php echo $this->moduleName; ?>" />
+					<input type="hidden" name="language" value="<?php echo $this->language; ?>" />
+					<input type="hidden" name="widget" value="<?php echo $this->widget; ?>" />
+							
+											
+											
+					<div class="button_bar clearfix">
+						<label>&nbsp;</label>
+						<button type="submit"><span><?php echo $this->translator('language_edit_add_new_key_button'); ?></span></button>
+					</div>					
+				</form>
+				
+			</div>
+			
+		
+			
+		</div>
+
+	<?php endif; ?>
 </div>
 
 <div id="confirmDialog"></div>
