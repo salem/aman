@@ -49,6 +49,11 @@ class Core_UserController extends Zend_Controller_Action
 					->addMessage($this->view->translator('user_changepass_update_success'));
 				$this->_redirect($this->view->serverUrl() . $this->view->url(array(), 'core_user_changepass'));
 			}
+			else{
+				$this->_helper->getHelper('FlashMessenger')
+					->addMessage($this->view->translator('user_changepass_update_error'));
+				$this->_redirect($this->view->serverUrl() . $this->view->url(array(), 'core_user_changepass'));
+			}
 		}
 	}
 	

@@ -79,26 +79,27 @@
       <li> <a href="<?php echo $this->url(array(), 'core_privilege_list'); ?>"> <span><?php echo $this->translator('menu_privilege', 'core'); ?></span> </a></li>
       <?php endif; ?>
     </ul>
-    </li>
-  <!--<li> <a href="#"><?php echo $this->translator('menu_modules', 'core'); ?></a>
-    <div class="sub">
-      <div class="row">
-        <?php foreach (($modules = $this->moduleTask()) as $index => $module) : ?>
-        <?php if ($index % 4 == 0 & $index > 0) : ?>
-        <div class="clearfix">
-          <hr />
-        </div>
-        <?php endif; ?>
-        <ul>
-          <li><span><?php echo $module['description']; ?></span></li>
-          <?php foreach ($module['tasks'] as $task) : ?>
-          <li><a href="<?php echo $task['link']; ?>"><span><?php echo $task['label']; ?></a></span></li>
-          <?php endforeach; ?>
-        </ul>
+</li>
+    <?php 
+	/**
+	 * Move all module administrator tasks to top menu
+	 * @since 2.0.7
+	 */ 
+	 ?>
+  <li> <a href="#"><span><?php echo $this->translator('menu_modules', 'core'); ?></span></a>
+    <ul class="open_multiple">
+        <?php foreach (($modules = $this->moduleTask()) as $index => $module) : ?>        
+        <li>
+          <a href="#"><span><?php echo $module['description']; ?></span></a>
+          <ul class="drawer">
+          	<?php foreach ($module['tasks'] as $task) : ?>
+          	<li><a href="<?php echo $task['link']; ?>"><span><?php echo $task['label']; ?></span></a></li>
+          	<?php endforeach; ?>
+          </ul>
+        </li>
         <?php endforeach; ?>
-      </div>
-    </div>
-  </li>  -->
+    </ul>
+  </li>
   <li> <a href="#"><span><?php echo $this->translator('menu_account', 'core'); ?></span></a>
     <ul class="dropdown">
       <li><a href="<?php echo $this->url(array(), 'core_user_changepass'); ?>"><span><?php echo $this->translator('menu_changepass', 'core'); ?></span></a></li>

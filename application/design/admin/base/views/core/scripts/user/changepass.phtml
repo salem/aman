@@ -20,81 +20,47 @@
 ?>
 <?php 
 $this->headTitle($this->translator('user_changepass_page_title'));
-$this->headScript()->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js');
 ?>
 
-<div class="inner-page-title">
-	<h3><?php echo $this->translator('user_changepass_breadcrumb'); ?></h3>	
+<div class="flat_area grid_16 clearfix">
+	<h2><?php echo $this->translator('user_changepass_breadcrumb'); ?></h2>	
 </div>
-
-<div class="content-box content-box-header ui-corner-all">	
-	<div class="content-box-wrapper">
-		<?php if($this->flashMessenger()!=""):?>
-		<div class="response-msg success ui-corner-all"><span> &nbsp; </span> <?php echo $this->flashMessenger(); ?></div>
+<div class="grid_4"></div>
+<div class="box grid_8 no_title">	
+	<div class="block">
+		<?php if(($message = $this->flashMessenger())!=""):?>
+		<div class="response-msg success ui-corner-all"><span> &nbsp; </span> <?php echo $message; ?></div>
 		<?php endif;?>
 
 		<form class="forms" method="post" action="<?php echo $this->url(array(), 'core_user_changepass'); ?>" id="changepassForm">
-			<ul>
-				<li>
-					<label class="desc"><?php echo $this->translator('user_changepass_new_password'); ?>:</label>
-					<div>
-						<input type="password" class="field text small" name="password" id="password" />
-						<p><?php echo $this->translator('user_password_guide'); ?></p>
-					</div>
-				</li>
-				<li>
-					<label class="desc"><?php echo $this->translator('user_changepass_confirm_password'); ?>:</label>
-					<div>
-						<input type="password" class="field text small" name="confirmPassword" id="confirmPassword" />
-						<p><?php echo $this->translator('user_confirm_password_guide'); ?></p>
-					</div>
-				</li>
-				<li>
-					<label>&nbsp;</label>	
-					<div>			
-						<?php echo $this->tokenElement; ?>
-						<button type="submit" class="ui-button ui-state-default ui-corner-all"><span><?php echo $this->translator('user_changepass_save_button'); ?></span></button>
-					</div>
-				</li>
-			</ul>
+			<fieldset class="top">
+				<label for="">
+					<?php echo $this->translator('user_changepass_new_password'); ?>:
+					<span><?php echo $this->translator('user_password_guide'); ?></span></label>
+				<div class="clearfix">
+					<input type="password" class="field text small" name="password" id="password" />
+					
+					<div class="required_tag"></div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<label for="">
+					<?php echo $this->translator('user_changepass_confirm_password'); ?>:
+					<span><?php echo $this->translator('user_confirm_password_guide'); ?></span>
+				</label>
+				<div class="clearfix">
+					<input type="password" class="field text small" name="confirmPassword" id="confirmPassword" />
+					<div class="required_tag"></div>
+				</div>
+			</fieldset>
+			<div class="button_bar clearfix">			
+				<?php echo $this->tokenElement; ?>
+				<button type="submit" class="ui-button ui-state-default ui-corner-all"><span><?php echo $this->translator('user_changepass_save_button'); ?></span></button>
+			</div>			
 		</form>
 	</div>
 </div>
 
-<!-- Side Bar -->
-<div id="sidebar">
-	<div class="sidebar-content">
-		<a id="close_sidebar" class="btn ui-state-default full-link ui-corner-all" href="#drill">
-					<span class="ui-icon ui-icon-circle-arrow-e"></span>
-					Close Sidebar
-				</a>
-		<a id="open_sidebar" class="btn tooltip ui-state-default full-link icon-only ui-corner-all" title="Open Sidebar" href="#"><span class="ui-icon ui-icon-circle-arrow-w"></span></a>
-		<div class="hide_sidebar">
-			<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
-				<div class="portlet-header ui-widget-header">
-					<?php echo $this->translator('menu_system_user', 'core'); ?>
-				</div>
-				<div class="portlet-content">
-					<ul class="side-menu">					                
-		                <?php if ($this->routeAccessor('core_role_list')) : ?>
-						<li><a href="<?php echo $this->url(array(), 'core_role_list'); ?>"><?php echo $this->translator('menu_role', 'core'); ?></a></li>
-						<?php endif; ?>
-						
-		                <?php if ($this->routeAccessor('core_user_list')) : ?>
-						<li><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"><?php echo $this->translator('menu_user', 'core'); ?></a></li>
-						<?php endif; ?>
-						
-						<?php if ($this->routeAccessor('core_privilege_list')) : ?>
-						<li><a href="<?php echo $this->url(array(), 'core_privilege_list'); ?>"><?php echo $this->translator('menu_privilege', 'core'); ?></a></li>
-						<?php endif; ?>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-</div>
-<!-- End Side Bar -->
 <div class="clear"></div>
 
 <script type="text/javascript">

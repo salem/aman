@@ -22,63 +22,52 @@
 $this->headTitle($this->translator('cache_config_title'));
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><a href="<?php echo $this->url(array(), 'core_cache_list'); ?>"><?php echo $this->translator('cache_list_breadcrumb'); ?></a></span>	
+<div class="flat_area grid_16 clearfix">
+	<h2><a href="<?php echo $this->url(array(), 'core_cache_list'); ?>"><?php echo $this->translator('cache_list_breadcrumb'); ?></a></h2>	
 </div>
 
-<div class="grid_12"><?php echo $this->flashMessenger(); ?></div>
+<div class="grid_16"><?php echo $this->flashMessenger(); ?></div>
 
 <form method="post" action="<?php echo $this->url(array(), 'core_cache_config'); ?>">
-<div class="grid_12 t_a_bottom"><?php echo $this->translator('cache_config_page_guide'); ?></div>
-
-<!-- Cache entire pages -->
-<div class="grid_12 t_a_ui_data_list_header">
-	<div class="grid_8 alpha">
-		<div><?php echo $this->translator('cache_config_page'); ?></div>
-	</div>
-	
-	<div class="grid_4 omega"><?php echo $this->translator('cache_config_lifetime'); ?></div>
-</div>
-
-<div class="grid_12 t_a_bottom">
-	<?php foreach ($this->pages as $page) : ?>
-	<div class="clearfix t_a_ui_data_list_content">
-		<div class="grid_8 alpha">
-			<div>
-				<input type="checkbox" name="selectedPages[]" value="<?php echo $page['page']->route; ?>" <?php if ($page['cache']['enable'] == 'true') : ?>checked="checked" <?php endif; ?>/> <?php echo $page['page']->title; ?>
+<div class="box grid_16">
+	<div class="block lines">
+		<div class="section"><?php echo $this->translator('cache_config_page_guide'); ?></div>
+		<!-- Cache entire pages -->
+		<div class="columns clearfix">
+			<div class="col_50">
+				<div class="section"><?php echo $this->translator('cache_config_page'); ?></div>
+			</div>
+			<div class="col_50">
+				<div class="section"><?php echo $this->translator('cache_config_lifetime'); ?></div>
 			</div>
 		</div>
+		<?php foreach ($this->pages as $page) : ?>
+		<div class="columns clearfix">
+			<div class="col_50">
+				<div class="section">
+					<input type="checkbox" name="selectedPages[]" value="<?php echo $page['page']->route; ?>" <?php if ($page['cache']['enable'] == 'true') : ?>checked="checked" <?php endif; ?>/> <?php echo $page['page']->title; ?>
+				</div>
+			</div>
+			<div class="col_50">
+				<div class="section">
+					<input type="text" name="lifetime[<?php echo $page['page']->route; ?>]" value="<?php echo $page['cache']['lifetime']; ?>" <?php if ($page['cache']['enable'] != 'true') : ?>disabled="disabled" <?php endif; ?>style="width: 100px" />
+				</div>
+			</div>
+		</div>
+		<?php endforeach; ?>
 		
-		<div class="grid_4 omega">
-			<input type="text" name="lifetime[<?php echo $page['page']->route; ?>]" value="<?php echo $page['cache']['lifetime']; ?>" <?php if ($page['cache']['enable'] != 'true') : ?>disabled="disabled" <?php endif; ?>style="width: 100px" />
+		<br /><br />
+		<!-- Compress configurations -->
+		<ul class="flat">
+			<li><?php echo $this->translator('cache_config_compress'); ?></li>
+			<li><input type="checkbox" name="compressCss" value="1" <?php if ($this->compressCss == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_css'); ?></li>
+			<li><input type="checkbox" name="compressJs" value="1" <?php if ($this->compressJs == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_javascript'); ?></li>
+			<li><input type="checkbox" name="compressHtml" value="1" <?php if ($this->compressHtml == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_html'); ?></li>
+		</ul>
+		<div class="button_bar clearfix">
+			<button type="submit"><span><?php echo $this->translator('cache_config_save'); ?></span></button>
 		</div>
 	</div>
-	<?php endforeach; ?>
-</div>
-
-<!-- Compress configurations -->
-<div class="grid_12 t_a_bottom"><?php echo $this->translator('cache_config_compress_guide'); ?></div>
-
-<div class="grid_12 t_a_ui_data_list_header">
-	<div class="alpha">
-		<div><?php echo $this->translator('cache_config_compress'); ?></div>
-	</div>
-</div>
-
-<div class="grid_12 t_a_bottom">
-	<div class="t_a_ui_data_list_content">
-		<input type="checkbox" name="compressCss" value="1" <?php if ($this->compressCss == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_css'); ?>
-	</div>
-	<div class="t_a_ui_data_list_content">
-		<input type="checkbox" name="compressJs" value="1" <?php if ($this->compressJs == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_javascript'); ?>
-	</div>
-	<div class="t_a_ui_data_list_content">
-		<input type="checkbox" name="compressHtml" value="1" <?php if ($this->compressHtml == 'true') : ?> checked="checked"<?php endif; ?>/> <?php echo $this->translator('cache_config_compress_html'); ?>
-	</div>
-</div>
-
-<div class="grid_12 t_a_bottom">
-	<button type="submit"><span><?php echo $this->translator('cache_config_save'); ?></span></button>
 </div>
 </form>
 

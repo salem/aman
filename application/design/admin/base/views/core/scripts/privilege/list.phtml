@@ -236,7 +236,7 @@ $(document).ready(function() {
 						if(response.success)
 						{
     						$(self).html('[ + ]').attr('rel', response.mca).attr('title', response.description);
-    						$('#messageDialog').html(sprintf('<?php echo addslashes($this->translator('privilege_list_delete_success')); ?>', response.description))
+    						$('#messageDialog').html(response.message)
     							.dialog({
     								title: '<?php echo addslashes($this->translator('common_dialog_message')); ?>',
     								dialogClass: 't_a_ui_dialog',

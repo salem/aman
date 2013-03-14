@@ -27,69 +27,85 @@ $this->headScript()
 	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.bgiframe/jquery.bgiframe.min.js')
 	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.autocomplete/jquery.autocomplete.js');
 ?>
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><?php echo $this->translator('permalink_index_breadcrumb'); ?></span>	
+<div class="flat_area grid_16 clearfix">
+	<h2><?php echo $this->translator('permalink_index_breadcrumb'); ?></h2>	
 </div>
 
-<div class="grid_12"><?php echo $this->flashMessenger(); ?></div>
+<div class="grid_16"><?php echo $this->flashMessenger(); ?></div>
 
 <form method="post" action="<?php echo $this->url(array(), 'core_permalink_index'); ?>" id="configForm">
 <?php foreach ($this->permalinks as $name => $route) : ?>
-<div class="grid_12 t_a_bottom routeConfig" id="<?php echo $name; ?>_Route">
-	<h3><?php echo $route['description']; ?></h3>
-	<hr />
-	<div class="t_a_bottom"><?php echo $this->translator('permalink_index_params_guide'); ?>:</div>
-	
-	<!-- List of parameters -->
-	<div class="t_a_bottom">
-	<?php foreach ($route['params'] as $paramName => $settings) : ?>
-		{<?php echo $settings['name']; ?>}<?php if ('true' == $settings['required']) : ?> *<?php endif; ?>,
-	<?php endforeach; ?>
-	</div>
-	
-	<div class="prefix_1 suffix_1">
-		<!-- Default URL -->
-		<div class="clearfix t_a_bottom">
-			<div class="grid_4 alpha t_a_textright"><?php echo $this->translator('permalink_index_select_default_url'); ?>:</div>
-			<div class="grid_5 omega"><input type="radio" name="urlType[<?php echo $name; ?>]" value="default"<?php if (!isset($this->usedPemalinks[$name]) || (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['url'] == $route['default'])) : ?> checked="checked"<?php endif; ?> /> <input name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" readonly="readonly" disabled="disabled" value="<?php echo $route['default']; ?>" /></div>
+<div class="box grid_16 no_title clearfix routeConfig" id="<?php echo $name; ?>_Route">
+	<div class="block">
+		<div class="section">
+			<h2><?php echo $route['description']; ?></h2>
+		</div>
+		<hr />
+		<div class="section"><?php echo $this->translator('permalink_index_params_guide'); ?>:</div>
+		
+		<!-- List of parameters -->
+		<div class="prefix_1 suffix_1 section">
+		<?php foreach ($route['params'] as $paramName => $settings) : ?>
+			{<?php echo $settings['name']; ?>}<?php if ('true' == $settings['required']) : ?> *<?php endif; ?>,
+		<?php endforeach; ?>
 		</div>
 		
-		<hr />
-	
-		<!-- List of pre-defined URLs -->
-		<div class="clearfix t_a_bottom">
-			<div class="grid_4 alpha t_a_textright"><?php echo $this->translator('permalink_index_select_predefined_url'); ?>:</div>
-			<div class="grid_5 omega">
-				<?php foreach ($route['predefined'] as $url) : ?>
-				<div class="t_a_bottom">
-					<input type="radio" name="urlType[<?php echo $name; ?>]" value="predefined"<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['url'] == $url) : ?> checked="checked"<?php endif; ?> /> <input name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" value="<?php echo $url; ?>" readonly="readonly" disabled="disabled" />
+		<div class="prefix_1 suffix_1">
+			<!-- Default URL -->
+			<div class="columns clearfix">
+				<div class="col_25">
+					<?php echo $this->translator('permalink_index_select_default_url'); ?>:
 				</div>
-				<?php endforeach; ?>
+				<div class="col_75">
+					<input type="radio" name="urlType[<?php echo $name; ?>]" value="default"<?php if (!isset($this->usedPemalinks[$name]) || (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['url'] == $route['default'])) : ?> checked="checked"<?php endif; ?> />
+				
+					<input name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" readonly="readonly" disabled="disabled" value="<?php echo $route['default']; ?>" />
+				</div>
+			</div>
+			
+			<hr />
+		
+			<!-- List of pre-defined URLs -->
+			<div class="columns clearfix">
+				<div class="col_25">
+					<?php echo $this->translator('permalink_index_select_predefined_url'); ?>:
+				</div>
+				<div class="col_75">
+					<?php foreach ($route['predefined'] as $url) : ?>
+					<input type="radio" name="urlType[<?php echo $name; ?>]" value="predefined"<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['url'] == $url) : ?> checked="checked"<?php endif; ?> />
+					<input name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" value="<?php echo $url; ?>" readonly="readonly" disabled="disabled" />
+					<br />
+					<?php endforeach; ?>
+				</div>				
+			</div>
+			
+			<hr />
+			
+			<!-- Custom URL -->
+			<div class="columns clearfix">
+				<div class="col_25">
+					<?php echo $this->translator('permalink_index_cutome_url'); ?>:
+				</div>
+				<div class="col_75">
+					<input type="radio" name="urlType[<?php echo $name; ?>]" value="custom"<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['type'] == 'custom') : ?> checked="checked"<?php endif; ?> />
+					<input id="customUrl_<?php echo $name; ?>" name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" 
+						<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['type'] == 'custom') : ?>
+						value="<?php echo $this->usedPemalinks[$name]['url']; ?>"
+						<?php else : ?>
+						disabled="disabled"
+						<?php endif; ?> />
+				</div>
+				
+				<input type="hidden" name="routeNames[]" value="<?php echo $name; ?>" />
 			</div>
 		</div>
-		
-		<hr />
-		
-		<!-- Custom URL -->
-		<div class="clearfix t_a_bottom">
-			<div class="grid_4 alpha t_a_textright"><?php echo $this->translator('permalink_index_cutome_url'); ?>:</div>
-			<div class="grid_5 omega">
-				<input type="radio" name="urlType[<?php echo $name; ?>]" value="custom"<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['type'] == 'custom') : ?> checked="checked"<?php endif; ?> /> 
-				<input id="customUrl_<?php echo $name; ?>" name="url[<?php echo $name; ?>][]" type="text" style="width: 350px" 
-					<?php if (isset($this->usedPemalinks[$name]) && $this->usedPemalinks[$name]['type'] == 'custom') : ?>
-					value="<?php echo $this->usedPemalinks[$name]['url']; ?>"
-					<?php else : ?>
-					disabled="disabled"
-					<?php endif; ?> />
-			</div>
-			<input type="hidden" name="routeNames[]" value="<?php echo $name; ?>" />
-		</div>
+		<br />
 	</div>
 </div>
 <?php endforeach; ?>
 
-<div class="grid_12 t_a_bottom">
-	<div class="prefix_5 alpha">
+<div class="box grid_16 no_title clearfix">
+	<div class="button_bar clearfix">
 		<button type="submit"><span><?php echo $this->translator('permalink_index_save_button'); ?></span></button>
 	</div>
 </div>

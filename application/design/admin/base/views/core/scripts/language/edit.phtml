@@ -49,10 +49,9 @@ $this->headScript()
 	
 	<!-- Right column -->
 <div class="box grid_13 no_title omega">
-	<div class="block lines">
+	<div id="moduleSections">
 		<?php if ($this->data) : ?>
 		<div class="t_a_bottom">&nbsp;</div>
-		
 		<?php foreach ($this->data as $section => $langs) : ?>
 		<div id="<?php echo $section; ?>Section" class="section" style="display: none">
 			<div class="block">
@@ -65,15 +64,15 @@ $this->headScript()
 						
 				<?php foreach ($langs as $key => $value) : ?>
 				<div class="columns clearfix" id="keyRow_<?php echo $key; ?>">
-					<div class="col_33">
+					<div class="col_25">
 						<div class="section"><?php echo $key; ?></div>
 					</div>
 				
-					<div class="col_66">
+					<div class="col_50">
 						<div class="section t_a_ui_helper_editable" id="_valueFor_<?php echo $section.'___'.$key; ?>"><?php echo $this->escape($value); ?></div>
 					</div>
 					
-					<div class="grid_1 omega">
+					<div class="col_25">
 						<div class="t_a_ui_helper_action" style="display: none">
 							<?php if ($this->allow('delete')) : ?>
 								<a class="deleteAction" href="javascript: void(0);" rel="<?php echo $this->escape($section.'___'.$key); ?>"><?php echo $this->translator('language_edit_delete_key'); ?></a>
@@ -98,7 +97,7 @@ $this->headScript()
 				</div>
 				
 				<form method="post" id="addLanguageForm" action="<?php echo $this->url(array(), 'core_language_add'); ?>">
-					<fieldset class="label_side">
+					<fieldset class="label_side top">
 						<label for=""><?php echo $this->translator('language_edit_select_section'); ?></label>
 						<div>
 							<select name="section" style="width: 140px">
@@ -130,7 +129,10 @@ $this->headScript()
 											
 					<div class="button_bar clearfix">
 						<label>&nbsp;</label>
-						<button type="submit"><span><?php echo $this->translator('language_edit_add_new_key_button'); ?></span></button>
+						<button type="submit">
+							<img src="<?php echo $this->APP_STATIC_SERVER . '/skins/admin/'. $this->APP_SKIN;?>/images/icons/small/white/bended_arrow_up.png" alt="" />
+							<span><?php echo $this->translator('language_edit_add_new_key_button'); ?></span>
+						</button>
 					</div>					
 				</form>
 				
@@ -150,7 +152,7 @@ $(document).ready(function() {
 	/**
 	 * Data list hover handler
 	 */
-	$('.t_a_ui_data_list_content').hover(function() {
+	$('#moduleSections>.section>.block>.columns').hover(function() {
 		$(this).find('.t_a_ui_helper_action').show();
 	}, function() {
 		$(this).find('.t_a_ui_helper_action').hide();
@@ -159,17 +161,20 @@ $(document).ready(function() {
 	/**
 	 * Show all the settings belonging to first module
 	 */
-	$('.section:first').show();
+	 
+	$('#moduleSections:first').show();
 
 	/**
 	 * Filter settings by module
 	 */
 	$('#sectionFilter').find('a').click(function() {
-		$('.section').hide();
-		$('#' + $(this).html() + 'Module').show();	
+		$('#moduleSections').children().each(function(e){
+			$(this).hide();
+		});
+		$('#' + $(this).html() + 'Section').show();	
 
-		$('#sectionFilter').find('li').removeClass('t_a_ui_active');
-		$(this).parent().addClass('t_a_ui_active');
+		$('#sectionFilter').find('li').removeClass('shade');
+		$(this).parent().addClass('shade');
 	});	
 	
 	<?php if ($this->allow('update')) : ?>

@@ -28,14 +28,13 @@ $this->headTitle($this->translator('dashboard_index_page_title'));
 
 ?>
 
-<div class="grid_12 t_a_top t_a_bottom">
-	<div class="grid_9 alpha"><?php echo $this->translator('dashboard_index_guide'); ?></div>
-	
-	<div class="grid_3 omega">
-		<div class="t_a_right">
-			<a href="javascript: void(0);" class="t_a_ui_button_link" id="customizeButton"><span><?php echo $this->translator('dashboard_index_customize_button'); ?></span></a>
-		</div>
-	</div>
+<div class="flat_area grid_16 clearfix">
+	<h2>
+		<?php echo $this->translator('dashboard_index_guide'); ?>
+		<span class="holder">
+			<p><small><a href="javascript: void(0);" class="t_a_ui_button_link" id="customizeButton"><span><?php echo $this->translator('dashboard_index_customize_button'); ?></span></a></small></p>
+		</span>
+	</h2>
 </div>
 
 <!-- Loading -->

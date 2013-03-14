@@ -22,72 +22,80 @@
 $this->headTitle($this->translator('rule_user_page_title'));
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"><?php echo $this->translator('user_list_breadcrumb'); ?></a></span><span><?php echo $this->translator('rule_user_breadcrumb'); ?></span>	
+<div class="flat_area  grid_16 clearfix">
+	<h2>
+		<?php echo $this->translator('rule_user_breadcrumb'); ?> 
+		<div class="holder"><a href="<?php echo $this->url(array(), 'core_user_list'); ?>"><?php echo $this->translator('user_list_breadcrumb'); ?></a></div>
+	
+	</h2>
+	<p> <?php echo $this->translator('rule_user_desc'); ?> <a href=""> <?php echo $this->user->name; ?></a> </p>
 </div>
 
 <?php if (!$this->user->is_active) : ?>
-<div class="grid_12 t_a_bottom">
-	<?php echo $this->translator('rule_user_desc'); ?>: <b><?php echo $this->user->user_name; ?> - <?php echo $this->user->full_name; ?></b><br />
-	<?php echo $this->translator('rule_user_is_not_actived'); ?>
+<div class="box grid_16 no_title clearfix">
+	<div class="block">
+		<div class="section">
+			<h2><?php echo $this->translator('rule_user_desc'); ?><small> - <?php echo $this->user->user_name; ?> - <?php echo $this->user->full_name; ?></small></h2>
+			<p>
+				<?php echo $this->translator('rule_user_is_not_actived'); ?>
+			</p>
+		</div>
+	</div>
+
+	
 </div>
 <?php else : ?>
 <form method="post" action="<?php echo $this->url(array('user_id' => $this->user->user_id), 'core_rule_set_user'); ?>">
 
-<div class="grid_12 t_a_bottom">
-	<div class="grid_9 alpha">
-		<?php echo $this->translator('rule_user_desc'); ?>: <b><?php echo $this->user->user_name; ?> - <?php echo $this->user->full_name; ?></b><br />
-		<?php echo $this->translator('rule_user_guide'); ?>
-	</div>
-
-	<div class="grid_3 omega">
-		<div class="t_a_right">
-			<button type="submit"><span><?php echo $this->translator('rule_user_submit_button'); ?></span></button>
-		</div>
+<div class="box grid_16 clearfix">
+	<div class="indented_button_bar clearfix">
+		<button type="submit" class="dark blue text_only has_text send_right">
+			<span><?php echo $this->translator('rule_user_submit_button'); ?></span>
+		</button>
+		<p>
+			<?php echo $this->translator('rule_user_guide'); ?>
+		</p>
 	</div>
 </div>
 
-<div class="grid_12 t_a_bottom">
+<div class="box grid_5 alpha">
 	<!-- List of modules -->
-	<div class="grid_2 alpha">
-		<ul id="modules" class="t_a_ui_list">
+	<div class="block">
+		<ul id="modules" class="flat">
 			<?php foreach ($this->modules as $index => $module) : ?>
-			<li<?php if ($index == 0) : ?> class="t_a_ui_active"<?php endif; ?>><a href="javascript: void(0);"><?php echo $module; ?></a></li>
+			<li<?php if ($index == 0) : ?> class="shade"<?php endif; ?>><a href="javascript: void(0);"><?php echo $module; ?></a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	
+</div>
+<div class="box grid_11 no_title omega">
 	<!-- List of resources -->
-	<div class="grid_10 omega">
-		<?php foreach ($this->modules as $index => $module) : ?>
-		<div id="<?php echo $module; ?>Resource" class="moduleResource" style="display: <?php echo (($index == 0) ? 'block' : 'none'); ?>">
-			<?php if ($resources = $this->ruleLoader()->getResources($module)) : ?>
-			<?php foreach ($resources as $i => $resource) : ?>
-			<div class="grid_5 t_a_bottom<?php if ($i % 2 == 0) : ?> alpha<?php else : ?> omega<?php endif; ?>">
-				<!-- Resource description -->
-				<div class="t_a_bottom t_a_ui_helper_head">
-					<h3><?php echo $resource->description; ?></h3>
+	<div class="block">
+		<div class="section">
+			<?php foreach ($this->modules as $index => $module) : ?>
+			<div id="<?php echo $module; ?>Resource" class="moduleResource" style="display: <?php echo (($index == 0) ? 'block' : 'none'); ?>">
+				<?php if ($resources = $this->ruleLoader()->getResources($module)) : ?>
+				<?php foreach ($resources as $i => $resource) : ?>
+				<div class="box grid_16 clearfix">
+					<!-- Resource description -->				
+					<h2 class="box_head"><?php echo $resource->description; ?></h2>
+					<div class="controls"><a href="javscript:void(0);"></a></div>				
+					<!-- Resource privileges -->
+					<div class="block">					
+						<ul class="flat">
+							<li><a class="selectAllAction" href="javascript: void(0);"><?php echo $this->translator('rule_role_select_all'); ?></a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; <a class="deselectAllAction" href="javascript: void(0);"><?php echo $this->translator('rule_role_deselect_all'); ?></a></li>
+							<?php foreach ($privileges = $this->ruleLoader()->getByUser($resource, $this->user->user_id) as $index => $priv) : ?>
+							<li><input type="checkbox" name="privileges[]" value="<?php echo $priv->privilege_id; ?>_<?php echo $resource->module_name; ?>:<?php echo $resource->controller_name; ?>"<?php if ($priv->allow == null || $priv->allow == 0) : ?> <?php else : ?> checked="checked"<?php endif; ?> /> <?php echo $priv->description; ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
 				</div>
+				<?php endforeach; ?>
 				
-				<!-- Resource privileges -->
-				<div class="t_a_bottom">
-					<a class="selectAllAction" href="javascript: void(0);"><?php echo $this->translator('rule_role_select_all'); ?></a> | <a class="deselectAllAction" href="javascript: void(0);"><?php echo $this->translator('rule_role_deselect_all'); ?></a>
-					<br />
-					<ul>
-					<?php foreach ($privileges = $this->ruleLoader()->getByUser($resource, $this->user->user_id) as $index => $priv) : ?>
-						<li><input type="checkbox" name="privileges[]" value="<?php echo $priv->privilege_id; ?>_<?php echo $resource->module_name; ?>:<?php echo $resource->controller_name; ?>"<?php if ($priv->allow == null || $priv->allow == 0) : ?> <?php else : ?> checked="checked"<?php endif; ?> /> <?php echo $priv->description; ?></li>
-					<?php endforeach; ?>
-					</ul>
-				</div>
+				<?php endif; ?>
 			</div>
-			
-			<?php if ($i % 2 == 1) : ?><div class="clearfix"></div><?php endif; ?>
 			<?php endforeach; ?>
-			
-			<?php endif; ?>
-			<div class="clearfix"></div>
 		</div>
-		<?php endforeach; ?>
 	</div>	
 </div>
 </form>
@@ -97,19 +105,21 @@ $(document).ready(function() {
 	/**
 	 * Load resource based on selected module
 	 */
+	//$('.moduleResource:first').show();
+	$('#modules').find('li').first().addClass('shade');
 	$('#modules').find('a').click(function() {
 		$('.moduleResource').hide();
 		$('#' + $(this).html() + 'Resource').show();
 
-		$('#modules').find('li').removeClass('t_a_ui_active');
-		$(this).parent().addClass('t_a_ui_active');
+		$('#modules').find('li').removeClass('shade');
+		$(this).parent().addClass('shade');
 	});
 
 	/**
 	 * Select all handler
 	 */
 	$('a.selectAllAction').click(function() {
-		$(this).parent().find('input[type="checkbox"]').each(function() {
+		$(this).parent().parent().find('input[type="checkbox"]').each(function() {
 			$(this).attr('checked', 'checked');
 		});
 	});
@@ -118,8 +128,8 @@ $(document).ready(function() {
 	 * Deselect all handler
 	 */
 	$('a.deselectAllAction').click(function() {
-		$(this).parent().find('input[type="checkbox"]').each(function() {
-			$(this).attr('checked', '');
+		$(this).parent().parent().find('input[type="checkbox"]').each(function() {
+			this.checked = false;
 		});
 	});
 });

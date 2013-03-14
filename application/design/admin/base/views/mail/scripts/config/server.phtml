@@ -22,88 +22,97 @@
 $this->headTitle($this->translator('config_server_page_title'));
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><a href="<?php echo $this->url(array(), 'mail_mail_list'); ?>"><?php echo $this->translator('mail_list_breadcrumb'); ?></a></span>
-	<span><?php echo $this->translator('config_server_breadcrumb'); ?></span>
+<div class="flat_area grid_16 clearfix">
+	<h2>
+		<a href="<?php echo $this->url(array(), 'mail_mail_list'); ?>"><?php echo $this->translator('mail_list_breadcrumb'); ?></a>
+		<span><?php echo $this->translator('config_server_breadcrumb'); ?></span>
+	</h2>
+	
 </div>
 
 <div class="grid_12"><?php echo $this->flashMessenger(); ?></div>
 
 <form action="<?php echo $this->url(array(), 'mail_config_server'); ?>" method="post" enctype="multipart/form-data">
-<div class="grid_12 t_a_bottom"><?php echo $this->translator('config_server_guide'); ?></div>
-	
-<div class="grid_12 t_a_bottom">
-	<div class="prefix_1 suffix_1">
-		<div class="clearfix t_a_bottom">
-			<label><?php echo $this->translator('config_mail_protocol'); ?>:</label>
-			<select name="protocol" id="protocol" style="width: 200px">
-				<option value="mail"<?php if ($this->protocol == 'mail') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_use_php_mail'); ?></option>
-				<option value="smtp"<?php if ($this->protocol == 'smtp') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_use_smtp'); ?></option>
-			</select>
-		</div>
-		
-		<div class="clearfix" id="smtpContainer" style="display: <?php if ($this->protocol == 'smtp') : ?>block<?php else : ?>none<?php endif; ?>">
-			<hr />
-		
-			<div class="clearfix t_a_bottom">
-				<label><?php echo $this->translator('config_smtp_host'); ?>:</label>
-				<input type="text" name="host" style="width: 200px"<?php if ($this->host != null) : ?> value="<?php echo $this->host; ?>"<?php endif; ?> />
-			</div>
-			
-			<hr />
-			
-			<div class="clearfix t_a_bottom">
-				<label><?php echo $this->translator('config_smtp_port'); ?>:</label>
-				<input type="text" name="port" style="width: 50px"<?php if ($this->port != null) : ?> value="<?php echo $this->port; ?>"<?php endif; ?> />
-			</div>
-			
-			<hr />
-			
-			<div class="clearfix t_a_bottom">
-				<label>&nbsp;</label>
-				<div>
-					<input type="checkbox" name="authentication" id="authentication" value="true"<?php if ($this->username != null) : ?> checked="checked"<?php endif; ?> /> <?php echo $this->translator('config_smtp_authentication'); ?>
-				</div>
-			</div>
-			
-			<hr />
-				
-			<div id="authenticationContainer" style="display: <?php if ($this->username == null) : ?>none<?php else : ?>block<?php endif; ?>">
-				<div class="clearfix t_a_bottom">
-					<label><?php echo $this->translator('config_smtp_username'); ?>:</label>
-					<input type="text" name="username" style="width: 200px"<?php if ($this->username != null) : ?> value="<?php echo $this->username; ?>"<?php endif; ?> />
-				</div>
-				
-				<hr />
-				
-				<div class="clearfix t_a_bottom">
-					<label><?php echo $this->translator('config_smtp_password'); ?>:</label>
-					<input type="password" name="password" style="width: 200px"<?php if ($this->password != null) : ?> value="<?php echo $this->password; ?>"<?php endif; ?> />
-				</div>
-				
-				<hr />
-			</div>
-			
-			<div class="clearfix t_a_bottom">
-				<label><?php echo $this->translator('config_smtp_security'); ?>:</label>
-				<select name="security" style="width: 100px">
-					<option value=""<?php if ($this->security == null) : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_not_security'); ?></option>
-					<option value="tls"<?php if ($this->security == 'tls') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_tls'); ?></option>
-					<option value="ssl"<?php if ($this->security == 'ssl') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_ssl'); ?></option>
+
+<div class="grid_3"></div>
+<div class="box grid_10">
+	<div class="block lines">
+		<div class="section"><h3><?php echo $this->translator('config_server_guide'); ?></h3></div>
+		<fieldset class="label_side top">
+			<label for="">
+				<?php echo $this->translator('config_mail_protocol'); ?>:
+			</label>
+			<div>
+				<select name="protocol" id="protocol" style="width: 200px">
+					<option value="mail"<?php if ($this->protocol == 'mail') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_use_php_mail'); ?></option>
+					<option value="smtp"<?php if ($this->protocol == 'smtp') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_use_smtp'); ?></option>
 				</select>
 			</div>
+		</fieldset>
+		<div class="clearfix" id="smtpContainer" style="display: <?php if ($this->protocol == 'smtp') : ?>block<?php else : ?>none<?php endif; ?>">
+			<fieldset class="label_side">
+				<label>
+					<?php echo $this->translator('config_smtp_host'); ?>:
+				</label>
+				<div>
+					<input type="text" name="host" style="width: 200px"<?php if ($this->host != null) : ?> value="<?php echo $this->host; ?>"<?php endif; ?> />
+				</div>					
+			</fieldset>
+			
+			<fieldset class="label_side">
+				<label>
+					<?php echo $this->translator('config_smtp_port'); ?>:
+				</label>
+				<div>
+					<input type="text" name="port" style="width: 50px"<?php if ($this->port != null) : ?> value="<?php echo $this->port; ?>"<?php endif; ?> />				
+				</div>				
+			</fieldset>
+			
+			<fieldset class="label_side">
+				<label></label>
+				<div>				
+					<input type="checkbox" name="authentication" id="authentication" value="true"<?php if ($this->username != null) : ?> checked="checked"<?php endif; ?> /> <?php echo $this->translator('config_smtp_authentication'); ?>
+				</div>
+			</fieldset>
+			<div id="authenticationContainer" style="display: <?php if ($this->username == null) : ?>none<?php else : ?>block<?php endif; ?>">
+				<fieldset class="label_side">
+					<label>
+						<?php echo $this->translator('config_smtp_username'); ?>:
+					</label>
+					<div>
+						<input type="text" name="username" style="width: 200px"<?php if ($this->username != null) : ?> value="<?php echo $this->username; ?>"<?php endif; ?> />
+					</div>
+				</fieldset>
+				<fieldset class="label_side">
+					<label>
+						<?php echo $this->translator('config_smtp_password'); ?>:
+					</label>
+					<div>
+						<input type="password" name="password" style="width: 200px"<?php if ($this->password != null) : ?> value="<?php echo $this->password; ?>"<?php endif; ?> />
+					</div>
+				</fieldset>
+			</div>
+			
+			<fieldset class="label_side">
+				<label>
+					<?php echo $this->translator('config_smtp_security'); ?>:
+				</label>
+				<div>					
+					<select name="security" style="width: 100px">
+						<option value=""<?php if ($this->security == null) : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_not_security'); ?></option>
+						<option value="tls"<?php if ($this->security == 'tls') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_tls'); ?></option>
+						<option value="ssl"<?php if ($this->security == 'ssl') : ?> selected="selected"<?php endif; ?>><?php echo $this->translator('config_smtp_ssl'); ?></option>
+					</select>
+				</div>
+			</fieldset>
+			<div class="button_bar clearfix">
+				<button type="submit" class="clearfix"><span><?php echo $this->translator('config_server_save_button'); ?></span></button>
+			</div>
 		</div>
-		
-		<hr />
-		
-		<div class="clearfix t_a_bottom">
-			<label>&nbsp;</label>
-			<button type="submit"><span><?php echo $this->translator('config_server_save_button'); ?></span></button>
-		</div>
-	</div>
+	</div>	
 </div>
 </form>
-
+<div class="clear"></div>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#protocol').change(function() {

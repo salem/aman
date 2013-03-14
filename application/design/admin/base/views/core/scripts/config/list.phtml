@@ -21,50 +21,35 @@
 <?php 
 $this->headTitle($this->translator('config_list_title'));
 
-$this->headLink()
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.core.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.resizable.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.dialog.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.theme.css');
-
-$this->headScript()
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/ui.core.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.draggable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.resizable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.dialog.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.editinplace/jquery.editinplace.packed.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.validate/jquery.validate.min.js');
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><?php echo $this->translator('config_list_breadcrumb'); ?></span>	
+<div class="flate_area grid_16 clearfix">
+	<h2><?php echo $this->translator('config_list_breadcrumb'); ?></h2>	
+	<p><?php echo $this->translator('config_list_guide'); ?></p>
+</div>
+<!-- Modules -->
+<div class="box grid_4 no_title alpha">
+	<div class="block">
+		<ul class="flat" id="moduleFilter">
+			<?php foreach ($this->modules as $index => $module) : ?>
+			<li<?php if (0 == $index) : ?> class="shade"<?php endif; ?>><a href="javascript: void(0);"><?php echo $module; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+		
+	</div>
 </div>
 
-<div class="grid_12 t_a_bottom"><?php echo $this->translator('config_list_guide'); ?></div>
-
-<div class="grid_12 t_a_bottom">
-	<!-- Left column -->
-	<div class="grid_3 alpha">
-		<!-- Modules -->
-		<div class="t_a_bottom">
-			<ul class="t_a_ui_list" id="moduleFilter">
-				<?php foreach ($this->modules as $index => $module) : ?>
-				<li<?php if (0 == $index) : ?> class="t_a_ui_active"<?php endif; ?>><a href="javascript: void(0);"><?php echo $module; ?></a></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- Right column -->
-	<div class="grid_9 omega">
+<!-- Right column -->
+<div class="box grid_12 omega">	
+	<div class="block">
 		<!-- List configure section for each module -->
 		<?php foreach ($this->sections as $module => $sections) : ?>
-		<div id="<?php echo $module; ?>Module" class="settingModule t_a_bottom" style="display: none">
-			
+		<div id="<?php echo $module; ?>Module" class="settingModule section" style="display: none">
+					
 			<?php foreach ($sections as $section => $data) : ?>
-			<div class="t_a_bottom">
-				<h3><?php echo $this->translator('config_list_section'); ?> <?php echo $section; ?></h3>
-				<hr />
+			<div class="block">
+				<div class="section">
+				<h3><?php echo $this->translator('config_list_section'); ?> <?php echo $section; ?></h3>				
 			
 				<?php foreach ($data as $key => $value) : ?>
 				<div id="keyRow_<?php echo $key; ?>" class="clearfix t_a_ui_data_list_content">
@@ -72,8 +57,8 @@ $this->headScript()
 						<div><?php echo $key; ?></div>
 					</div>
 					
-					<div class="grid_5">
-						<div class="t_a_ui_helper_editable" style="background: #E8E8E8" id="<?php echo $module ?>____valueFor_<?php echo $section.'___'.$key; ?>"><?php echo $this->escape($value); ?></div>
+					<div class="grid_10">
+						<div class="t_a_ui_helper_editable" style="background: #E8E8E8; overflow: hidden;" id="<?php echo $module ?>____valueFor_<?php echo $section.'___'.$key; ?>"><?php echo $this->escape($value); ?></div>
 					</div>
 					
 					<div class="grid_1 omega">
@@ -87,7 +72,9 @@ $this->headScript()
 					</div>
 				</div>
 				<?php endforeach; ?>
+				</div>
 			</div>
+			<br />
 			<?php endforeach; ?>
 			
 		</div>

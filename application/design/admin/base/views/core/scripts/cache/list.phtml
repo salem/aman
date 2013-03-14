@@ -21,122 +21,106 @@
 <?php 
 $this->headTitle($this->translator('cache_list_page_title'));
 
-$this->headLink()
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.core.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.resizable.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.dialog.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/ui.tabs.css')
-	->appendStylesheet($this->APP_STATIC_SERVER . '/js/jquery.ui/themes/base/jquery.ui.theme.css');
-
-$this->headScript()
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/ui.core.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.draggable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.resizable.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/jquery.ui.dialog.js')
-	->appendFile($this->APP_STATIC_SERVER . '/js/jquery.ui/ui.tabs.js');
 ?>
 
-<div class="grid_12 t_a_ui_breadcrumb">
-	<span><?php echo $this->translator('cache_list_breadcrumb'); ?></span>	
+<div class="flat_area grid_16 clearfix">
+	<h2><?php echo $this->translator('cache_list_breadcrumb'); ?></h2>	
 </div>
 
-<div class="grid_12 t_a_bottom">
-	<!-- Left column -->	
-	<div class="grid_3 alpha">
-		<div class="t_a_ui_helper_line">
-			<h3><?php echo $this->translator('cache_list_info'); ?></h3>
-		</div>
-		
-		<div class="t_a_ui_helper_box">
+<!-- Left column -->
+<div class="box grid_16 clearfix">
+	<h2 class="box_head"><?php echo $this->translator('cache_list_info'); ?></h2>
+	<div class="block">		
 			<?php if (null == $this->cache) : ?>
 				<?php echo $this->translator('cache_list_type'); ?>: <?php echo $this->translator('cache_list_not_used'); ?>
 			<?php else : ?>
-				<ul class="t_a_bottom">
+				<ul class="flat">
 					<li><?php echo $this->translator('cache_list_type'); ?>: <?php echo $this->backend; ?></li>
 					<li><?php echo $this->translator('cache_list_filling_percentage'); ?>: <?php if ($this->fillingPercentage) : ?><?php echo $this->fillingPercentage; ?>%<?php else : ?><?php echo $this->translator('cache_list_not_support_filling_percentage'); ?><?php endif; ?></li>
 				</ul>	
 				<?php if ($this->allow('clear')) : ?>
-				<button type="button" onclick="javascript: clearCache(this, 'data');"><span><?php echo $this->translator('cache_list_clear_cache_action'); ?></span></button>
+				<div class="button_bar clearfix">
+					<button type="button" onclick="javascript: clearCache(this, 'data');" class="dark text_only has_text ">
+						<span><?php echo $this->translator('cache_list_clear_cache_action'); ?></span>
+					</button>
+				</div>
 				<?php endif; ?>
 			<?php endif; ?>
-		</div>
 	</div>
-	
-	<!-- Right column -->
-	<div class="grid_9 omega">
-		<div class="t_a_ui_tabs">
-			<div id="cacheTabs">
-				<ul>
-					<li><a href="#dataCached"><span><?php echo $this->translator('cache_list_data_cached'); ?></span></a></li>
-					<li><a href="#filesCached"><span><?php echo $this->translator('cache_list_files_cached'); ?></span></a></li>
-				</ul>
-				
-				<!-- Data cached -->
-				<div id="dataCached">
-					<?php if (null == $this->cache) : ?>
-						<?php echo $this->translator('cache_list_not_found'); ?>
-					<?php elseif ($this->supportListIds == false || $this->supportTags == false) : ?>
-						<?php echo $this->translator('cache_list_not_support_tags'); ?>
-					<?php elseif ($this->tags) : ?>
-						<div id="cachedContainer">
-							<div class="t_a_bottom"><?php echo $this->translator('cache_list_guide'); ?></div>
-							
-							<div class="t_a_ui_data_list_header">
-								<div class="grid_3 alpha">
-									<div><?php echo $this->translator('cache_list_id'); ?></div>
-								</div>
-								
-								<div class="grid_4"><?php echo $this->translator('cache_list_value_dump'); ?></div>
-								
-								<div class="grid_2 omega"><?php echo $this->translator('cache_list_action'); ?></div>
-							</div>
-							
-							<!-- List cached data by tag -->
-							<?php foreach ($this->tags as $tag) : ?>
-							<div id="tagContainer_<?php echo $tag; ?>" class="clearfix">
-								<div class="t_a_bottom">
-									<div class="grid_7 alpha"><?php echo $this->translator('cache_list_tag'); ?>: <a href="javascript: void(0);" class="collapseAction" id="<?php echo $tag; ?>"><?php echo $tag; ?></a> <?php if ($ids = $this->cacheIds[$tag]) : ?>(<?php echo sprintf($this->translator('cache_list_tag_num_items'), count($ids)); ?>)<?php endif; ?></div>
-									<div class="grid_2 omega"><?php if ($allowDelete = $this->allow('delete')) : ?><a class="deleteTagAction t_a_ui_helper_action" rel="<?php echo $this->escape($tag); ?>" href="javascript: void(0);"><?php echo $this->translator('cache_list_action_delete'); ?></a><?php endif; ?></div>
-								</div>
-								
-								<div class="clear"></div>
-								
-								<?php if ($ids) : ?>
-								<div class="clearfix t_a_bottom" id="tagRow_<?php echo $tag; ?>" style="display: none">
-									<?php foreach ($ids as $id) : ?>
-									<div id="cacheRow_<?php echo $id; ?>" class="clearfix t_a_ui_data_list_content">
-										<div class="grid_3 alpha">
-											<div>
-												<textarea style="overflow-x: hidden; overflow-y: scroll; height: 100px; width: 200px" disabled="disabled"><?php echo $id; ?></textarea>
-											</div>
-										</div>
-										
-										<div class="grid_4"><textarea style="overflow-x: hidden; overflow-y: scroll; height: 100px; width: 300px" disabled="disabled"><?php Zend_Debug::dump($this->cache->load($id)); ?></textarea></div>
-										
-										<div class="grid_2 omega"><?php if ($allowDelete): ?><a class="deleteAction t_a_ui_helper_action" rel="<?php echo $this->escape($id); ?>" href="javascript: void(0);"><?php echo $this->translator('cache_list_action_delete'); ?></a><?php endif; ?></div>
-									</div>
-									<?php endforeach; ?>
-								</div>
-								<?php endif; ?>
-							</div>
-							<?php endforeach; ?>
-						</div>
-					<?php endif; ?>
+</div>
+<div class="clear"></div>
+<!-- Right column -->
+<div class="box grid_16 tabs clearfix">	
+	<ul id="cacheTabs" class="tab_header clearfix">
+		<li><a href="#dataCached"><?php echo $this->translator('cache_list_data_cached'); ?></a></li>
+		<li><a href="#filesCached"><?php echo $this->translator('cache_list_files_cached'); ?></a></li>
+	</ul>
+	<div class="controls">
+		<a href="#" class="toggle"></a>
+		<a href="#" class="show_all_tabs"></a>
+	</div>
+	<div class="toggle_container">
+		<!-- Data cached -->
+		<div id="dataCached" class="block">
+			<?php if (null == $this->cache) : ?>
+				<?php echo $this->translator('cache_list_not_found'); ?>
+			<?php elseif ($this->supportListIds == false || $this->supportTags == false) : ?>
+				<?php echo $this->translator('cache_list_not_support_tags'); ?>
+			<?php elseif ($this->tags) : ?>
+			<div id="cachedContainer" >
+				<div class="section">
+					<strong><?php echo $this->translator('cache_list_guide'); ?></strong><br />
+					
+					<div class="grid_3 alpha"><?php echo $this->translator('cache_list_id'); ?></div>
+					<div class="grid_10"><?php echo $this->translator('cache_list_value_dump'); ?></div>
+					<div class="grid_3 omega"><?php echo $this->translator('cache_list_action'); ?></div>
 				</div>
 				
-				<!-- Files cached -->
-				<div id="filesCached">
-					<!-- CSS cached -->
+				<!-- List cached data by tag -->
+				<?php foreach ($this->tags as $tag) : ?>
+				<div id="tagContainer_<?php echo $tag; ?>" class="section">
 					<div class="grid_3 alpha">
-						<div class="t_a_ui_helper_head t_a_bottom">
-							<h3><?php echo $this->translator('cache_list_css_cached'); ?></h3>
+						<?php echo $this->translator('cache_list_tag'); ?>: <a href="javascript: void(0);" class="collapseAction" id="<?php echo $tag; ?>"><?php echo $tag; ?></a>
+					</div>
+					<div class="grid_10">
+						<?php if ($ids = $this->cacheIds[$tag]) : ?>(<?php echo sprintf($this->translator('cache_list_tag_num_items'), count($ids)); ?>)<?php endif; ?>
+					</div>
+					<div class="grid_2 omega">
+						<?php if ($allowDelete = $this->allow('delete')) : ?><a class="deleteTagAction t_a_ui_helper_action" rel="<?php echo $this->escape($tag); ?>" href="javascript: void(0);"><?php echo $this->translator('cache_list_action_delete'); ?></a><?php endif; ?>
+					</div>
+				
+					<?php if ($ids) : ?>
+					<div class="clearfix" id="tagRow_<?php echo $tag; ?>"  style="display: none">
+						<?php foreach ($ids as $id) : ?>
+						<div id="cacheRow_<?php echo $id; ?>" class="clearfix section">
+							<pre>	<?php echo $id; ?></pre>
+							<textarea style="overflow-x: hidden; overflow-y: scroll; height:100px" class="grid_14" >
+								<?php Zend_Debug::dump($this->cache->load($id)); ?>
+							</textarea>
+							<?php if ($allowDelete): ?><a class="deleteAction t_a_ui_helper_action" rel="<?php echo $this->escape($id); ?>" href="javascript: void(0);"><?php echo $this->translator('cache_list_action_delete'); ?></a><?php endif; ?>
 						</div>
-						
-						<div>
+						<?php endforeach; ?>
+					</div>
+					<?php endif; ?>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+		</div>
+		
+		<!-- Files cached -->
+		<div id="filesCached" class="block">
+			<!-- CSS cached -->
+			<ul class="flat">
+				<li>
+					<div class="section">
+						<h3><?php echo $this->translator('cache_list_css_cached'); ?></h3><br />
+				
+						<p>
 							<?php if ($this->cssCached['numberFiles'] == 0) : ?>
 							<?php echo $this->translator('cache_list_css_cached_not_available'); ?>
 							<?php else : ?>
-							<div class="t_a_bottom">
+							<div class="section">
 								<?php echo sprintf($this->translator('cache_list_css_cached_statistic'), $this->cssCached['numberFiles'], $this->sizeFormatter($this->cssCached['size'])); ?>
 							</div>
 							
@@ -144,20 +128,19 @@ $this->headScript()
 							<button type="button" onclick="javascript: clearCache(this, 'css');"><span><?php echo $this->translator('cache_list_clear_cache_action'); ?></span></button>
 							<?php endif; ?>
 							<?php endif; ?>
-						</div>
+						</p>
 					</div>
-					
+				
+				</li>
+				<li>
 					<!-- Javascript cached -->
-					<div class="grid_3">
-						<div class="t_a_ui_helper_head t_a_bottom">
-							<h3><?php echo $this->translator('cache_list_javascript_cached'); ?></h3>
-						</div>
-						
-						<div>
+					<div class="section">
+						<h3><?php echo $this->translator('cache_list_javascript_cached'); ?></h3>						
+						<p>
 							<?php if ($this->jsCached['numberFiles'] == 0) : ?>
 							<?php echo $this->translator('cache_list_javascript_cached_not_available'); ?>
 							<?php else : ?>
-							<div class="t_a_bottom">
+							<div class="section">
 								<?php echo sprintf($this->translator('cache_list_javascript_cached_statistic'), $this->jsCached['numberFiles'], $this->sizeFormatter($this->jsCached['size'])); ?>
 							</div>
 							
@@ -165,16 +148,14 @@ $this->headScript()
 							<button type="button" onclick="javascript: clearCache(this, 'js');"><span><?php echo $this->translator('cache_list_clear_cache_action'); ?></span></button>
 							<?php endif; ?>
 							<?php endif; ?>
-						</div>
+						</p>
 					</div>
-					
+				</li>
+				<li>
 					<!-- HTML cached -->
-					<div class="grid_3 omega">
-						<div class="t_a_ui_helper_head t_a_bottom">
-							<h3><?php echo $this->translator('cache_list_pages_cached'); ?></h3>
-						</div>
-						
-						<div>
+					<div class="section">						
+						<h3><?php echo $this->translator('cache_list_pages_cached'); ?></h3>
+						<p>
 							<?php if ($this->pagesCached['numberFiles'] == 0) : ?>
 							<?php echo $this->translator('cache_list_pages_cached_not_available'); ?>
 							<?php else : ?>
@@ -186,10 +167,10 @@ $this->headScript()
 							<button type="button" onclick="javascript: clearCache(this, 'pages');"><span><?php echo $this->translator('cache_list_clear_cache_action'); ?></span></button>
 							<?php endif; ?>
 							<?php endif; ?>
-						</div>
+						</p>
 					</div>
-				</div>
-			</div>
+				</li>
+			</ul>			
 		</div>
 	</div>
 </div>
